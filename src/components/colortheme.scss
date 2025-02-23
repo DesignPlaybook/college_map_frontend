@@ -1,0 +1,19 @@
+// SCSS Color Variables (Fixed)
+$jet: #3A3A3A;
+$eerie-black: #1C1C1C;
+$davys-gray: #494949;
+$onyx: #3E3E3E;
+$white: #FEFEFE;
+$turquoise: #41D9D0;
+$gray: #757575;
+
+// SCSS Gradients
+$gradient-top: linear-gradient(0deg, $jet, $eerie-black, $davys-gray, $onyx, $white, $turquoise, $gray);
+$gradient-right: linear-gradient(90deg, $jet, $eerie-black, $davys-gray, $onyx, $white, $turquoise, $gray);
+$gradient-bottom: linear-gradient(180deg, $jet, $eerie-black, $davys-gray, $onyx, $white, $turquoise, $gray);
+$gradient-left: linear-gradient(270deg, $jet, $eerie-black, $davys-gray, $onyx, $white, $turquoise, $gray);
+$gradient-top-right: linear-gradient(45deg, $jet, $eerie-black, $davys-gray, $onyx, $white, $turquoise, $gray);
+$gradient-bottom-right: linear-gradient(135deg, $jet, $eerie-black, $davys-gray, $onyx, $white, $turquoise, $gray);
+$gradient-top-left: linear-gradient(225deg, $jet, $eerie-black, $davys-gray, $onyx, $white, $turquoise, $gray);
+$gradient-bottom-left: linear-gradient(315deg, $jet, $eerie-black, $davys-gray, $onyx, $white, $turquoise, $gray);
+$gradient-radial: radial-gradient($jet, $eerie-black, $davys-gray, $onyx, $white, $turquoise, $gray);

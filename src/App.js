@@ -1,21 +1,31 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
+import Layout from "./components/Layout/Layout";
+// import LandingPage from "./pages/LandingPage";
+// import OtherPage from "./pages/OtherPage";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 2000); // Hide splash after 3 seconds
+    const timer = setTimeout(() => setShowSplash(false), 2000); // Hide splash after 2 seconds
     return () => clearTimeout(timer);
   }, []);
 
+  if (showSplash) {
+    return <SplashScreen />; // Show Splash Screen first
+  }
+
   return (
-    <>
-      {showSplash && <SplashScreen />}
-      <div className={`transition-opacity ${showSplash ? "opacity-0" : "opacity-100"}`}>
-        <h1 className="text-center text-3xl mt-10">Main App Content</h1>
-      </div>
-    </>
+    <Router>
+      <Layout>
+        <Routes>
+          {/* <Route path="/aditya" element={<LandingPage />} /> */}
+          {/* <Route path="/other" element={<OtherPage />} /> */}
+        </Routes>
+      </Layout>
+    </Router>
   );
 }
 

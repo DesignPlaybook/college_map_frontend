@@ -1,0 +1,16 @@
+@import "../colortheme.scss"; // Import your color variables
+
+footer {
+    background-color: $eerie-black;
+    color: $white;
+    text-align: center;
+    padding: 15px;
+    position: absolute;
+    bottom: 0;
+    width: -webkit-fill-available;
+
+    p {
+        color: $gray;
+        font-size: 0.9rem;
+    }
+}
