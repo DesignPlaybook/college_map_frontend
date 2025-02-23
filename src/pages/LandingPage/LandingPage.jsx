@@ -1,156 +1,39 @@
-import { useState } from "react";
+import React from "react";
 import "./LandingPage.scss";
+import { FaArrowRight, FaLock } from "react-icons/fa";
 
 const LandingPage = () => {
-    const [rank, setRank] = useState("");
-
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-            {/* Main Content */}
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
+        <div className="landing-container">
+            <h1 className="title">WELCOME TO COLLEGE MAP</h1>
+            <p className="subtitle">Know which college suits you best with a few simple steps</p>
 
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
+            <div className="steps">
+                <div className="step">
+                    <FaArrowRight className="icon arrow" />
+                    <span>Insert your rank</span>
+                    <input type="text" className="rank-input" placeholder="Enter Rank" />
+                </div>
 
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
+                <div className="step">
+                    <FaArrowRight className="icon arrow" />
+                    <span>Choose what is important to you</span>
+                    <div className="options">
+                        <button className="option-btn">Placements</button>
+                        <button className="option-btn">Higher Studies</button>
+                        <button className="option-btn">Global Exposure</button>
+                    </div>
+                </div>
 
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
+                <div className="step">
+                    <FaLock className="icon lock" />
+                    <span>Compare importance - gives best result</span>
+                </div>
 
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
+                <div className="final-step">
+                    <h2>🎯 Get list of branches</h2>
+                </div>
+            </div>
         </div>
     );
 };

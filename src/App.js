@@ -21,7 +21,7 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/aditya" element={<LandingPage />} />
+          <Route path="/main" element={<LandingPage />} />
           {/* <Route path="/other" element={<OtherPage />} /> */}
         </Routes>
       </Layout>
