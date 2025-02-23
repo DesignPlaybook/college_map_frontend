@@ -16,7 +16,8 @@ const SplashScreen = () => {
                     animate={{ y: [-30, 0, -30] }} // Bouncing effect
                     transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
                 />
-                {/* Gradually Growing Static Image (Bottom) */}
+                {/* Static Image (Bottom) */}
+                {/* <img src={bottomImage} alt="Static" className="bottom-image" /> */}
                 <motion.img
                     src={bottomImage}
                     alt="Static"
