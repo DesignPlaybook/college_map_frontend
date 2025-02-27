@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
 import Layout from "./components/Layout/Layout";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import Questionpage from "./pages/QuestionPage/Questionpage";
 // import OtherPage from "./pages/OtherPage";
 
 function App() {
@@ -21,7 +22,9 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/aditya" element={<LandingPage />} />
+          <Route path="/main" element={<LandingPage />} />
+          <Route path="/Question" element={<Questionpage />} />
+
           {/* <Route path="/other" element={<OtherPage />} /> */}
         </Routes>
       </Layout>
