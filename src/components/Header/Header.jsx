@@ -14,7 +14,7 @@ const Header = () => {
                 <nav>
                     <ul className="flex space-x-6">
                         <li>
-                            <Link to="/" className="hover:text-turquoise transition-colors">
+                            <Link to="/main" className="hover:text-turquoise transition-colors">
                                 Home
                             </Link>
                         </li>
