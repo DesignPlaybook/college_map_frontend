@@ -1,0 +1,111 @@
+@import "../../components/colortheme.scss"; // Import your color theme
+
+.landing-container {
+    background: $eerie-black;
+    color: $white;
+    text-align: center;
+    padding: 50px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: $turquoise;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        color: $gray;
+    }
+
+    .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 30px;
+        align-items: flex-start;
+
+        .step {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            color: $white;
+            position: relative;
+            overflow: hidden;
+            opacity: 0; // Initially hidden
+            transform: scale(0.9); // Slightly smaller
+
+            .icon {
+                color: $turquoise;
+                font-size: 1.8rem;
+            }
+        }
+
+        // Only the active step and previous ones should be visible
+        .visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .hidden {
+            display: none; // Completely hide future steps
+        }
+
+        // Muted style initially (low opacity)
+        .muted {
+            opacity: 0.5; // Make it look disabled
+            cursor: not-allowed;
+            position: relative;
+            transition: opacity 0.3s ease-in-out;
+
+            &::before,
+            &::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 1.2rem;
+                color: $turquoise;
+                font-weight: bold;
+                opacity: 0; // Initially hidden
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            &::before {
+                width: 100%;
+                height: 100%;
+                backdrop-filter: blur(8px); // Blur effect
+                background: rgba(0, 0, 0, 0.3);
+            }
+
+            &::after {
+                content: "🔒 Paid Feature";
+            }
+
+            // On hover: Blur + show text instantly
+            &:hover {
+                opacity: 1; // Make it fully visible
+            }
+
+            &:hover::before,
+            &:hover::after {
+                opacity: 1; // Both appear simultaneously
+            }
+        }
+
+    }
+}

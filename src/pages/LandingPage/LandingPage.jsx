@@ -1,156 +1,72 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./LandingPage.scss";
+import { FaArrowRight, FaLock } from "react-icons/fa";
+
+const steps = [
+    { text: "Insert your rank", icon: <FaArrowRight className="icon" /> },
+    { text: "Choose what is important to you", icon: <FaArrowRight className="icon" /> },
+    { text: "Compare importance - gives best result", icon: <FaLock className="icon lock" />, isPaid: true },
+    { text: "🎯 Get list of branches", icon: <FaArrowRight className="icon" /> }
+];
+
+const Typewriter = ({ text, delay = 50, onComplete }) => {
+    const [displayText, setDisplayText] = useState("");
+    const [finished, setFinished] = useState(false);
+
+    useEffect(() => {
+        let index = 0;
+        const interval = setInterval(() => {
+            setDisplayText(text.substring(0, index + 1));
+            index++;
+            if (index === text.length) {
+                clearInterval(interval);
+                setFinished(true);
+                setTimeout(() => {
+                    if (onComplete) onComplete();
+                }, 500); // Small delay before next step
+            }
+        }, delay);
+
+        return () => clearInterval(interval);
+    }, [text, delay]);
+
+    return <span className={`text ${finished ? "finished" : ""}`}>{displayText}</span>;
+};
 
 const LandingPage = () => {
-    const [rank, setRank] = useState("");
+    const [completedSteps, setCompletedSteps] = useState(0);
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-            {/* Main Content */}
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
+        <div className="landing-container">
+            <h1 className="title">WELCOME TO COLLEGE MAP</h1>
+            <p className="subtitle">Know which college suits you best with a few simple steps</p>
 
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
+            <div className="steps">
+                {steps.map((step, index) => (
+                    <div
+                        key={index}
+                        className={`step ${step.isPaid ? "muted" : ""} ${index <= completedSteps ? "visible" : "hidden"}`}
+                    >
+                        {step.isButton ? ( // Check if the step is a button
+                            step.icon
+                        ) : index < completedSteps ? (
+                            <>
+                                {step.icon}
+                                <span>{step.text}</span>
+                            </>
+                        ) : index === completedSteps ? (
+                            <>
+                                {step.icon}
+                                <Typewriter
+                                    text={step.text}
+                                    onComplete={() => setCompletedSteps((prev) => prev + 1)}
+                                />
+                            </>
+                        ) : null}
+                    </div>
+                ))}
 
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
-            <main className="flex flex-col items-center text-center mt-10 p-6 bg-white shadow-lg rounded-xl w-3/4 max-w-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Welcome to College Map</h1>
-                <p className="mt-2 text-gray-600">Enter your rank to get started</p>
-
-                <input
-                    type="number"
-                    className="mt-4 px-4 py-2 border rounded-md w-full text-center"
-                    placeholder="Enter your rank"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value)}
-                />
-
-                <button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
-                    Next
-                </button>
-            </main>
+            </div>
         </div>
     );
 };

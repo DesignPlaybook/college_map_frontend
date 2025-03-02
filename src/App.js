@@ -23,8 +23,6 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/main" element={<LandingPage />} />
-          <Route path="/Question" element={<Questionpage />} />
-
           {/* <Route path="/other" element={<OtherPage />} /> */}
         </Routes>
       </Layout>
