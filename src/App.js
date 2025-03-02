@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
 import Layout from "./components/Layout/Layout";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import Questionpage from "./pages/QuestionPage/Questionpage";
 // import OtherPage from "./pages/OtherPage";
 
 function App() {

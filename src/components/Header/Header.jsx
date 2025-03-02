@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Header.scss";
+// import "../../pages/QuestionPage";
 
 const Header = () => {
     return (
@@ -16,6 +17,11 @@ const Header = () => {
                         <li>
                             <Link to="/main" className="hover:text-turquoise transition-colors">
                                 Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/Question" className="hover:text-turquoise transition-colors">
+                                Questionaire
                             </Link>
                         </li>
                         <li>
