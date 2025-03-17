@@ -1,0 +1,116 @@
+@import "../../components/colortheme.scss"; // Import color theme
+
+.mobile-login-container {
+    background: $eerie-black;
+    color: $white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .login-box {
+        background: $onyx;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        width: 400px;
+        text-align: center;
+
+        h2 {
+            font-size: 2rem;
+            color: $neon-blue;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: $gray;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 2px solid $gray;
+            font-size: 1rem;
+            text-align: center;
+            background: $jet;
+            color: $white;
+            transition: border 0.3s;
+
+            &:focus {
+                outline: none;
+                border: 2px solid $neon-blue;
+            }
+        }
+
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+
+            input {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                text-align: center;
+                border: 2px solid $gray;
+                background: $jet;
+                color: $white;
+                border-radius: 5px;
+                transition: border 0.3s;
+
+                &:focus {
+                    outline: none;
+                    border: 2px solid $neon-blue;
+                }
+            }
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+
+            &.send-otp {
+                background: $neon-blue;
+                color: $eerie-black;
+                box-shadow: 0 5px 15px rgba(0, 255, 255, 0.5);
+
+                &:hover {
+                    background: $turquoise;
+                    box-shadow: 0 8px 25px rgba(0, 255, 255, 0.7);
+                }
+            }
+
+            &.resend-otp {
+                background: transparent;
+                color: $neon-blue;
+                font-size: 0.9rem;
+                margin-top: 5px;
+                border: none;
+                cursor: pointer;
+
+                &:disabled {
+                    color: $gray;
+                    cursor: not-allowed;
+                }
+            }
+        }
+
+        .timer {
+            color: $gray;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+    }
+}

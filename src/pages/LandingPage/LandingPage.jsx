@@ -1,72 +1,69 @@
 import React, { useState, useEffect } from "react";
 import "./LandingPage.scss";
-import { FaArrowRight, FaLock } from "react-icons/fa";
-
-const steps = [
-    { text: "Insert your rank", icon: <FaArrowRight className="icon" /> },
-    { text: "Choose what is important to you", icon: <FaArrowRight className="icon" /> },
-    { text: "Compare importance - gives best result", icon: <FaLock className="icon lock" />, isPaid: true },
-    { text: "🎯 Get list of branches", icon: <FaArrowRight className="icon" /> }
-];
 
 const Typewriter = ({ text, delay = 50, onComplete }) => {
     const [displayText, setDisplayText] = useState("");
-    const [finished, setFinished] = useState(false);
+    const [isCompleted, setIsCompleted] = useState(false);
 
     useEffect(() => {
         let index = 0;
         const interval = setInterval(() => {
             setDisplayText(text.substring(0, index + 1));
             index++;
+
             if (index === text.length) {
                 clearInterval(interval);
-                setFinished(true);
-                setTimeout(() => {
-                    if (onComplete) onComplete();
-                }, 500); // Small delay before next step
+                setIsCompleted(true);
+                if (onComplete) setTimeout(onComplete, 500); // Small delay before triggering next
             }
         }, delay);
 
         return () => clearInterval(interval);
-    }, [text, delay]);
+    }, [text, delay, onComplete]);
 
-    return <span className={`text ${finished ? "finished" : ""}`}>{displayText}</span>;
+    return <span className={`text ${isCompleted ? "completed" : ""}`}>{displayText}</span>;
 };
 
 const LandingPage = () => {
-    const [completedSteps, setCompletedSteps] = useState(0);
+    const [isFirstCompleted, setIsFirstCompleted] = useState(false);
+    const [showSecondLine, setShowSecondLine] = useState(false);
 
     return (
         <div className="landing-container">
-            <h1 className="title">WELCOME TO COLLEGE MAP</h1>
-            <p className="subtitle">Know which college suits you best with a few simple steps</p>
+            {/* Header */}
+            <header className="header">
+                <h1 className="title">
+                    {/* The first line remains static once typed */}
+                    {isFirstCompleted ? (
+                        "Welcome to College Map!"
+                    ) : (
+                        <Typewriter text="Welcome to College Map!" delay={50} onComplete={() => setIsFirstCompleted(true)} />
+                    )}
+                </h1>
 
-            <div className="steps">
-                {steps.map((step, index) => (
-                    <div
-                        key={index}
-                        className={`step ${step.isPaid ? "muted" : ""} ${index <= completedSteps ? "visible" : "hidden"}`}
-                    >
-                        {step.isButton ? ( // Check if the step is a button
-                            step.icon
-                        ) : index < completedSteps ? (
-                            <>
-                                {step.icon}
-                                <span>{step.text}</span>
-                            </>
-                        ) : index === completedSteps ? (
-                            <>
-                                {step.icon}
-                                <Typewriter
-                                    text={step.text}
-                                    onComplete={() => setCompletedSteps((prev) => prev + 1)}
-                                />
-                            </>
-                        ) : null}
-                    </div>
-                ))}
+                {/* The second line starts typing AFTER the first is done */}
+                {isFirstCompleted && (
+                    <p className="subtitle iitian-highlight">
+                        <Typewriter text="By IITians, for IITians" delay={50} />
+                    </p>
+                )}
+            </header>
 
-            </div>
+            {/* Main Content Section */}
+            <section className="main-content">
+                <div className="text-box">
+                    <h2>Why College Map?</h2>
+                    <p>
+                        Find the best branch for you with <span className="highlight">data-driven insights</span>
+                        and <span className="highlight">real student reviews.</span>
+                    </p>
+                    <h2>How It Works</h2>
+                    <p>Enter rank → Choose what matters → Find your branch</p>
+                </div>
+
+                {/* Try Now Button */}
+                <button className="try-now">TRY NOW</button>
+            </section>
         </div>
     );
 };

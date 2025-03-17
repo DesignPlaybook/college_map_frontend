@@ -3,8 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
 import Layout from "./components/Layout/Layout";
 import LandingPage from "./pages/LandingPage/LandingPage";
-import Questionpage from "./pages/QuestionPage/Questionpage";
-// import OtherPage from "./pages/OtherPage";
+import Questionaire from "./pages/Questionaire/Questionaire";
+import ResultsPage from "./pages/ResultsPage/ResultsPage"
+import MobileLogin from "./pages/MobileLogin/MobileLogin";
+import EnhancedResults from "./pages/EnhancedResults/EnhancedResults";
+import EnhancedQuestions from "./pages/EnhancedQuestions/EnhancedQuestions";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -23,7 +26,11 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/main" element={<LandingPage />} />
-          {/* <Route path="/other" element={<OtherPage />} /> */}
+          <Route path="/Questionaire" element={<Questionaire />} />
+          <Route path="/ResultsPage" element={<ResultsPage />} />
+          <Route path="/MobileLogin" element={<MobileLogin />} />
+          <Route path="/EnhancedResults" element={<EnhancedResults />} />
+          <Route path="/EnhancedQuestions" element={<EnhancedQuestions />} />
         </Routes>
       </Layout>
     </Router>
