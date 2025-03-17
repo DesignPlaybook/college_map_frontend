@@ -26,11 +26,11 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/main" element={<LandingPage />} />
-          <Route path="/Questionaire" element={<Questionaire />} />
-          <Route path="/ResultsPage" element={<ResultsPage />} />
+          {/* <Route path="/Questionaire" element={<Questionaire />} /> */}
+          {/* <Route path="/ResultsPage" element={<ResultsPage />} /> */}
           <Route path="/MobileLogin" element={<MobileLogin />} />
-          <Route path="/EnhancedResults" element={<EnhancedResults />} />
-          <Route path="/EnhancedQuestions" element={<EnhancedQuestions />} />
+          {/* <Route path="/EnhancedResults" element={<EnhancedResults />} />
+          <Route path="/EnhancedQuestions" element={<EnhancedQuestions />} /> */}
         </Routes>
       </Layout>
     </Router>
