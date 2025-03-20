@@ -1,0 +1,85 @@
+@import "../../components/colortheme.scss";
+
+.enhanced-questions-container {
+    background: $eerie-black;
+    color: $white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+
+    .questions-box {
+        background: $onyx;
+        width: 90%;
+        max-width: 750px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 20px; // Uniform spacing
+
+        h2 {
+            color: $neon-blue;
+            font-size: 2rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px; // Uniform spacing
+            align-items: center;
+        }
+
+        .question {
+            display: flex;
+            flex-direction: column; // Ensures elements are stacked
+            align-items: center;
+            width: 100%;
+            text-align: center;
+
+            label {
+                font-size: 1.2rem;
+                color: $white;
+                margin-bottom: 8px;
+                display: flex;
+            }
+
+            select,
+            input {
+                width: 90%;
+                max-width: 350px;
+                padding: 10px;
+                font-size: 1rem;
+                border-radius: 8px;
+                border: none;
+                background: $jet;
+                color: $white;
+                outline: none;
+                text-align: center;
+            }
+        }
+
+        .button {
+            width: 100%;
+            padding: 14px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            background: $neon-blue;
+            color: $eerie-black;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.5);
+
+            &:hover {
+                background: $turquoise;
+                box-shadow: 0 8px 25px rgba(0, 255, 255, 0.7);
+            }
+        }
+    }
+}

@@ -1,0 +1,93 @@
+@import "../../components/colortheme.scss";
+
+.enhanced-results-container {
+    background: $eerie-black;
+    color: $white;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+
+    .results-box {
+        background: $onyx;
+        width: 80%;
+        max-width: 900px;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        text-align: center;
+
+        h2 {
+            color: $neon-blue;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .branch-list {
+            margin-top: 10px;
+            background: $jet;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+
+            .branch-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                border-bottom: 1px solid $gray;
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                span {
+                    font-size: 1rem;
+                    color: $white;
+                }
+            }
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+
+            &.talk-button {
+                background: $neon-blue;
+                color: $eerie-black;
+                box-shadow: 0 5px 15px rgba(0, 255, 255, 0.5);
+
+                &:hover {
+                    background: $turquoise;
+                    box-shadow: 0 8px 25px rgba(0, 255, 255, 0.7);
+                }
+            }
+
+            &.download-button {
+                background: $gray;
+                color: $white;
+
+                &:hover {
+                    background: lighten($gray, 10%);
+                }
+            }
+
+            &.feedback-button {
+                background: transparent;
+                color: $neon-blue;
+                font-size: 0.9rem;
+                margin-top: 10px;
+                cursor: pointer;
+                border: none;
+            }
+        }
+    }
+}
