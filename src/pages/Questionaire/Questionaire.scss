@@ -1,0 +1,141 @@
+@import "../../components/colortheme.scss"; // Import your color theme
+
+.find-branch-container {
+    background: $eerie-black;
+    color: $white;
+    text-align: center;
+    padding: 50px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: $neon-blue;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        color: $gray;
+    }
+
+    .form-container {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        max-width: 450px;
+        width: 100%;
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            color: $turquoise;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border-radius: 8px;
+            border: none;
+            background: $jet;
+            color: $white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .yes-no-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 10px;
+            gap: 15px;
+
+            .yes-no-option {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                padding: 10px 0;
+
+                span {
+                    color: $white;
+                    font-size: 1rem;
+                    flex: 1;
+                }
+
+                .yes-button,
+                .no-button {
+                    padding: 8px 20px;
+                    font-size: 1rem;
+                    font-weight: bold;
+                    border-radius: 20px; // Rounded button
+                    cursor: pointer;
+                    margin-left: 10px;
+                    transition: 0.3s;
+                    border: none;
+
+                    &.selected {
+                        box-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+                    }
+                }
+
+                .yes-button {
+                    background: rgba(0, 255, 255, 0.2);
+                    color: $neon-blue;
+
+                    &:hover,
+                    &.selected {
+                        background: $neon-blue;
+                        color: $eerie-black;
+                    }
+                }
+
+                .no-button {
+                    background: rgba(255, 50, 50, 0.2);
+                    color: #ff4444;
+
+                    &:hover,
+                    &.selected {
+                        background: #ff4444;
+                        color: $eerie-black;
+                    }
+                }
+            }
+        }
+
+        .error-message {
+            color: #ff4444;
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        .get-results-button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: $eerie-black;
+            background: linear-gradient(145deg, $neon-blue, $turquoise);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+            text-transform: uppercase;
+
+            &:hover {
+                box-shadow: 0 8px 25px rgba(0, 255, 255, 0.6);
+                transform: scale(1.05);
+            }
+        }
+    }
+}
