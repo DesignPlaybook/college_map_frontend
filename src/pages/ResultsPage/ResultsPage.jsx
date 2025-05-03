@@ -2,148 +2,219 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./ResultsPage.scss";
 
-const dummyData = {
-    institutes: [
-        {
-            id: 1,
-            name: "IIT Bombay",
-            branches: [{ id: 101, name: "Computer Science" }],
-        },
-        {
-            id: 2,
-            name: "IIT Delhi",
-            branches: [{ id: 102, name: "Electrical Engineering" }],
-        },
-        {
-            id: 3,
-            name: "IIT Madras",
-            branches: [{ id: 103, name: "Civil Engineering" }],
-        },
-    ],
-};
-
 const ResultsPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const responseData = location.state?.responseData || dummyData;
+    const [results, setResults] = useState([]);
     const [userSession, setUserSession] = useState(null);
+    const [loading, setLoading] = useState(true);
 
+    // actual useffect
     useEffect(() => {
-        // Check user session on page load
-        const checkUserSession = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sessions`, {
-                    method: "GET",
-                    credentials: "include",
-                });
+        // Load user session from local storage
+        const savedSession = localStorage.getItem("userSession");
+        if (savedSession) {
+            setUserSession(JSON.parse(savedSession));
+        }
 
-                if (response.ok) {
-                    const data = await response.json();
-                    setUserSession(data);
-                    handleUserRedirect(data);
+        setLoading(true);
+
+        // Check if results are coming from navigation state
+        if (location.state?.responseData) {
+            const rawInstitutes = location.state.responseData.institutes;
+
+            // Group institutes by name
+            const groupedResults = rawInstitutes.reduce((acc, curr) => {
+                const existing = acc.find(item => item.name === curr.name);
+                if (existing) {
+                    existing.branches.push(curr.department_name);
                 } else {
-                    navigate("/MobileLogin"); // Redirect to login if not signed in
+                    acc.push({
+                        name: curr.name,
+                        branches: [curr.department_name]
+                    });
                 }
-            } catch (error) {
-                console.error("Error fetching session:", error);
-            }
-        };
+                return acc;
+            }, []);
 
-        checkUserSession();
-    }, []);
-
-    const handleUserRedirect = (session) => {
-        if (session.tries < 0) {
-            alert("Redirecting to payment...");
-            setTimeout(() => {
-                alert("Payment successful! Redirecting...");
-                navigate("/EnhancedQuestions");
-            }, 2000);
-        } else if (session.tries > 1) {
-            navigate("/EnhancedQuestions");
+            setResults(groupedResults);
+            setLoading(false);
+            return;
         }
-    };
 
-    const handleEnhancedResults = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sessions`, {
-                method: "GET",
-                credentials: "include",
+        // Fallback: Fetch data from API if not in navigation state
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/institutes/results`)
+            .then((res) => res.json())
+            .then((data) => {
+                // Group institutes by name
+                const groupedResults = data.institutes.reduce((acc, curr) => {
+                    const existing = acc.find(item => item.name === curr.name);
+                    if (existing) {
+                        existing.branches.push(curr.department_name);
+                    } else {
+                        acc.push({
+                            name: curr.name,
+                            branches: [curr.department_name]
+                        });
+                    }
+                    return acc;
+                }, []);
+                setResults(groupedResults);
+                setLoading(false);
+            })
+            .catch(() => {
+                alert("Failed to load results. Please check your connection.");
+                setLoading(false);
             });
+    }, [location.state]);
 
-            if (!response.ok) {
-                alert("You are not signed in. Redirecting to login...");
-                navigate("/MobileLogin");
-                return;
-            }
+    // dummy useffect
+    // useEffect(() => {
+    //     // Load user session from local storage
+    //     const savedSession = localStorage.getItem("userSession");
+    //     if (savedSession) {
+    //         setUserSession(JSON.parse(savedSession));
+    //     }
 
-            const userSession = await response.json();
-            handleUserRedirect(userSession);
-        } catch (error) {
-            console.error("Error checking session:", error);
-            alert("Something went wrong. Please try again.");
+    //     setLoading(true);
+
+    //     // Check if results are coming from navigation state
+    //     if (location.state?.responseData) {
+    //         const rawInstitutes = location.state.responseData.institutes;
+
+    //         const groupedResults = rawInstitutes.reduce((acc, curr) => {
+    //             const existing = acc.find(item => item.name === curr.name);
+    //             if (existing) {
+    //                 existing.branches.push(curr.department_name);
+    //             } else {
+    //                 acc.push({
+    //                     name: curr.name,
+    //                     branches: [curr.department_name]
+    //                 });
+    //             }
+    //             return acc;
+    //         }, []);
+    //         setResults(groupedResults);
+    //         setLoading(false);
+    //         return;
+    //     }
+
+    //     // 💡 MOCK DATA HERE
+    //     const dummyData = {
+    //         institutes: [
+    //             { name: "IIT Bombay", department_name: "Computer Science" },
+    //             { name: "IIT Bombay", department_name: "Electrical" },
+    //             { name: "IIT Bombay", department_name: "Mechanical" },
+    //             { name: "IIT Bombay", department_name: "Civil" },
+    //             { name: "IIT Bombay", department_name: "Chemical" },
+    //             { name: "IIT Delhi", department_name: "Computer Science" },
+    //             { name: "IIT Delhi", department_name: "Electrical" },
+    //             { name: "IIT Delhi", department_name: "Mechanical" },
+    //             { name: "IIT Delhi", department_name: "Civil" },
+    //             { name: "IIT Delhi", department_name: "Chemical" }
+    //         ]
+    //     };
+
+    //     const groupedResults = dummyData.institutes.reduce((acc, curr) => {
+    //         const existing = acc.find(item => item.name === curr.name);
+    //         if (existing) {
+    //             existing.branches.push(curr.department_name);
+    //         } else {
+    //             acc.push({
+    //                 name: curr.name,
+    //                 branches: [curr.department_name]
+    //             });
+    //         }
+    //         return acc;
+    //     }, []);
+
+    //     setResults(groupedResults);
+    //     setLoading(false);
+    // }, [location.state]);
+
+
+    const handleEnhancedResults = () => {
+        const savedSession = localStorage.getItem("userSession");
+
+        if (!savedSession) {
+            alert("Please log in to access enhanced results.");
+            navigate("/MobileLogin", { state: { redirectTo: "/EnhancedQuestions" } });
+            return;
         }
+
+        const session = JSON.parse(savedSession);
+
+        // Bypass payment check for now
+        /*
+        if (!session.isPaid) {
+            alert("Complete your payment to unlock enhanced results.");
+            navigate("/payment");
+            return;
+        }
+        */
+
+        const preferences = JSON.parse(localStorage.getItem("preferences")) || {};
+        const selectedYesAnswers = Object.keys(preferences).filter(key => preferences[key] === true);
+
+        console.log("Selected preferences before navigation:", selectedYesAnswers); // Debugging log
+
+        navigate("/EnhancedQuestions", { state: { preferences: selectedYesAnswers } });
     };
 
-    const handleLogout = async () => {
-        try {
-            await fetch(`${process.env.REACT_APP_BACKEND_URL}/logout`, {
-                method: "POST",
-                credentials: "include",
-            });
-            setUserSession(null);
-            navigate("/MobileLogin");
-        } catch (error) {
-            console.error("Error logging out:", error);
-        }
+    const handleLogout = () => {
+        localStorage.removeItem("userSession");
+        setUserSession(null);
+        navigate("/MobileLogin");
     };
+
+    if (loading) return <p>Loading results...</p>;
 
     return (
         <div className="results-container">
-            <h1 className="title">Best Institutes & Branches for You</h1>
 
-            {/* Table for displaying results */}
             <div className="table-container">
                 <table className="results-table">
                     <thead>
+                        <tr>
+                            <th colSpan={2}>
+                                <h1>Best Institutes & Branches for You</h1>
+                            </th>
+                        </tr>
                         <tr>
                             <th>Institute Name</th>
                             <th>Available Branches</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {responseData.institutes?.map((institute) => (
-                            <tr key={institute.id}>
+                        {results.slice(0, 5).map((institute, index) => (
+                            <tr key={index}>
                                 <td>{institute.name}</td>
                                 <td>
                                     <ul>
-                                        {institute.branches?.map((branch) => (
-                                            <li key={branch.id}>{branch.name}</li>
+                                        {(institute.branches || []).map((branch, idx) => (
+                                            <li key={idx}>{branch}</li>
                                         ))}
                                     </ul>
                                 </td>
                             </tr>
                         ))}
+                        <tr>
+                            <td colSpan={2} className="enhanced-button-cell">
+                                <button className="enhanced-results" onClick={handleEnhancedResults}>
+                                    Get Enhanced Results - More Personalized
+                                </button>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
-            <button className="enhanced-results" onClick={handleEnhancedResults}>
-                🔥 Get Enhanced Results - More Personalized 🔥
-            </button>
 
-            <div className="action-section">
-                <button className="talk-button">Talk to IIT Students Now!</button>
-                <button className="demo-button">Watch Demo Video</button>
-            </div>
 
-            {/* Logout Button */}
             {userSession && (
                 <div className="profile-section">
                     <p>Welcome, {userSession.name || "User"}!</p>
-                    <button className="logout-button" onClick={handleLogout}>
-                        Sign Out
-                    </button>
+                    <button className="logout-button" onClick={handleLogout}>Sign Out</button>
                 </div>
             )}
         </div>
@@ -151,153 +222,3 @@ const ResultsPage = () => {
 };
 
 export default ResultsPage;
-
-
-
-// import React, { useEffect, useState } from "react";
-// import { useLocation, useNavigate } from "react-router-dom";
-// import "./ResultsPage.scss";
-
-// const dummyData = {
-//     institutes: [
-//         {
-//             id: 1,
-//             name: "IIT Bombay",
-//             branches: [
-//                 { name: "Computer Science" },
-//             ],
-//         },
-//         {
-//             id: 2,
-//             name: "IIT Delhi",
-//             branches: [
-//                 { name: "Electrical Engineering" },
-//             ],
-//         },
-//         {
-//             id: 3,
-//             name: "IIT Madras",
-//             branches: [
-//                 { name: "Civil Engineering" },
-//             ],
-//         },
-//         {
-//             id: 4,
-//             name: "IIT Madras",
-//             branches: [
-//                 { name: "Civil Engineering" },
-//             ],
-//         },
-//         {
-//             id: 5,
-//             name: "IIT Madras",
-//             branches: [
-//                 { name: "Civil Engineering" },
-//             ],
-//         },
-//     ],
-// };
-
-
-// const ResultsPage = () => {
-//     const location = useLocation();
-//     const navigate = useNavigate();
-//     const responseData = location.state?.responseData || dummyData || {}; // Default to an empty object
-//     const [userSession, setUserSession] = useState(null);
-
-//     useEffect(() => {
-//         // Fetch user session status from backend
-//         const checkUserSession = async () => {
-//             try {
-//                 const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sessions`, {
-//                     method: "GET",
-//                     credentials: "include",
-//                 });
-
-//                 if (response.ok) {
-//                     const data = await response.json();
-//                     setUserSession(data);
-//                 } else {
-//                     setUserSession(null);
-//                 }
-//             } catch (error) {
-//                 console.error("Error fetching session:", error);
-//             }
-//         };
-
-//         checkUserSession();
-//     }, []);
-
-//     const handleEnhancedResults = async () => {
-//         try {
-//             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sessions`, {
-//                 method: "GET",
-//                 credentials: "include",
-//             });
-
-//             if (!response.ok) {
-//                 alert("You are not signed in. Redirecting to login...");
-//                 navigate("/MobileLogin");
-//                 return;
-//             }
-
-//             const userSession = await response.json();
-
-//             if (userSession.tries <= 0) {
-//                 alert("Redirecting to payment...");
-//                 setTimeout(() => {
-//                     alert("Payment successful! Redirecting...");
-//                     navigate("/EnhancedQuestions");
-//                 }, 2000);
-//             } else if (userSession.tries > 1) {
-//                 navigate("/EnhancedQuestions");
-//             }
-//         } catch (error) {
-//             console.error("Error checking session:", error);
-//             alert("Something went wrong. Please try again.");
-//         }
-//     };
-
-//     return (
-//         <div className="results-container">
-//             <h1 className="title">Best Institutes & Branches for You</h1>
-
-//             {/* Table for displaying results */}
-//             <div className="table-container">
-//                 <table className="results-table">
-//                     <thead>
-//                         <tr>
-//                             <th>Institute Name</th>
-//                             <th>Available Branches</th>
-//                         </tr>
-//                     </thead>
-//                     <tbody>
-//                         {responseData.institutes?.map((institute) => (
-//                             <tr key={institute.id}>
-//                                 <td>{institute.name}</td>
-//                                 <td>
-//                                     <ul>
-//                                         {institute.branches?.map((branch) => (
-//                                             <li key={branch.id}>{branch.name}</li>
-//                                         ))}
-//                                     </ul>
-//                                 </td>
-//                             </tr>
-//                         ))}
-//                     </tbody>
-//                 </table>
-//             </div>
-
-//             <button className="enhanced-results" onClick={handleEnhancedResults}>
-//                 🔥 Get Enhanced Results - More Personalized 🔥
-//             </button>
-
-//             <div className="action-section">
-//                 <button className="talk-button">Talk to IIT Students Now!</button>
-//                 <button className="demo-button">Watch Demo Video</button>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default ResultsPage;

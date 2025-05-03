@@ -1,0 +1,152 @@
+@import '../../components/colortheme.scss'; // Assuming you store your color variables separately
+
+.how-it-works {
+    padding: 2rem;
+    background: var(--background);
+    text-align: center;
+
+    h2 {
+        font-size: 2rem;
+        color: var(--dark-green-blue);
+        margin-bottom: 2rem;
+    }
+
+    .timeline {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        margin-bottom: 3rem;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 100%;
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='100' viewBox='0 0 10 100' preserveAspectRatio='none'><path d='M5 0 Q0 25 5 50 Q10 75 5 100' stroke='%23005d63' stroke-width='2' fill='none'/></svg>") repeat-y;
+            background-size: contain;
+        }
+
+        .timeline-step {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: flex-start;
+            position: relative;
+            z-index: 1;
+            cursor: pointer;
+
+            &.right {
+                justify-content: flex-end;
+            }
+
+            .content {
+                display: flex;
+                align-items: center;
+                background: var(--background-alt);
+                border: 2px solid var(--light-green-blue);
+                border-radius: 10px;
+                padding: 1rem 1.5rem;
+                gap: 1rem;
+                transition: background 0.3s;
+                max-width: 400px;
+
+                .icon {
+                    font-size: 2rem;
+                    color: var(--light-green-blue);
+                }
+
+                .text {
+                    font-size: 1.1rem;
+                    font-weight: bold;
+                    color: var(--text-dark);
+                }
+            }
+
+            &:hover .content {
+                background: var(--accent-light);
+            }
+        }
+    }
+
+    // Mobile responsiveness
+    @media (max-width: 768px) {
+        .timeline {
+            .timeline-step {
+                justify-content: center !important;
+
+                .content {
+                    flex-direction: column;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+
+    // Mobile responsive
+    @media (max-width: 768px) {
+        .timeline {
+            .timeline-step {
+                flex-direction: column !important;
+                text-align: center;
+
+                .icon,
+                .text {
+                    width: 90%;
+                    margin-bottom: 1rem;
+                }
+            }
+        }
+    }
+
+
+    .details {
+        .detail-section {
+            margin-bottom: 4rem;
+            padding: 1rem;
+            background: var(--highlight);
+            border-left: 4px solid var(--primary);
+
+            h3 {
+                font-size: 1.5rem;
+                color: var(--dark-green-blue);
+                margin-bottom: 1rem;
+            }
+
+            p {
+                color: var(--text-muted);
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+        }
+    }
+}
+
+// Mobile Responsiveness
+@media (max-width: 768px) {
+    .how-it-works {
+        padding: 1rem;
+
+        .timeline {
+            .timeline-step {
+                width: 90%;
+                flex-direction: column;
+                text-align: center;
+
+                .icon {
+                    margin-bottom: 0.5rem;
+                }
+            }
+        }
+
+        .details {
+            .detail-section {
+                margin-bottom: 2rem;
+            }
+        }
+    }
+}

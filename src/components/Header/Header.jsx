@@ -1,41 +1,39 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "./Header.scss";
-// import "../../pages/QuestionPage";
+import logo from "../../assets/logo/CM_logo_color_transp.png"
 
 const Header = () => {
+    const navigate = useNavigate();
+    const { isLoggedIn, logout } = useAuth();
+    const handleLogout = () => {
+        logout();
+        navigate("/MobileLogin");
+    };
+
     return (
         <header className="bg-eerie-black text-white py-4 shadow-md">
             <div className="container mx-auto flex justify-between items-center px-6">
-                {/* Logo */}
-                <Link to="/" className="text-2xl font-bold text-turquoise">
-                    CollegeMap
-                </Link>
+                <Link to="/" className="text-2xl font-bold text-turquoise"><img src={logo} alt="Logo" className="h-10" /></Link>
 
-                {/* Navigation */}
                 <nav>
                     <ul className="flex space-x-6">
-                        <li>
-                            <Link to="/main" className="hover:text-turquoise transition-colors">
-                                Home
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/Question" className="hover:text-turquoise transition-colors">
-                                Questionaire
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/about" className="hover:text-turquoise transition-colors">
-                                About
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/contact" className="hover:text-turquoise transition-colors">
-                                Contact
-                            </Link>
-                        </li>
+                        <li><Link to="/" className="hover:text-turquoise">Home</Link></li>
+                        <li><Link to="/About-Us" className="hover:text-turquoise">About Us</Link></li>
+                        {/* <li><Link to="/about" className="hover:text-turquoise">About</Link></li> */}
+                        {/* <li><Link to="/contact" className="hover:text-turquoise">Contact</Link></li> */}
                     </ul>
                 </nav>
+
+                {isLoggedIn ? (
+                    <button className="bg-red-500 px-4 py-2 rounded" onClick={handleLogout}>
+                        Sign Out
+                    </button>
+                ) : (
+                    <Link to="/MobileLogin" className="bg-green-500 px-4 py-2 rounded">
+                        Login
+                    </Link>
+                )}
             </div>
         </header>
     );

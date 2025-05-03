@@ -6,6 +6,11 @@ header {
     padding: 1rem 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 
+    img {
+        height: 40px;
+        width: auto;
+    }
+
     .container {
         max-width: 1200px;
         margin: 0 auto;

@@ -1,116 +1,121 @@
-@import "../../components/colortheme.scss"; // Import color theme
+@import "../../components/colortheme.scss";
 
 .mobile-login-container {
-    background: $eerie-black;
-    color: $white;
-    min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    background-color: var(--background-alt);
+    min-height: 100vh;
+    padding: 2rem;
+    animation: fadeIn 0.8s ease-in;
+
+    .illustration {
+        max-width: 450px;
+        margin-bottom: 1.5rem;
+
+        img {
+            width: 100%;
+            // animation: float 3s ease-in-out infinite;
+        }
+    }
 
     .login-box {
-        background: $onyx;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-        width: 400px;
+        background-color: var(--background);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         text-align: center;
+        width: 100%;
+        max-width: 400px;
 
         h2 {
-            font-size: 2rem;
-            color: $neon-blue;
-            margin-bottom: 10px;
+            color: var(--dark-green-blue);
+            margin-bottom: 0.5rem;
         }
 
-        p {
-            font-size: 0.9rem;
-            color: $gray;
-            margin-bottom: 20px;
+        .subtext {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
         }
 
         .input-field {
-            width: 90%;
-            padding: 12px;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: 2px solid $gray;
+            width: -webkit-fill-available;
+            padding: 0.75rem;
+            border: 1px solid var(--light-green-blue);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
             font-size: 1rem;
-            text-align: center;
-            background: $jet;
-            color: $white;
-            transition: border 0.3s;
-
-            &:focus {
-                outline: none;
-                border: 2px solid $neon-blue;
-            }
         }
 
         .otp-container {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
+            justify-content: space-between;
+            margin-bottom: 1rem;
 
             input {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+                width: 3rem;
+                height: 3rem;
                 text-align: center;
-                border: 2px solid $gray;
-                background: $jet;
-                color: $white;
-                border-radius: 5px;
-                transition: border 0.3s;
+                font-size: 1.5rem;
+                border: 2px solid var(--light-green-blue);
+                border-radius: 0.5rem;
+                transition: border-color 0.3s;
+            }
 
-                &:focus {
-                    outline: none;
-                    border: 2px solid $neon-blue;
-                }
+            input:focus {
+                outline: none;
+                border-color: var(--primary2);
             }
         }
 
         .button {
             width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            font-weight: bold;
-            margin-top: 15px;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 0.75rem;
+            background-color: var(--primary);
             border: none;
-            transition: 0.3s;
+            color: white;
+            font-size: 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
 
-            &.send-otp {
-                background: $neon-blue;
-                color: $eerie-black;
-                box-shadow: 0 5px 15px rgba(0, 255, 255, 0.5);
-
-                &:hover {
-                    background: $turquoise;
-                    box-shadow: 0 8px 25px rgba(0, 255, 255, 0.7);
-                }
+            &:hover {
+                background-color: var(--dark-green-blue);
             }
 
-            &.resend-otp {
-                background: transparent;
-                color: $neon-blue;
-                font-size: 0.9rem;
-                margin-top: 5px;
-                border: none;
-                cursor: pointer;
-
-                &:disabled {
-                    color: $gray;
-                    cursor: not-allowed;
-                }
+            &:disabled {
+                background-color: var(--light-gray);
+                cursor: not-allowed;
             }
         }
 
-        .timer {
-            color: $gray;
-            font-size: 0.9rem;
-            margin-top: 5px;
+        .error-message {
+            color: $error-red;
+            margin-bottom: 1rem;
         }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
     }
 }
