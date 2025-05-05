@@ -1,0 +1,116 @@
+.team {
+    background-color: #e5f6ff;
+    text-align: center;
+    padding: 3rem 2rem;
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        margin-bottom: 2rem;
+        color: #333;
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); // 4 per row
+        gap: 1.5rem;
+        justify-items: center; // centers the team members
+        padding: 0 200px;
+    }
+
+    .member {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 180px;
+        transition: transform 0.3s;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+
+        .photo {
+            width: 100px; // image size
+            height: 100px; // image size
+            border-radius: 50%;
+            overflow: hidden; // ensures image stays inside the circle
+            margin-bottom: 1rem;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; // makes sure the image covers the circle
+            }
+        }
+
+        .member a {
+            margin-top: 0.5rem;
+            display: inline-block;
+            color: #0e76a8;
+            font-size: 1.5rem;
+            /* Increased size of the icon */
+        }
+
+        .member a i {
+            font-size: 1.5rem;
+            /* Ensure the LinkedIn icon is big enough */
+            color: #0e76a8;
+            /* LinkedIn blue color */
+            transition: color 0.3s ease;
+        }
+
+        .member a i:hover {
+            color: #0077b5;
+            /* Change to a slightly darker blue when hovered */
+        }
+
+
+        h4 {
+            margin: 0.5rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        a {
+            margin-top: 0.5rem;
+            display: inline-block;
+            color: #0e76a8;
+
+            i {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        .team-grid {
+            grid-template-columns: repeat(2, 1fr); // 2 per row on mobile
+            gap: 1rem;
+            padding: 0;
+        }
+
+        .member {
+            height: 150px; // adjust size on mobile
+
+            .photo {
+                width: 80px; // smaller image size on mobile
+                height: 80px; // smaller image size on mobile
+            }
+
+            h4 {
+                font-size: 0.9rem; // slightly smaller font
+            }
+
+            a {
+                i {
+                    font-size: 1.2rem; // smaller icon size
+                }
+            }
+        }
+    }
+}

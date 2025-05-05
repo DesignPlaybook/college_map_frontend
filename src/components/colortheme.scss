@@ -1,3 +1,19 @@
+:root {
+    --primary: #10c3bc;
+    --primary2: #10c3bc;
+    --dark-green-blue: #005d63;
+    --light-green-blue: #0a97a0;
+    --text-dark: #111;
+    --text-light: #eee;
+    --text-muted: #bbb;
+    --background: #fff;
+    --background-alt: #f8f8f8;
+    --accent-light: #e5f6ff;
+    --highlight: #fef9f5;
+    --footer-bg: #1a1a1a;
+}
+
+
 // SCSS Color Variables (Fixed)
 $jet: #3A3A3A;
 $eerie-black: #1C1C1C;
@@ -6,7 +22,11 @@ $onyx: #3E3E3E;
 $white: #FEFEFE;
 $turquoise: #41D9D0;
 $gray: #757575;
-$neon-blue: #00ffff; // Adjust color as needed
+$neon-blue: #00ffff;
+$error-red: #ff4d4d;
+$light-gray: #b0b0b0; // Adjust to a suitable shade
+
+
 
 
 

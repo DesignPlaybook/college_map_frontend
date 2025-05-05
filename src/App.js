@@ -4,17 +4,45 @@ import SplashScreen from "./components/SplashScreen/SplashScreen";
 import Layout from "./components/Layout/Layout";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import Questionaire from "./pages/Questionaire/Questionaire";
-import ResultsPage from "./pages/ResultsPage/ResultsPage"
+import ResultsPage from "./pages/ResultsPage/ResultsPage";
 import MobileLogin from "./pages/MobileLogin/MobileLogin";
 import EnhancedResults from "./pages/EnhancedResults/EnhancedResults";
 import EnhancedQuestions from "./pages/EnhancedQuestions/EnhancedQuestions";
+import AboutUs from "./pages/AboutUs/AboutUs";
+import ContactUs from "./pages/ContactUs/ContactUs";
+import HowItWorks from "./pages/HowItWorks/HowItWorks";
+import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
+import Team from "./components/Team/Team";
+import CancellationRefundPolicy from "./pages/CancellationRefundPolicy/CancellationRefundPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions/TermsAndConditions";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
 
   useEffect(() => {
     const timer = setTimeout(() => setShowSplash(false), 2000); // Hide splash after 2 seconds
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    // Check if the user is logged in based on authToken
+    const token = localStorage.getItem("authToken");
+    setIsLoggedIn(!!token); // Update login state
+  }, []); // Runs once on component mount
+
+  // Listen for changes to localStorage and update the login state
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const token = localStorage.getItem("authToken");
+      setIsLoggedIn(!!token); // Update login state
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange); // Clean up listener
+    };
   }, []);
 
   if (showSplash) {
@@ -23,14 +51,21 @@ function App() {
 
   return (
     <Router>
-      <Layout>
+      <Layout isLoggedIn={isLoggedIn}> {/* Pass login state to Layout */}
         <Routes>
-          <Route path="/main" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/Questionaire" element={<Questionaire />} />
           <Route path="/ResultsPage" element={<ResultsPage />} />
           <Route path="/MobileLogin" element={<MobileLogin />} />
           <Route path="/EnhancedResults" element={<EnhancedResults />} />
           <Route path="/EnhancedQuestions" element={<EnhancedQuestions />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
+          <Route path="/Contact-Us" element={<ContactUs />} />
+          <Route path="/HowItWorks" element={<HowItWorks />} />
+          <Route path="/Privacy-Policy" element={<PrivacyPolicy />} />
+          <Route path="/Our-Team" element={<Team />} />
+          <Route path="/Cancellation-and-Refund" element={<CancellationRefundPolicy />} />
+          <Route path="/Terms-and-Conditions" element={<TermsAndConditions />} />
         </Routes>
       </Layout>
     </Router>

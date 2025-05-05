@@ -1,166 +1,152 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "./MobileLogin.scss";
+import CollegeIllustration from "../../assets/college-illustration.svg"; // Add a relevant SVG
 
 const MobileLogin = () => {
-    const [mobile_number, setMobile] = useState("");
+    const [mobileNumber, setMobileNumber] = useState("");
     const [otp, setOtp] = useState(["", "", "", ""]);
     const [otpSent, setOtpSent] = useState(false);
-    const [userSession, setUserSession] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const navigate = useNavigate();
+    const otpRefs = useRef([]);
+    const { isLoggedIn, login } = useAuth();
 
     useEffect(() => {
-        // Check if user is already signed in
-        const checkUserSession = async () => {
-            try {
-                const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sessions`, {
-                    method: "GET",
-                    credentials: "include",
-                });
+        if (isLoggedIn) navigate("/EnhancedQuestions");
+    }, [isLoggedIn, navigate]);
 
-                if (response.ok) {
-                    const data = await response.json();
-                    setUserSession(data);
-                    handleUserRedirect(data);
-                }
-            } catch (error) {
-                console.error("Error fetching session:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        checkUserSession();
-    }, []);
-
-    const handleUserRedirect = (session) => {
-        if (session.tries < 0) {
-            alert("Redirecting to payment...");
-            setTimeout(() => {
-                alert("Payment successful! Redirecting...");
-                navigate("/EnhancedQuestions");
-            }, 2000);
-        } else if (session.tries > 1) {
-            navigate("/EnhancedQuestions");
-        }
+    const handleMobileChange = (e) => {
+        const input = e.target.value.replace(/\D/g, "").slice(0, 10);
+        setMobileNumber(input);
+        if (input.length === 10) setError("");
     };
 
-    const handleMobileChange = (e) => setMobile(e.target.value.replace(/\D/, ""));
-
     const sendOtp = async () => {
-        if (mobile_number.length !== 10) {
-            alert("Enter a valid 10-digit mobile number.");
+        const validIndianMobile = /^[6-9]\d{9}$/;
+
+        if (!validIndianMobile.test(mobileNumber)) {
+            setError("Please enter a valid Indian mobile number.");
             return;
         }
 
+        setLoading(true);
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sessions/send_verification_code`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ mobile_number }),
+                body: JSON.stringify({ mobile_number: mobileNumber }),
                 credentials: "include",
             });
 
             if (response.ok) {
                 setOtpSent(true);
+                setError("");
             } else {
-                alert("Failed to send OTP.");
+                setError("Failed to send OTP. Please try again.");
             }
-        } catch (error) {
-            console.error("Error sending OTP:", error);
+
+            setTimeout(() => setLoading(false), 3000);
+        } catch {
+            setError("Network error. Please check your connection.");
+            setLoading(false);
+        }
+    };
+
+
+    const handleOtpChange = (index, value) => {
+        if (!/^\d*$/.test(value)) return;
+        const updatedOtp = [...otp];
+        updatedOtp[index] = value;
+        setOtp(updatedOtp);
+
+        if (value && index < otpRefs.current.length - 1) {
+            otpRefs.current[index + 1]?.focus();
         }
     };
 
     const verifyOtp = async () => {
-        if (otp.some((digit) => digit === "")) {
-            alert("Please enter all OTP digits.");
+        const enteredOtp = otp.map((digit) => digit.trim()).join("");
+
+        if (enteredOtp.length !== 4 || /\D/.test(enteredOtp)) {
+            setError("Please enter a valid 4-digit OTP.");
             return;
         }
 
+        setLoading(true);
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sessions`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ mobile_number, otp: otp.join("") }),
+                body: JSON.stringify({ mobile_number: mobileNumber, otp: enteredOtp }),
                 credentials: "include",
             });
+
+            const data = await response.json();
 
             if (response.ok) {
-                alert("OTP Verified! Redirecting...");
-                const data = await response.json();
-                setUserSession(data);
-                handleUserRedirect(data);
+                localStorage.setItem("authToken", data.token);
+                login(data.token);
+                navigate("/EnhancedQuestions");
             } else {
-                alert("OTP verification failed.");
+                setError("Incorrect OTP. Please try again.");
+                setOtp(["", "", "", ""]);
+                otpRefs.current[0]?.focus();
             }
-        } catch (error) {
-            console.error("Error verifying OTP:", error);
+        } catch {
+            setError("Network error. Please check your connection.");
         }
+        setLoading(false);
     };
-
-    const logout = async () => {
-        try {
-            await fetch(`${process.env.REACT_APP_BACKEND_URL}/logout`, {
-                method: "POST",
-                credentials: "include",
-            });
-            setUserSession(null);
-            navigate("/MobileLogin");
-        } catch (error) {
-            console.error("Error logging out:", error);
-        }
-    };
-
-    if (loading) return <div>Loading...</div>;
 
     return (
-        <div className="mobile-login-container">
+        <div className="mobile-login-container fade-in">
+            <div className="illustration">
+                <img src={CollegeIllustration} alt="College themed login" />
+            </div>
             <div className="login-box">
-                <h2>Login to Continue</h2>
+                <h2>Welcome to College Map</h2>
+                <p className="subtext">Log in to access your enhanced college list.</p>
+                {error && <p className="error-message">{error}</p>}
 
-                {userSession ? (
+                {!otpSent ? (
                     <>
-                        <p>Welcome, {userSession.name}!</p>
-                        <button className="logout-button" onClick={logout}>
-                            Sign Out
+                        <input
+                            type="tel"
+                            className="input-field"
+                            placeholder="Enter your 10-digit mobile number"
+                            value={mobileNumber}
+                            onChange={handleMobileChange}
+                        />
+                        <button className="button send-otp" onClick={sendOtp} disabled={loading}>
+                            {loading ? "Sending..." : "Send OTP"}
                         </button>
                     </>
                 ) : (
                     <>
-                        {!otpSent ? (
-                            <>
+                        <p>Enter the OTP sent to {mobileNumber}</p>
+                        <div className="otp-container">
+                            {otp.map((digit, index) => (
                                 <input
+                                    key={index}
+                                    ref={(el) => { if (el) otpRefs.current[index] = el; }}
                                     type="text"
-                                    className="input-field"
-                                    placeholder="Enter Mobile Number"
-                                    value={mobile_number}
-                                    onChange={handleMobileChange}
-                                    maxLength="10"
+                                    maxLength="1"
+                                    value={digit}
+                                    onChange={(e) => handleOtpChange(index, e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Backspace" && !otp[index] && index > 0) {
+                                            otpRefs.current[index - 1]?.focus();
+                                        }
+                                    }}
                                 />
-                                <button className="button send-otp" onClick={sendOtp}>
-                                    Send OTP
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                <p>Enter the OTP sent to {mobile_number}</p>
-                                <div className="otp-container">
-                                    {otp.map((digit, index) => (
-                                        <input
-                                            key={index}
-                                            type="text"
-                                            maxLength="1"
-                                            value={digit}
-                                            onChange={(e) => setOtp([...otp.slice(0, index), e.target.value, ...otp.slice(index + 1)])}
-                                        />
-                                    ))}
-                                </div>
-                                <button className="button send-otp" onClick={verifyOtp}>
-                                    Verify OTP
-                                </button>
-                            </>
-                        )}
+                            ))}
+                        </div>
+                        <button className="button send-otp" onClick={verifyOtp} disabled={loading}>
+                            {loading ? "Verifying..." : "Verify OTP"}
+                        </button>
                     </>
                 )}
             </div>
@@ -171,187 +157,174 @@ const MobileLogin = () => {
 export default MobileLogin;
 
 
-// import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom"; // Import navigate function
+// import React, { useState, useRef, useEffect } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { useAuth } from "../../context/AuthContext";  // Import useAuth to access login and logout methods
 // import "./MobileLogin.scss";
 
 // const MobileLogin = () => {
-//     const [mobile_number, setMobile] = useState("");
+//     const [mobileNumber, setMobileNumber] = useState("");
 //     const [otp, setOtp] = useState(["", "", "", ""]);
 //     const [otpSent, setOtpSent] = useState(false);
-//     const [timer, setTimer] = useState(30);
-//     const [canResend, setCanResend] = useState(false);
-//     const navigate = useNavigate(); // Initialize navigate
+//     const [loading, setLoading] = useState(false);
+//     const [error, setError] = useState("");
+//     const navigate = useNavigate();
+//     const otpRefs = useRef([]);
+
+//     const { isLoggedIn, login } = useAuth();  // Use useAuth to check login state and trigger login
 
 //     useEffect(() => {
-//         let countdown;
-//         if (otpSent && timer > 0) {
-//             countdown = setInterval(() => setTimer((prev) => prev - 1), 1000);
-//         } else if (timer === 0) {
-//             setCanResend(true);
+//         // If already logged in, navigate directly to EnhancedQuestions
+//         if (isLoggedIn) {
+//             navigate("/EnhancedQuestions");
 //         }
-//         return () => clearInterval(countdown);
-//     }, [otpSent, timer]);
+//     }, [isLoggedIn, navigate]);
 
 //     const handleMobileChange = (e) => {
-//         const value = e.target.value.replace(/\D/, "");
-//         setMobile(value);
-//     };
-
-//     const handleOtpChange = (index, value) => {
-//         if (value.match(/\D/)) return;
-
-//         let newOtp = [...otp];
-//         newOtp[index] = value;
-//         setOtp(newOtp);
-
-//         if (value !== "" && index < 3) {
-//             document.getElementById(`otp-${index + 1}`).focus();
-//         }
+//         const input = e.target.value.replace(/\D/g, "").slice(0, 10); // Allow only numbers and limit to 10 digits
+//         setMobileNumber(input);
 //     };
 
 //     const sendOtp = async () => {
-//         if (mobile_number.length !== 10) {
-//             alert("Enter a valid 10-digit mobile number.");
+//         if (mobileNumber.length !== 10) {
+//             setError("Please enter a valid 10-digit mobile number.");
 //             return;
 //         }
 
+//         setLoading(true);
 //         try {
-//             const response = await fetch(
-//                 `${process.env.REACT_APP_BACKEND_URL}/sessions/send_verification_code.json`,
-//                 {
-//                     method: "POST",
-//                     headers: {
-//                         "Content-Type": "application/json"
-//                     },
-//                     body: JSON.stringify({ mobile_number }), credentials: "include"
-//                 }
-//             );
 
-//             const data = await response.json();
-//             console.log("API Response:", data);
+//             // Uncomment when using real API
+//             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sessions/send_verification_code`, {
+//                 method: "POST",
+//                 headers: { "Content-Type": "application/json" },
+//                 body: JSON.stringify({ mobile_number: mobileNumber }),
+//                 credentials: "include",
+//             });
 
 //             if (response.ok) {
 //                 setOtpSent(true);
-//                 setTimer(30);
-//                 setCanResend(false);
+//                 setError("");
 //             } else {
-//                 alert(data.message || "Failed to send OTP. Try again.");
+//                 setError("Failed to send OTP. Please try again.");
 //             }
-//         } catch (error) {
-//             console.error("Error sending OTP:", error);
-//             alert("Network error. Please try again.");
+
+//             // ✅ Dummy OTP logic for testing
+//             // setOtpSent(true); // Simulate OTP sent
+//             // setError("");
+
+//             // ✅ Disable OTP button for 3 seconds to prevent spam clicks
+//             setTimeout(() => setLoading(false), 3000);
+//         } catch {
+//             setError("Network error. Please check your connection.");
+//             setLoading(false);
+//         }
+//     };
+
+//     const handleOtpChange = (index, value) => {
+//         if (!/^\d*$/.test(value)) return;
+
+//         const updatedOtp = [...otp];
+//         updatedOtp[index] = value;
+//         setOtp(updatedOtp);
+
+//         if (value && index < otpRefs.current.length - 1) {
+//             otpRefs.current[index + 1]?.focus();
 //         }
 //     };
 
 //     const verifyOtp = async () => {
-//         if (otp.some((digit) => digit === "")) {
-//             alert("Please enter all OTP digits.");
+//         const enteredOtp = otp.map((digit) => digit.trim()).join("");
+
+//         if (enteredOtp.length !== 4 || /\D/.test(enteredOtp)) {
+//             setError("Please enter a valid 4-digit OTP.");
 //             return;
 //         }
 
+//         setLoading(true);
 //         try {
-//             const response = await fetch(
-//                 `${process.env.REACT_APP_BACKEND_URL}/sessions`,
-//                 {
-//                     method: "GET",
-//                     headers: {
-//                         "Content-Type": "application/json",
-//                     },
-//                     body: JSON.stringify({ mobile_number, otp: otp.join("") }),
-//                 }
-//             );
+
+//             // Uncomment when using real API
+//             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/sessions`, {
+//                 method: "POST",
+//                 headers: { "Content-Type": "application/json" },
+//                 body: JSON.stringify({ mobile_number: mobileNumber, otp: enteredOtp }),
+//                 credentials: "include",
+//             });
 
 //             const data = await response.json();
-//             console.log("API Response:", data);
 
 //             if (response.ok) {
-//                 alert("OTP Verified! Proceeding to payment...");
-//                 navigate("/enhanced-results"); // Navigate on success
+//                 localStorage.setItem("authToken", data.token); // ✅ Store token
+//                 login(data.token); // Use login method from context
+//                 navigate("/EnhancedQuestions");
 //             } else {
-//                 alert(data.message || "OTP verification failed.");
+//                 setError("Incorrect OTP. Please try again.");
+//                 setOtp(["", "", "", ""]);
+//                 otpRefs.current[0]?.focus();
 //             }
-//         } catch (error) {
-//             console.error("Error verifying OTP:", error);
-//             alert("Network error. Please try again.");
+
+
+//             // ✅ Dummy OTP logic for testing
+//             // if (enteredOtp === "1234") {
+//             //     const dummyToken = "dummy_token";
+//             //     localStorage.setItem("authToken", dummyToken); // ✅ Simulate login
+//             //     login(dummyToken); // Use login method from context
+//             //     navigate("/EnhancedQuestions");
+//             // } else {
+//             //     setError("Incorrect OTP. Please enter '1234' for testing.");
+//             //     setOtp(["", "", "", ""]);
+//             //     otpRefs.current[0]?.focus();
+//             // }
+//         } catch {
+//             setError("Network error. Please check your connection.");
 //         }
-//     };
-
-//     const resendOtp = async () => {
-//         setTimer(30);
-//         setCanResend(false);
-
-//         try {
-//             const response = await fetch(
-//                 `${process.env.REACT_APP_BACKEND_URL}/sessions/send_verification_code`,
-//                 {
-//                     method: "POST",
-//                     headers: {
-//                         "Content-Type": "application/json",
-//                     },
-//                     body: JSON.stringify({ mobile_number }),
-//                 }
-//             );
-
-//             const data = await response.json();
-//             console.log("API Response:", data);
-
-//             if (!response.ok) {
-//                 alert(data.message || "Failed to resend OTP. Try again.");
-//             }
-//         } catch (error) {
-//             console.error("Error resending OTP:", error);
-//             alert("Network error. Please try again.");
-//         }
+//         setLoading(false);
 //     };
 
 //     return (
 //         <div className="mobile-login-container">
 //             <div className="login-box">
 //                 <h2>Login to Continue</h2>
-//                 <p>Enter your mobile number to receive a login OTP.</p>
+//                 {error && <p className="error-message">{error}</p>}
 
 //                 {!otpSent ? (
 //                     <>
 //                         <input
-//                             type="text"
+//                             type="tel"
 //                             className="input-field"
 //                             placeholder="Enter Mobile Number"
-//                             value={mobile_number}
+//                             value={mobileNumber}
 //                             onChange={handleMobileChange}
 //                             maxLength="10"
 //                         />
-//                         <button className="button send-otp" onClick={sendOtp}>
-//                             Send OTP
+//                         <button className="button send-otp" onClick={sendOtp} disabled={loading}>
+//                             {loading ? "Sending..." : "Send OTP"}
 //                         </button>
 //                     </>
 //                 ) : (
 //                     <>
-//                         <p>Enter the 6-digit OTP sent to {mobile_number}</p>
+//                         <p>Enter the OTP sent to {mobileNumber}</p>
 //                         <div className="otp-container">
 //                             {otp.map((digit, index) => (
 //                                 <input
 //                                     key={index}
-//                                     id={`otp-${index}`}
+//                                     ref={(el) => { if (el) otpRefs.current[index] = el; }} // Ensure ref is not null
 //                                     type="text"
 //                                     maxLength="1"
 //                                     value={digit}
 //                                     onChange={(e) => handleOtpChange(index, e.target.value)}
+//                                     onKeyDown={(e) => {
+//                                         if (e.key === "Backspace" && !otp[index] && index > 0) {
+//                                             otpRefs.current[index - 1]?.focus();
+//                                         }
+//                                     }}
 //                                 />
 //                             ))}
 //                         </div>
-//                         <button className="button send-otp" onClick={verifyOtp}>
-//                             Verify OTP
+//                         <button className="button send-otp" onClick={verifyOtp} disabled={loading}>
+//                             {loading ? "Verifying..." : "Verify OTP"}
 //                         </button>
-//                         <p className="timer">
-//                             {canResend ? (
-//                                 <button className="button resend-otp" onClick={resendOtp}>
-//                                     Resend OTP
-//                                 </button>
-//                             ) : (
-//                                 `Resend OTP in ${timer}s`
-//                             )}
-//                         </p>
 //                     </>
 //                 )}
 //             </div>

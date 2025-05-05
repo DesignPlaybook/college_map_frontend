@@ -1,115 +1,290 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import for navigation
+import React, { useState, useEffect } from "react";
+import { FaBriefcase, FaGraduationCap, FaBook, FaUniversity, FaRocket } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 import "./Questionaire.scss";
 
 const Questionaire = () => {
-    const navigate = useNavigate(); // Initialize navigation
-    const [rank, setRank] = useState("");
-    const [category, setCategory] = useState("");
-    const [preferences, setPreferences] = useState({
-        placements: null,
-        higherStudies: null,
-        industryExperience: null,
-        globalExposure: null,
-        entrepreneurship: null,
-        financialAid: null,
-    });
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const handleSelection = (key, value) => {
-        setPreferences({ ...preferences, [key]: value });
+    // Preferences Labels
+    const preferenceLabels = {
+        placement_score: "Placement",
+        higher_studies_score: "Higher Studies",
+        academics_experience_score: "Academics & Experience",
+        campus_score: "Campus",
+        entrepreneurship_score: "Entrepreneurship",
+    };
+    const preferenceIcons = {
+        placement_score: <FaBriefcase />,
+        higher_studies_score: <FaGraduationCap />,
+        academics_experience_score: <FaBook />,
+        campus_score: <FaUniversity />,
+        entrepreneurship_score: <FaRocket />,
     };
 
-    const handleSubmit = async () => {
-        const allAnswered = Object.values(preferences).every((val) => val !== null);
-        if (!rank || !category || !allAnswered) {
+
+    // Categories
+    const categories = [
+        "EWS", "EWS (PwD)", "OBC-NCL", "OBC-NCL (PwD)",
+        "OPEN", "OPEN (PwD)", "SC", "SC (PwD)", "ST", "ST (PwD)"
+    ];
+
+    // Initial preferences state
+    const initialPreferences = {
+        placement_score: null,
+        higher_studies_score: null,
+        academics_experience_score: null,
+        campus_score: null,
+        entrepreneurship_score: null,
+    };
+
+    // States
+    const [rank, setRank] = useState("");
+    const [category, setCategory] = useState("");
+    const [gender, setGender] = useState(""); // Add gender state
+    const [preferences, setPreferences] = useState(initialPreferences);
+    const [eligibilityLoading, setEligibilityLoading] = useState(false);
+    const [eligibilityMessage, setEligibilityMessage] = useState("");
+    const [isEligible, setIsEligible] = useState(null);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [showPopup, setShowPopup] = useState(false); // Popup control
+
+    useEffect(() => {
+        // Clear local storage on initial load
+        localStorage.removeItem("rank");
+        localStorage.removeItem("category");
+        localStorage.removeItem("gender");
+        localStorage.removeItem("preferences");
+    }, []);
+
+    const handleSelection = (key, value) => {
+        setPreferences((prev) => ({ ...prev, [key]: value }));
+    };
+
+    // Actual Function to check eligibility
+    const checkEligibility = async (rankVal, categoryVal, genderVal) => {
+        setEligibilityLoading(true);
+        setEligibilityMessage("Checking eligibility...");
+        setIsEligible(null);
+        try {
+            const eligibilityResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/institutes/check_eligibility`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ rank: rankVal, category: categoryVal, gender: genderVal }), // Sending gender here
+            });
+
+            if (eligibilityResponse.ok) {
+                const eligibilityData = await eligibilityResponse.json();
+                if (eligibilityData.institutes && eligibilityData.institutes.length > 0) {
+                    setIsEligible(true);
+                    localStorage.setItem("institutes", JSON.stringify(eligibilityData.institutes)); // Store institutes
+                    console.log(eligibilityData.institutes);
+                    setEligibilityMessage("");
+                } else {
+                    setIsEligible(false);
+                    setEligibilityMessage("You are not eligible for any IITs.");
+                }
+            } else {
+                setIsEligible(false);
+                setEligibilityMessage("You are not eligible for any IITs.");
+            }
+        } catch (err) {
+            setIsEligible(false);
+            setEligibilityMessage("Something went wrong. Please try again.");
+        } finally {
+            setEligibilityLoading(false);
+        }
+    };
+
+    // dummy eligibility fucntion
+    // const checkEligibility = async (rankVal, categoryVal, genderVal) => {
+    //     setEligibilityLoading(true);
+    //     setEligibilityMessage("Checking eligibility...");
+    //     setIsEligible(null);
+
+    //     try {
+    //         // Dummy check: eligible if rank is less than 10000
+    //         if (rankVal && categoryVal && genderVal && parseInt(rankVal) < 10000) {
+    //             const dummyInstitutes = [
+    //                 { name: "IIT Bombay", branch: "CSE" },
+    //                 { name: "IIT Delhi", branch: "ECE" },
+    //             ];
+
+    //             localStorage.setItem("institutes", JSON.stringify(dummyInstitutes));
+    //             setIsEligible(true);
+    //             setEligibilityMessage("");
+    //         } else {
+    //             setIsEligible(false);
+    //             setEligibilityMessage("You are not eligible for any IITs.");
+    //         }
+    //     } catch (err) {
+    //         setIsEligible(false);
+    //         setEligibilityMessage("Something went wrong. Please try again.");
+    //     } finally {
+    //         setEligibilityLoading(false);
+    //     }
+    // };
+
+
+    // Handle submission and confirmation
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (rank <= 0) {
+            setError("Rank must be a positive number.");
+            return;
+        }
+
+        if (!rank || !category || !gender || Object.values(preferences).some((val) => val === null || val === "")) {
             setError("Please fill all fields and answer all questions.");
             return;
         }
 
-        const requestData = { rank, category, preferences };
         setError("");
+        setShowPopup(true);
+    };
+
+    const handleConfirm = async () => {
+        setShowPopup(false);
         setLoading(true);
 
+        localStorage.setItem("rank", rank);
+        localStorage.setItem("category", category);
+        localStorage.setItem("gender", gender);
+        localStorage.setItem("preferences", JSON.stringify(preferences));
+
+        const requestData = { rank, category, preferences, gender };
         try {
-            // Call primary API
-            const submitResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/institutes/primary_result`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/institutes/primary_result`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(requestData),
             });
 
-            if (!submitResponse.ok) {
+            if (!response.ok) {
                 alert("Failed to submit data. Please try again.");
                 return;
             }
 
-            const submitData = await submitResponse.json();
-            console.log("Primary API Response:", submitData);
-
-            // Redirect to ResultsPage and pass data as state
-            navigate("/ResultsPage", { state: { responseData: submitData } });
-
+            const data = await response.json();
+            navigate("/ResultsPage", { state: { responseData: data } });
         } catch (error) {
-            console.error("Network Error:", error);
-            alert("Network error. Please check your connection and try again.");
+            alert("Network error. Please check your connection.");
         } finally {
             setLoading(false);
         }
     };
 
+    const handleCancel = () => {
+        setShowPopup(false);
+    };
+
     return (
-        <div className="find-branch-container">
-            <h1 className="title">Find Your Branch</h1>
-            <p className="subtitle">Enter your details and choose what matters most to you.</p>
-
-            <div className="form-container">
-                <label>JEE Advanced Rank:</label>
-                <input
-                    type="number"
-                    min="1"
-                    value={rank}
-                    onChange={(e) => setRank(e.target.value.replace(/[^0-9]/g, ""))}
-                    placeholder="Enter your rank"
-                />
-
-                <label>Your Category:</label>
-                <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                    <option value="">Select Category</option>
-                    <option value="general">General</option>
-                    <option value="obc">OBC</option>
-                    <option value="sc">SC</option>
-                    <option value="st">ST</option>
-                </select>
-
-                <label>Which are important to you?</label>
-                <div className="yes-no-group">
-                    {Object.keys(preferences).map((key) => (
-                        <div key={key} className="yes-no-option">
-                            <span>{key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}</span>
-                            <button
-                                className={`yes-button ${preferences[key] === true ? "selected" : ""}`}
-                                onClick={() => handleSelection(key, true)}
-                            >
-                                Yes
-                            </button>
-                            <button
-                                className={`no-button ${preferences[key] === false ? "selected" : ""}`}
-                                onClick={() => handleSelection(key, false)}
-                            >
-                                No
-                            </button>
-                        </div>
-                    ))}
+        <div className="questionnaire-container">
+            <h1 className="title">Find the best branch in best IITs</h1>
+            <div className="questionnaire-box">
+                <div className="input-group">
+                    <label>JEE Advanced Rank:</label>
+                    <input
+                        type="number"
+                        value={rank}
+                        onChange={(e) => setRank(e.target.value)}
+                        placeholder="Enter your rank"
+                        min="1"
+                    />
+                </div>
+                <div className="input-group">
+                    <label>Your Category:</label>
+                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                        <option value="">Select Category</option>
+                        {categories.map((cat) => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                    </select>
                 </div>
 
-                {error && <p className="error-message">{error}</p>}
+                <div className="input-group">
+                    <label>Your gender preferences:</label>
+                    <select value={gender} onChange={(e) => setGender(e.target.value)}>
+                        <option value="">Select Gender</option>
+                        <option value="Female-only (including Supernumerary)">Female-only (including Supernumerary)</option>
+                        <option value="gender-Neutral">gender-Neutral</option>
+                    </select>
+                </div>
 
-                <button className="get-results-button" onClick={handleSubmit} disabled={loading}>
-                    {loading ? "Fetching..." : "Get Results"}
-                </button>
+
+                <div className="check-eligibility-container">
+                    <button onClick={() => checkEligibility(rank, category, gender)} disabled={eligibilityLoading}>
+                        {eligibilityLoading ? "Checking Eligibility..." : "Check Eligibility"}
+                    </button>
+                    {eligibilityMessage && <p className="eligibility-message">{eligibilityMessage}</p>}
+                </div>
+
+                {isEligible && (
+                    <>
+                        <div className="preferences-table">
+                            <table>
+                                <tbody>
+                                    {Object.keys(preferences).map((key) => key !== "gender" && (
+                                        <tr key={key}>
+                                            <td>
+                                                <span className="icon-label prefrence-icon-label">
+                                                    <div className="prefrence-icon">{preferenceIcons[key]}</div>
+                                                    <div className="prefrence-name">{preferenceLabels[key]}</div>
+                                                </span>
+                                            </td>
+
+                                            <td>
+                                                <label className={`yes-radio ${preferences[key] === true ? "selected" : ""}`}>
+                                                    <input
+                                                        type="radio"
+                                                        name={key}
+                                                        value="yes"
+                                                        checked={preferences[key] === true}
+                                                        onChange={() => handleSelection(key, true)}
+                                                    />
+                                                    Yes
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label className={`no-radio ${preferences[key] === false ? "selected" : ""}`}>
+                                                    <input
+                                                        type="radio"
+                                                        name={key}
+                                                        value="no"
+                                                        checked={preferences[key] === false}
+                                                        onChange={() => handleSelection(key, false)}
+                                                    />
+                                                    No
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        <button className="get-results-button" onClick={handleSubmit} disabled={loading}>
+                            {loading ? "Fetching..." : "Get Results"}
+                        </button>
+                    </>
+                )}
+
+                {error && <p className="error-message">{error}</p>}
             </div>
+
+            {showPopup && (
+                <div className="confirmation-popup">
+                    <div className="popup-content">
+                        <p>Please note that preferences cannot be changed later.</p>
+                        <p>Are you sure you want to submit your responses?</p>
+                        <div className="popup-buttons">
+                            <button className="confirm" onClick={handleConfirm}>Yes</button>
+                            <button className="cancel" onClick={handleCancel}>No</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
