@@ -126,7 +126,7 @@ const EnhancedQuestions = () => {
         console.log("Sending Data:", comparisons);
 
         const requestData = comparisons.map(comparison => {
-            const comparisonKey = `${comparison.preference1}_${comparison.preference2}`;
+            const comparisonKey = `${comparison.preference1}-${comparison.preference2}`;
             const comparisonValue = importanceLevels.find(level => level.label === comparison.comparison)?.value;
 
             return {
