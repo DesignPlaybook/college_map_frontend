@@ -1,16 +1,24 @@
 import React from 'react';
 import './Team.scss';
-import defaultphoto from "../../assets/default_photo.jpg"; // Import default photo
+import defaultphoto from "../../assets/default_photo.jpg";
+import tanvi from "../../assets/Team/Tanvi_Indore_Strategic_Advisor.jpg";
+import anuj from '../../assets/Team/AnujPatel_IITB_FounderAndCEO.png';
+import bhoomi from "../../assets/Team/Bhoomi_IITB_StrategicPartnershipsLead.jpeg";
+import divyanshi from "../../assets/Team/Divyanshi_Agrawal_IITB_VisualDesigner.jpeg";
+import veera from "../../assets/Team/VeeraVenkat_IITPalakkad_CollegeCounsellingOperationsLead.jpeg";
+import vijyusha from "../../assets/Team/Vijyusha_IIT Indore_Data_Analyst.jpg";
+import aditya from "../../assets/Team/adityanamdeo_iitbhu_dataanalyst.jpg";
+import kamalesh from "../../assets/Team/Kamalesh_IITBhilai_HeadOfMarketing.png"
 
 const teamMembers = [
-    { name: 'Varun', role: 'CEO and Co-founder', img: '/assets/varun.jpg', url: "https://phosphoricons.com/?q=%22linkdin%22&color=%220e76a8%22&size=20" },
-    { name: 'Rajan', role: 'COO and Co-founder', img: '/assets/rajan.jpg', url: "https://phosphoricons.com/?q=%22linkdin%22&color=%220e76a8%22&size=20" },
-    { name: 'Kumar Pratul', role: 'Strategy & Growth - Founder\'s Office', img: '/assets/kumar.jpg', url: "https://phosphoricons.com/?q=%22linkdin%22&color=%220e76a8%22&size=20" },
-    { name: 'Divyanshu', role: 'Lead - Tech and Engineering', img: '/assets/divyanshu.jpg', url: "https://phosphoricons.com/?q=%22linkdin%22&color=%220e76a8%22&size=20" },
-    { name: 'Abhishek', role: 'Lead - Digital Marketing', img: '/assets/abhishek.jpg', url: "https://phosphoricons.com/?q=%22linkdin%22&color=%220e76a8%22&size=20" },
-    { name: 'Shreya Sengupta', role: 'Lead - Human Resources', img: '/assets/shreya.jpg', url: "https://phosphoricons.com/?q=%22linkdin%22&color=%220e76a8%22&size=20" },
-    { name: 'Gourav Salotra', role: 'Lead - Product', img: '/assets/gourav.jpg', url: "https://phosphoricons.com/?q=%22linkdin%22&color=%220e76a8%22&size=20" },
-    { name: 'Naveen', role: 'Lead - Finance Solution', img: '/assets/naveen.jpg', url: "https://phosphoricons.com/?q=%22linkdin%22&color=%220e76a8%22&size=20" },
+    { iit: "IIT Bombay", name: 'Anuj Patel', role: 'Founder and CEO', img: anuj, url: "https://www.linkedin.com/in/anuj-patel-679550297/" },
+    { iit: "IIT Indore", name: 'Tanvi Warvadekar', role: 'Strategic Advisor', img: tanvi, url: "https://www.linkedin.com/in/tanvi-warvadekar/" },
+    { iit: "IIT Bhilai", name: 'Kamlesh Swargam', role: 'Head of Marketing', img: kamalesh, url: "https://www.linkedin.com/in/kamaleshswargam/" },
+    { iit: "IIT Bombay", name: 'Bhoomi Singhvi', role: 'Strategic Partnerships Lead', img: bhoomi, url: "https://www.linkedin.com/in/bhoomisinghvi/" },
+    { iit: "IIT Palakkad", name: 'Veera Venkat', role: 'College Counselling Operations Lead', img: veera, url: "https://www.linkedin.com/in/veera-venkat-408178280/" },
+    { iit: "IIT Bombay", name: 'Divyanshi Agarwal', role: 'Visual Designer', img: divyanshi, url: "https://www.linkedin.com/company/collegemap/" },
+    { iit: "IIT BHU", name: 'Aditya Namdeo', role: 'Data Analyst', img: aditya, url: "https://www.linkedin.com/in/aditya-namdeo-922aaa27b/" },
+    { iit: "IIT Indore", name: 'Vijyusha Burra', role: 'Data Analyst', img: vijyusha, url: "https://www.linkedin.com/in/vijyusha-burra-5654a2297/" },
 ];
 
 const Team = () => {
@@ -20,8 +28,8 @@ const Team = () => {
 
     return (
         <section className="team" id='Team'>
-            <h2>Meet Our Team</h2>
-            <p>We are building the future of E-Mentoring</p>
+            <h2 className='Main-Heading'>Meet Our Team</h2>
+            <p>Meet the genius minds behind CollegeMap</p>
             <div className="team-grid">
                 {teamMembers.map((member, index) => (
                     <div key={index} className="member">
@@ -33,7 +41,11 @@ const Team = () => {
                             />
                         </div>
                         <h4>{member.name}</h4>
-                        <a href={member.url} target='_blank' rel="noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0e76a8" viewBox="0 0 256 256"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"></path></svg></a>
+                        <h5 className='role'>{member.role}</h5>
+                        <h6 className='member-itt'>{member.iit}</h6>
+                        <a href={member.url} target='_blank' rel="noreferrer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#0077b7" viewBox="0 0 256 256"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24ZM96,176a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0ZM88,96a12,12,0,1,1,12-12A12,12,0,0,1,88,96Zm96,80a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140Z"></path></svg>
+                        </a>
                     </div>
                 ))}
             </div>

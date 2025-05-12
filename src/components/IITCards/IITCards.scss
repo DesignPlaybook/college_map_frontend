@@ -33,6 +33,10 @@
             transition: transform 0.3s ease;
             width: 90% !important;
 
+            @media (max-width: 575px) {
+                margin: 0;
+            }
+
             .card-inner {
                 background: var(--background);
                 border: 1px solid var(--light-green-blue);
@@ -79,6 +83,10 @@
 
 .slick-slider {
     margin: 0 2rem;
+
+    @media (max-width: 768px) {
+        margin: 0;
+    }
 }
 
 // Slick arrows styling

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
 import Layout from "./components/Layout/Layout";
@@ -15,6 +15,9 @@ import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import Team from "./components/Team/Team";
 import CancellationRefundPolicy from "./pages/CancellationRefundPolicy/CancellationRefundPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions/TermsAndConditions";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import ProtectedRoute from "./Routes/ProtectedRoute";
+import HowItWorks2 from "./pages/HowItWorks/HowItWorks2";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -51,17 +54,19 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <Layout isLoggedIn={isLoggedIn}> {/* Pass login state to Layout */}
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/Questionaire" element={<Questionaire />} />
           <Route path="/ResultsPage" element={<ResultsPage />} />
           <Route path="/MobileLogin" element={<MobileLogin />} />
-          <Route path="/EnhancedResults" element={<EnhancedResults />} />
-          <Route path="/EnhancedQuestions" element={<EnhancedQuestions />} />
+          {/* Correct placement of ProtectedRoute */}
+          <Route path="/EnhancedQuestions" element={<ProtectedRoute><EnhancedQuestions /></ProtectedRoute>} />
           <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/Contact-Us" element={<ContactUs />} />
           <Route path="/HowItWorks" element={<HowItWorks />} />
+          <Route path="/HowItWorks2" element={<HowItWorks2 />} />
           <Route path="/Privacy-Policy" element={<PrivacyPolicy />} />
           <Route path="/Our-Team" element={<Team />} />
           <Route path="/Cancellation-and-Refund" element={<CancellationRefundPolicy />} />

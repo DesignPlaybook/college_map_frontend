@@ -1,16 +1,18 @@
+@import "../colortheme.scss";
+
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    background: #fff;
+    padding: 0 2rem;
+    background: #002d2d;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
 
     .logo {
-        width: 12rem;
+        width: 11rem;
 
         span {
             color: #10c3bc;
@@ -59,7 +61,7 @@
 
         li a {
             text-decoration: none;
-            color: #333;
+            color: $white;
             font-weight: 500;
 
             &:hover {
@@ -71,10 +73,10 @@
 
             display: none;
             position: absolute;
-            top: 70px;
+            top: 50px;
             left: 0;
             right: 0;
-            background: white;
+            background: #005d63;
             flex-direction: column;
             align-items: flex-start;
             padding: 1rem 2rem;
@@ -104,7 +106,7 @@
             span {
                 height: 3px;
                 width: 25px;
-                background: #333;
+                background: #ffffff;
                 border-radius: 2px;
                 transition: 0.3s ease;
             }

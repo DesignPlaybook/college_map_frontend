@@ -42,7 +42,7 @@ const Testimonials = () => {
         speed: 500,
         slidesToShow: testimonials.length < 3 ? testimonials.length : 3,
         slidesToScroll: 1,
-        autoplay: true,
+        autoplay: false,
         autoplaySpeed: 2000, // 3000ms = 3 seconds per slide
 
         responsive: [

@@ -4,26 +4,27 @@ import vision from "../../assets/vision.png";
 
 const features = [
     {
-        title: 'Own Study Universe',
-        description: 'Create your very own study room with atmospheric backgrounds, personal timers, and goals.',
+        title: 'Find Your Ideal College',
+        description: 'Get instant college suggestions for free, based on your performance.',
         image: vision
     },
     {
-        title: 'Group Study Rooms',
-        description: 'Join motivated students from all over the world to boost your productivity and find your study flow.',
+        title: 'Unlock Advanced Results',
+        description: 'Unlock deeper insights about your choices, at a low cost.',
         image: vision
     },
     {
-        title: 'Free Tutor Help!',
-        description: 'Feeling stuck? Just raise your hand and one of our expert community tutors will jump in and help.',
+        title: '1-on-1 Mentoring',
+        description: 'Talk directly to current students studying at IIT for personalized guidance.',
         image: vision
     }
 ];
 
+
 const WhySection = () => {
     return (
         <section className="why">
-            <h2>Why CollegeMap?</h2>
+            <h2 className='Main-Heading'>Why CollegeMap?</h2>
             <div className="feature-grid">
                 {features.map((feature, index) => (
                     <div key={index} className="feature">

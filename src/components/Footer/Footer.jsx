@@ -1,58 +1,57 @@
 import React from 'react';
 import './Footer.scss';
-import { FaInstagram, FaLinkedin, FaTelegramPlane, FaFacebookF } from 'react-icons/fa';
+import { FaInstagram, FaLinkedin, FaTelegramPlane, FaWhatsapp } from 'react-icons/fa';
 import logo from "../../assets/logo/collegeMapLogo.png";
-import termsandconditions from "../../assets/PDF/Terms&Conditions.pdf";
 
 const Footer = () => {
     return (
         <footer className="footer">
-            <div className="footer-grid">
-                <div className="footer-section">
-                    <img src={logo} alt="CollegeMap Logo" className="footer-logo" />
+            <div className="footer__container">
+                <div className="footer__section logo-section">
+                    <img src={logo} alt="CollegeMap Logo" className="footer__logo" />
                 </div>
 
-                <div className="footer-section">
-                    <h4>CollegeMap</h4>
-                    <ul>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="Questionaire">Find Your Branch</a></li>
+                <div className="footer__section links-section">
+                    <h4 className="footer__heading">CollegeMap</h4>
+                    <ul className="footer__list">
+                        <li className="footer__list-item"><a href="/" className="footer__link">Home</a></li>
+                        <li className="footer__list-item"><a href="/Questionaire" className="footer__link">Find Your Branch</a></li>
                     </ul>
                 </div>
 
-                <div className="footer-section">
-                    <h4>About</h4>
-                    <ul>
-                        <li><a href="#">IIT News</a></li>
-                        <li><a href="/HowItWorks">How We Work?</a></li>
-                        <li><a href="/AboutUs">About Us</a></li>
-                        <li><a href="/#Team">Our Team</a></li>
-                        <li><a href="/Contact-us">Contact Us</a></li>
+                <div className="footer__section links-section">
+                    <h4 className="footer__heading">About</h4>
+                    <ul className="footer__list">
+                        <li className="footer__list-item"><a href="#" className="footer__link">IIT News</a></li>
+                        <li className="footer__list-item"><a href="/HowItWorks" className="footer__link">How We Work?</a></li>
+                        <li className="footer__list-item"><a href="/AboutUs" className="footer__link">About Us</a></li>
+                        <li className="footer__list-item"><a href="/#Team" className="footer__link">Our Team</a></li>
+                        <li className="footer__list-item"><a href="/Contact-us" className="footer__link">Contact Us</a></li>
                     </ul>
                 </div>
 
-                <div className="footer-section">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="/Privacy-Policy">Privacy Policy</a></li>
-                        <li><a href="/Terms-and-Conditions">Terms and Conditions</a></li>
-                        <li><a href="/Cancellation-and-Refund">Cancellation & Refund</a></li>
+                <div className="footer__section links-section">
+                    <h4 className="footer__heading">Legal</h4>
+                    <ul className="footer__list">
+                        <li className="footer__list-item"><a href="/Privacy-Policy" className="footer__link">Privacy Policy</a></li>
+                        <li className="footer__list-item"><a href="/Terms-and-Conditions" className="footer__link">Terms & Conditions</a></li>
+                        <li className="footer__list-item"><a href="/Cancellation-and-Refund" className="footer__link">Cancellation & Refund</a></li>
                     </ul>
                 </div>
 
-                <div className="footer-section social-section">
-                    <h4>Follow us</h4>
-                    <div className="social-icons">
-                        <a href="#"><FaInstagram /></a>
-                        <a href="#"><FaLinkedin /></a>
-                        <a href="#"><FaTelegramPlane /></a>
-                        <a href="#"><FaFacebookF /></a>
+                <div className="footer__section social-section">
+                    <h4 className="footer__heading">Follow us</h4>
+                    <div className="footer__social-icons">
+                        <a href="#" className="footer__social-link"><FaInstagram /></a>
+                        <a href="#" className="footer__social-link"><FaLinkedin /></a>
+                        <a href="#" className="footer__social-link"><FaTelegramPlane /></a>
+                        <a href="#" className="footer__social-link"><FaWhatsapp /></a>
                     </div>
                 </div>
             </div>
 
-            <div className="footer-bottom">
-                <p>&copy; {new Date().getFullYear()} CollegeMap. All rights reserved.</p>
+            <div className="footer__bottom">
+                <p className="footer__copyright">&copy; {new Date().getFullYear()} CollegeMap. All rights reserved.</p>
             </div>
         </footer>
     );

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "./ResultsPage.scss";
 
 const ResultsPage = () => {
@@ -8,6 +9,9 @@ const ResultsPage = () => {
     const [results, setResults] = useState([]);
     const [userSession, setUserSession] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showLoginPopup, setShowLoginPopup] = useState(false);
+    const { isLoggedIn } = useAuth();
+
 
     // actual useffect
     useEffect(() => {
@@ -132,34 +136,71 @@ const ResultsPage = () => {
     //     setLoading(false);
     // }, [location.state]);
 
-
+    // actual handleEnahcnedResult
     const handleEnhancedResults = () => {
         const savedSession = localStorage.getItem("userSession");
 
         if (!savedSession) {
-            alert("Please log in to access enhanced results.");
+            setShowLoginPopup(true);
+            return;
+        }
+        if (!isLoggedIn) {
             navigate("/MobileLogin", { state: { redirectTo: "/EnhancedQuestions" } });
             return;
         }
-
         const session = JSON.parse(savedSession);
 
         // Bypass payment check for now
         /*
-        if (!session.isPaid) {
-            alert("Complete your payment to unlock enhanced results.");
-            navigate("/payment");
-            return;
-        }
-        */
-
+        if (session.isPaid) {
         const preferences = JSON.parse(localStorage.getItem("preferences")) || {};
         const selectedYesAnswers = Object.keys(preferences).filter(key => preferences[key] === true);
 
         console.log("Selected preferences before navigation:", selectedYesAnswers); // Debugging log
 
         navigate("/EnhancedQuestions", { state: { preferences: selectedYesAnswers } });
+             }
+         else {
+            alert("Complete your payment to unlock enhanced results.");
+            navigate("/payment");
+            return;
+        }
+        */
+
+
     };
+
+
+    // Dummy
+    // const handleEnhancedResults = () => {
+    //     const preferences = {
+    //         placement_score: false,
+    //         higher_studies_score: false,
+    //         academics_experience_score: false,
+    //         campus_score: false,
+    //         entrepreneurship_score: true
+    //     };
+
+    //     const selectedYesAnswers = Object.keys(preferences).filter(key => preferences[key] === true);
+
+    //     console.log("Bypassing auth → Going to EnhancedQuestions");
+
+    //     navigate("/EnhancedQuestions", {
+    //         state: {
+    //             preferences: selectedYesAnswers,
+    //             dummyData: {
+    //                 rank: "4862",
+    //                 category: "OPEN",
+    //                 gender: "gender-Neutral",
+    //                 preferences,
+    //                 institutes: [
+    //                     { institute_id: "123", institute_name: "IIT Bombay", branch: "CSE" },
+    //                     { institute_id: "124", institute_name: "IIT Madras", branch: "ECE" }
+    //                 ]
+    //             }
+    //         }
+    //     });
+    // };
 
     const handleLogout = () => {
         localStorage.removeItem("userSession");
@@ -170,54 +211,61 @@ const ResultsPage = () => {
     if (loading) return <p>Loading results...</p>;
 
     return (
-        <div className="results-container">
-
-            <div className="table-container">
-                <table className="results-table">
-                    <thead>
-                        <tr>
-                            <th colSpan={2}>
-                                <h1>Best Institutes & Branches for You</h1>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>Institute Name</th>
-                            <th>Available Branches</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {results.slice(0, 5).map((institute, index) => (
-                            <tr key={index}>
-                                <td>{institute.name}</td>
-                                <td>
-                                    <ul>
-                                        {(institute.branches || []).map((branch, idx) => (
-                                            <li key={idx}>{branch}</li>
-                                        ))}
-                                    </ul>
-                                </td>
-                            </tr>
-                        ))}
-                        <tr>
-                            <td colSpan={2} className="enhanced-button-cell">
-                                <button className="enhanced-results" onClick={handleEnhancedResults}>
-                                    Get Enhanced Results - More Personalized
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-
-            {userSession && (
-                <div className="profile-section">
-                    <p>Welcome, {userSession.name || "User"}!</p>
-                    <button className="logout-button" onClick={handleLogout}>Sign Out</button>
+        <>
+            {showLoginPopup && (
+                <div className="popup-overlay">
+                    <div className="popup">
+                        <p>Please log in to access Advanced results.</p>
+                        <button onClick={() => navigate("/MobileLogin", { state: { redirectTo: "/EnhancedQuestions" } })}>
+                            Log In
+                        </button>
+                        <button className="popup-close" onClick={() => setShowLoginPopup(false)}>
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             )}
-        </div>
+
+            <div className="results-container">
+
+                <div className="table-container">
+                    <table className="results-table">
+                        <thead>
+                            <tr>
+                                <th colSpan={2}>
+                                    <h1>Best Institutes & Branches for You</h1>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Institute Name</th>
+                                <th>Available Branches</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {results.slice(0, 5).map((institute, index) => (
+                                <tr key={index}>
+                                    <td>{institute.name}</td>
+                                    <td>
+                                        <ul>
+                                            {(institute.branches || []).map((branch, idx) => (
+                                                <li key={idx}>{branch}</li>
+                                            ))}
+                                        </ul>
+                                    </td>
+                                </tr>
+                            ))}
+                            <tr>
+                                <td colSpan={2} className="enhanced-button-cell">
+                                    <button className="enhanced-results" onClick={handleEnhancedResults}>
+                                        Get Advanced Results - More Personalized
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </>
     );
 };
 

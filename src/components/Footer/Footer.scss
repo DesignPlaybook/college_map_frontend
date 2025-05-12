@@ -1,95 +1,105 @@
-.footer {
-    background-color: #e6f0fa; // Soft light blue
-    padding: 2rem;
-    font-family: 'Arial', sans-serif;
-    color: #333;
+@import '../../components/colortheme.scss'; // Assuming your variables file path
 
-    .footer-grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 2rem;
+.footer {
+    background-color: $footer-bg;
+    color: $text-light;
+    padding: 2rem 1rem; // Adjust vertical padding as needed
+
+    &__container {
         max-width: 1200px;
         margin: 0 auto;
-    }
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); // Responsive grid
+        gap: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid $davys-gray;
 
-    .footer-section {
-        flex: 1 1 150px;
-        min-width: 150px;
-
-        h4 {
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-            font-weight: bold;
+        @media (max-width: 768px) {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.5rem;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
-
-            li {
-                margin-bottom: 0.5rem;
-
-                a {
-                    text-decoration: none;
-                    color: #333;
-                    transition: color 0.3s ease;
-
-                    &:hover {
-                        color: #0077cc;
-                    }
-                }
-            }
-        }
-
-        p {
-            margin: 0.5rem 0;
+        @media (max-width: 576px) {
+            grid-template-columns: 1fr; // Stack sections on smaller screens
+            gap: 2rem;
         }
     }
 
-    .footer-logo {
-        width: 150px;
-        margin-bottom: 1rem;
-    }
-
-    .social-section {
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-            font-size: 1.5rem;
-
-            a {
-                color: #00bcd4; // Bright blue for icons
-                transition: color 0.3s ease;
-
-                &:hover {
-                    color: #0077cc;
-                }
-            }
-        }
-    }
-
-    .footer-bottom {
-        text-align: center;
-        margin-top: 2rem;
-        font-size: 0.9rem;
-        color: #666;
-    }
-}
-
-// Responsiveness
-@media (max-width: 768px) {
-    .footer-grid {
+    &__section {
+        display: flex;
         flex-direction: column;
-        align-items: center;
+
+        &.logo-section {
+            align-items: flex-start;
+        }
+
+        &.social-section {
+            align-items: flex-start;
+
+            @media (max-width: 576px) {
+                align-items: center;
+            }
+        }
+    }
+
+    &__logo {
+        max-height: 80px;
+        width: auto;
+        padding-top: 10px;
+    }
+
+    &__heading {
+        color: $text-light;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+
+    &__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    &__list-item {
+        margin-bottom: 0.5rem;
+    }
+
+    &__link {
+        color: $text-muted;
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: $primary;
+        }
+    }
+
+    &__social-icons {
+        display: flex;
+        gap: 1rem;
+        font-size: 1.5rem;
+
+        @media (max-width: 576px) {
+            justify-content: center; // Center icons on smaller screens
+        }
+    }
+
+    &__social-link {
+        color: $text-muted;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: $primary;
+        }
+    }
+
+    &__bottom {
+        padding: 1rem;
         text-align: center;
+        color: $text-muted;
     }
 
-    .footer-section {
-        margin-bottom: 2rem;
-    }
-
-    .social-section .social-icons {
-        justify-content: center;
+    &__copyright {
+        font-size: 0.9rem;
     }
 }

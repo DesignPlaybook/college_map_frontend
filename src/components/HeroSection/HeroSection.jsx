@@ -10,16 +10,17 @@ const HeroSection = () => {
                     <img src={HeroImage} alt="Confused Students" />
                 </div>
                 <div className="hero-right">
-                    <h1>
-                        Welcome To <span>CollegeMap!</span>
+                    <h1 className="Main-Heading">
+                        Welcome To CollegeMap!
                     </h1>
                     <p>
-                        One of the major concerns that come to mind after the completion of the JEE Main 2025 exam
-                        is the JEE Main rank prediction. A good rank ensures a promising future and admission to your
-                        dream college. If you are one such student who has completed
+                        Confused about which IIT or branch to choose after JEE? You're not alone!
+                        <br></br>
+                        <br></br>
+                        <strong>CollegeMap</strong> is built <strong>by IITians, for future IITians</strong>, to help you make smarter decisions based on real data — not just guesswork. Whether you're trying to understand past cutoffs, compare placements, or find the best fit for your rank, we've got you covered.
                     </p>
-                    <p className="bold">No login/signup required. Try for FREE</p>
-                    <button className="cta-button"><a href="/Questionaire">Try Now!</a></button>
+                    <p className="bold">No login/signup required.</p>
+                    <button className="cta-button"><a href="/Questionaire">Try for FREE!</a></button>
                 </div>
             </div>
         </section>
