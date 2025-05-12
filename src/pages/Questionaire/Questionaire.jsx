@@ -10,9 +10,9 @@ const Questionaire = () => {
     const preferenceLabels = {
         placement_score: "Placement",
         higher_studies_score: "Higher Studies",
-        academics_experience_score: "Academics & Experience",
-        campus_score: "Campus",
-        entrepreneurship_score: "Entrepreneurship",
+        academics_experience_score: "Academic Experience",
+        campus_score: "Campus Experience",
+        entrepreneurship_score: "Entrepreneurship Culture",
     };
     const preferenceIcons = {
         placement_score: <FaBriefcase />,
@@ -208,21 +208,22 @@ const Questionaire = () => {
                     <label>Your gender preferences:</label>
                     <select value={gender} onChange={(e) => setGender(e.target.value)}>
                         <option value="">Select Gender</option>
-                        <option value="Female-only (including Supernumerary)">Female-only (including Supernumerary)</option>
-                        <option value="gender-Neutral">gender-Neutral</option>
+                        <option value="Female-only (including Supernumerary)">Female-only (Including Supernumerary)</option>
+                        <option value="gender-Neutral">Gender-Neutral</option>
                     </select>
                 </div>
 
 
                 <div className="check-eligibility-container">
                     <button onClick={() => checkEligibility(rank, category, gender)} disabled={eligibilityLoading}>
-                        {eligibilityLoading ? "Checking Eligibility..." : "Check Eligibility"}
+                        {eligibilityLoading ? "Checking Eligibility..." : "Get Results"}
                     </button>
                     {eligibilityMessage && <p className="eligibility-message">{eligibilityMessage}</p>}
                 </div>
 
                 {isEligible && (
                     <>
+                        <h1 className="ques">Which of these are important to you?</h1>
                         <div className="preferences-table">
                             <table>
                                 <tbody>

@@ -20,7 +20,7 @@ const CancellationRefundPolicy = () => {
                 <section>
                     <h2>Definitions</h2>
                     <ul>
-                        <li><strong>Enhanced Model:</strong> Custom built tool that gives personalized college suggestions based on student inputs.</li>
+                        <li><strong>Advanced Model:</strong> Custom built tool that gives personalized college suggestions based on student inputs.</li>
                         <li><strong>Career Counseling:</strong> One-on-one guidance from expert mentors to help students align their academic goals and preferences.</li>
                         <li><strong>Confirmed Counseling:</strong> A session is considered “confirmed” once CollegeMap assigns and shares the counselor’s details with the user.</li>
                     </ul>
@@ -29,7 +29,7 @@ const CancellationRefundPolicy = () => {
                 <section>
                     <h2>Cancellation Policy</h2>
                     <ul>
-                        <li><strong>Enhanced Model Access:</strong> Once payment is made and the model results are displayed, the transaction is non-cancellable and non-refundable.</li>
+                        <li><strong>Advanced Model Access:</strong> Once payment is made and the model results are displayed, the transaction is non-cancellable and non-refundable.</li>
                         <li><strong>Career Counseling:</strong> Users may cancel before counselor assignment confirmation. After confirmation, no cancellations will be accepted.</li>
                         <li><strong>Free Services:</strong> No cancellation required, as they do not involve payments.</li>
                     </ul>
@@ -45,7 +45,7 @@ const CancellationRefundPolicy = () => {
 
                     <h3>No Refunds Will Be Issued:</h3>
                     <ul>
-                        <li>After Enhanced Model results are shown.</li>
+                        <li>After Advanced Model results are shown.</li>
                         <li>After counselor assignment for Career Counseling is confirmed.</li>
                         <li>For dissatisfaction based on personal opinion or change of mind.</li>
                         <li>For incorrect user inputs (e.g., wrong rank or preferences).</li>

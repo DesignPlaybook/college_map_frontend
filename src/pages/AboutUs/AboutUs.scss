@@ -1,9 +1,12 @@
 @import '../../components/colortheme.scss'; // assuming you store your colors here
 
 .about-us {
-    padding: 2rem;
     background-color: var(--background);
     color: var(--text-dark);
+
+    #Team {
+        background-color: var(--primary3);
+    }
 
     .intro {
         text-align: center;
@@ -26,6 +29,7 @@
         display: flex;
         flex-direction: column;
         gap: 4rem;
+        padding: 2rem 10rem;
 
         .item {
             display: flex;
@@ -40,7 +44,7 @@
             }
 
             .text {
-                max-width: 600px;
+                // max-width: 600px;
 
                 h2 {
                     font-size: 2rem;
@@ -49,12 +53,13 @@
                 }
 
                 p {
-                    color: var(--text-muted);
+                    color: var(--text-dark);
+                    font-size: 20px;
                 }
             }
 
             &.reverse {
-                flex-direction: row-reverse;
+                // flex-direction: row-reverse;
             }
         }
     }
@@ -110,8 +115,9 @@
         background-color: var(--primary2);
         color: var(--background);
         text-align: center;
-        padding: 3rem 2rem;
-        border-radius: 12px;
+        padding: 2rem 2rem;
+        // border-radius: 12px;
+        // background-image: "../../assets/";
 
         h2 {
             font-size: 2rem;
@@ -122,6 +128,8 @@
 /* Responsiveness */
 @media (max-width: 768px) {
     .vision-mission {
+        padding: 1rem;
+
         .item {
             flex-direction: column;
             text-align: center;

@@ -27,7 +27,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 180px;
+        height: 217px;
         transition: transform 0.3s;
 
         &:hover {
@@ -76,6 +76,16 @@
             font-weight: 600;
         }
 
+        h4,
+        .role,
+        .member-itt {
+            margin: 0;
+        }
+
+        .member-itt {
+            color: var(--light-green-blue);
+        }
+
         a {
             margin-top: 0.5rem;
             display: inline-block;
@@ -95,7 +105,6 @@
         }
 
         .member {
-            height: 150px; // adjust size on mobile
 
             .photo {
                 width: 80px; // smaller image size on mobile

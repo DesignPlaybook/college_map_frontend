@@ -1,5 +1,5 @@
 import React from "react";
-import "./HowItWorks.scss";
+import "./HowItWorks2.scss";
 
 const steps = [
     {
@@ -49,23 +49,28 @@ const steps = [
 const HowItWorks = () => {
 
     return (
-        // IDEA ONE
-        <div className="how-it-works-workbook">
+        // IDEA TWO
+        <div className="how-it-works-ladder">
             <h2 className="main-heading">How It Works</h2>
 
-            {steps.map((step, index) => (
-                <div key={step.id} id={step.id} className="workbook-step">
-                    <div className="step-header">
-                        <span className="step-number">Step {index + 1}</span>
-                        <h3 className="step-title">{step.title}</h3>
+            <div className="ladder-container">
+                {steps.map((step, index) => (
+                    <div key={step.id} id={step.id} className={`ladder-step ${index % 2 === 0 ? "left" : "right"}`}>
+                        <div className="step-card">
+                            <div className="step-header">
+                                <span className="step-number">Step {index + 1}</span>
+                                <h3 className="step-title">{step.title}</h3>
+                            </div>
+                            <div className="step-content">
+                                <span className="step-icon">{step.icon}</span>
+                                <p>{step.description}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div className="step-content">
-                        <div className="step-icon">{step.icon}</div>
-                        <p>{step.description}</p>
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
+
     );
 };
 

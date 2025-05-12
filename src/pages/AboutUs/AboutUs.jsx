@@ -1,54 +1,87 @@
 import React from 'react';
 import './AboutUs.scss';
-
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 import vision from '../../assets/aboutus/vision.png';
 import mission from '../../assets/aboutus/mission.png';
 import usp from '../../assets/aboutus/usp.png';
 import visionImg from "../../assets/vision.png"
-// import missionImg from '../../assets/mission.png';
-// import uspImg from '../../assets/usp.png';
-// import chartLine from '../../assets/chart-line.png';
-// import chartBar from '../../assets/chart-bar.png';
-// import chartScatter from '../../assets/chart-scatter.png';
+import Team from "../../components/Team/Team";
+import Banner from '../../components/Banner/Banner';
+const SlideInSection = ({ children, direction = 'left' }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
+
+    const variants = {
+        hidden: {
+            opacity: 0,
+            x: direction === 'left' ? -100 : 100,
+        },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: { duration: 0.8 },
+        },
+    };
+
+    return (
+        <motion.div
+            ref={ref}
+            initial="hidden"
+            animate={isInView ? 'visible' : 'hidden'}
+            variants={variants}
+        >
+            {children}
+        </motion.div>
+    );
+};
 
 const AboutUs = () => {
     return (
         <div className="about-us">
-            <section className="intro">
+            <Banner />
+            {/* <section className="iit-section banner-section">
+                <h2>By IITians for Future IITians</h2>
+            </section> */}
+            {/* <section className="intro">
                 <h1>About Us</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vehicula cursus lorem, a tincidunt nunc fermentum non.</p>
-            </section>
-
+            </section> */}
             <section className="vision-mission">
-                <div className="item">
-                    <img src={vision} alt="Vision" />
-                    <div className="text">
-                        <h2>Our Vision</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis egestas rhoncus.</p>
+                <SlideInSection direction="left">
+                    <div className="item">
+                        <img src={vision} alt="Vision" />
+                        <div className="text">
+                            <h2 className='Main-Heading'>Our Vision</h2>
+                            <p>Encouraging the students of India for personal and national development</p>
+                        </div>
                     </div>
-                </div>
+                </SlideInSection>
 
-                <div className="item reverse">
-                    <div className="text">
-                        <h2>Our Mission</h2>
-                        <p>Aliquam erat volutpat. Curabitur convallis, mauris a tincidunt luctus, nunc eros malesuada magna, et placerat.</p>
+                <SlideInSection direction="right">
+                    <div className="item reverse">
+                        <div className="text">
+                            <h2 className='Main-Heading'>Our Mission</h2>
+                            <p>Everything we do at CollegeMap, we believe in challenging the problems faced by students. We are doing this by helping engineering students to find the right college.</p>
+                        </div>
+                        <img src={mission} alt="Mission" />
                     </div>
-                    <img src={mission} alt="Mission" />
-                </div>
+                </SlideInSection>
 
-                <div className="item">
-                    <img src={usp} alt="USP" />
-                    <div className="text">
-                        <h2>USP</h2>
-                        <p>Praesent sit amet libero vel ex maximus vulputate. Cras ultricies lorem at augue porta vehicula.</p>
+                <SlideInSection direction="left">
+                    <div className="item">
+                        <img src={usp} alt="USP" />
+                        <div className="text">
+                            <h2 className='Main-Heading'>USP</h2>
+                            <p><strong>CollegeMap is the only platform that turns your JEE rank into real, personalized IIT and branch insights — instantly. </strong>Unlike generic cutoff lists or outdated advice, we blend placement data, closing rank trends, and future potential to show you exactly where you belong. Built by IITians who cracked the code, CollegeMap isn’t just a guide — it’s your shortcut to a smarter, data-driven decision. No logins. No fluff. Just the clarity you need when it matters most.</p>
+                        </div>
                     </div>
-                </div>
+                </SlideInSection>
             </section>
 
+            {/* 
             <section className="stats">
                 <h2>Stats</h2>
                 <div className="chart">
-                    {/* You can later replace this with an actual chart */}
                     <img src={visionImg} alt="Stats Chart" />
                 </div>
                 <div className="figures">
@@ -69,11 +102,8 @@ const AboutUs = () => {
                         <p>where students take LIVE classes</p>
                     </div>
                 </div>
-            </section>
-
-            <section className="iit-section">
-                <h2>By IITians for IITians</h2>
-            </section>
+            </section> */}
+            <Team />
         </div>
     );
 };
