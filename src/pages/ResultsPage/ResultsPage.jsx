@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./ResultsPage.scss";
+import VideoEmbedComponent from "../../components/VideoEmbedComponent/VideoEmbedComponent";
 
 const ResultsPage = () => {
     const location = useLocation();
@@ -15,55 +16,21 @@ const ResultsPage = () => {
 
     // actual useffect
     useEffect(() => {
-        // Load user session from local storage
         const savedSession = localStorage.getItem("userSession");
         if (savedSession) {
             setUserSession(JSON.parse(savedSession));
         }
-
         setLoading(true);
-
-        // Check if results are coming from navigation state
         if (location.state?.responseData) {
             const rawInstitutes = location.state.responseData.institutes;
-
-            // Group institutes by name
-            const groupedResults = rawInstitutes.reduce((acc, curr) => {
-                const existing = acc.find(item => item.name === curr.name);
-                if (existing) {
-                    existing.branches.push(curr.department_name);
-                } else {
-                    acc.push({
-                        name: curr.name,
-                        branches: [curr.department_name]
-                    });
-                }
-                return acc;
-            }, []);
-
-            setResults(groupedResults);
+            setResults(rawInstitutes);
             setLoading(false);
             return;
         }
-
-        // Fallback: Fetch data from API if not in navigation state
         fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/institutes/results`)
             .then((res) => res.json())
             .then((data) => {
-                // Group institutes by name
-                const groupedResults = data.institutes.reduce((acc, curr) => {
-                    const existing = acc.find(item => item.name === curr.name);
-                    if (existing) {
-                        existing.branches.push(curr.department_name);
-                    } else {
-                        acc.push({
-                            name: curr.name,
-                            branches: [curr.department_name]
-                        });
-                    }
-                    return acc;
-                }, []);
-                setResults(groupedResults);
+                setResults(data.institutes);
                 setLoading(false);
             })
             .catch(() => {
@@ -74,67 +41,60 @@ const ResultsPage = () => {
 
     // dummy useffect
     // useEffect(() => {
-    //     // Load user session from local storage
-    //     const savedSession = localStorage.getItem("userSession");
-    //     if (savedSession) {
-    //         setUserSession(JSON.parse(savedSession));
-    //     }
-
     //     setLoading(true);
 
-    //     // Check if results are coming from navigation state
-    //     if (location.state?.responseData) {
-    //         const rawInstitutes = location.state.responseData.institutes;
+    //     // Simulate delay like real API
+    //     setTimeout(() => {
+    //         const dummyData = {
+    //             institutes: [
+    //                 {
+    //                     "name": "Indian Institute of Technology Palakkad",
+    //                     "department_name": "Civil Engineering (4 Years, Bachelor of Technology)"
+    //                 },
+    //                 {
+    //                     "name": "Indian Institute of Technology Kharagpur",
+    //                     "department_name": "Manufacturing Science and Engineering (4 Years, Bachelor of Technology)"
+    //                 },
+    //                 {
+    //                     "name": "Indian Institute of Technology Kharagpur",
+    //                     "department_name": "Metallurgical and Materials Engineering (4 Years, Bachelor of Technology)"
+    //                 },
+    //                 {
+    //                     "name": "Indian Institute of Technology Gandhinagar",
+    //                     "department_name": "Mechanical Engineering (4 Years, Bachelor of Technology)"
+    //                 },
+    //                 {
+    //                     "name": "Indian Institute of Technology (ISM) Dhanbad",
+    //                     "department_name": "Mathematics and Computing (4 Years, Bachelor of Technology)"
+    //                 },
+    //                 {
+    //                     "name": "Indian Institute of Technology Kharagpur",
+    //                     "department_name": "Civil Engineering (4 Years, Bachelor of Technology)"
+    //                 },
+    //                 {
+    //                     "name": "Indian Institute of Technology Roorkee",
+    //                     "department_name": "Electronics and Communication Engineering (4 Years, Bachelor of Technology)"
+    //                 },
+    //                 {
+    //                     "name": "Indian Institute of Technology Madras",
+    //                     "department_name": "Metallurgical and Materials Engineering (4 Years, Bachelor of Technology)"
+    //                 },
+    //                 {
+    //                     "name": "Indian Institute of Technology Delhi",
+    //                     "department_name": "Mathematics and Computing (4 Years, Bachelor of Technology)"
+    //                 },
+    //                 {
+    //                     "name": "Indian Institute of Technology (BHU) Varanasi",
+    //                     "department_name": "Engineering Physics (4 Years, Bachelor of Technology)"
+    //                 }
+    //             ]
+    //         };
 
-    //         const groupedResults = rawInstitutes.reduce((acc, curr) => {
-    //             const existing = acc.find(item => item.name === curr.name);
-    //             if (existing) {
-    //                 existing.branches.push(curr.department_name);
-    //             } else {
-    //                 acc.push({
-    //                     name: curr.name,
-    //                     branches: [curr.department_name]
-    //                 });
-    //             }
-    //             return acc;
-    //         }, []);
-    //         setResults(groupedResults);
+    //         setResults(dummyData.institutes);
     //         setLoading(false);
-    //         return;
-    //     }
+    //     }, 1000); // 1 second delay
+    // }, []);
 
-    //     // 💡 MOCK DATA HERE
-    //     const dummyData = {
-    //         institutes: [
-    //             { name: "IIT Bombay", department_name: "Computer Science" },
-    //             { name: "IIT Bombay", department_name: "Electrical" },
-    //             { name: "IIT Bombay", department_name: "Mechanical" },
-    //             { name: "IIT Bombay", department_name: "Civil" },
-    //             { name: "IIT Bombay", department_name: "Chemical" },
-    //             { name: "IIT Delhi", department_name: "Computer Science" },
-    //             { name: "IIT Delhi", department_name: "Electrical" },
-    //             { name: "IIT Delhi", department_name: "Mechanical" },
-    //             { name: "IIT Delhi", department_name: "Civil" },
-    //             { name: "IIT Delhi", department_name: "Chemical" }
-    //         ]
-    //     };
-
-    //     const groupedResults = dummyData.institutes.reduce((acc, curr) => {
-    //         const existing = acc.find(item => item.name === curr.name);
-    //         if (existing) {
-    //             existing.branches.push(curr.department_name);
-    //         } else {
-    //             acc.push({
-    //                 name: curr.name,
-    //                 branches: [curr.department_name]
-    //             });
-    //         }
-    //         return acc;
-    //     }, []);
-
-    //     setResults(groupedResults);
-    //     setLoading(false);
-    // }, [location.state]);
 
     // actual handleEnahcnedResult
     const handleEnhancedResults = () => {
@@ -242,16 +202,10 @@ const ResultsPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {results.slice(0, 5).map((institute, index) => (
+                            {results.map((institute, index) => (
                                 <tr key={index}>
                                     <td>{institute.name}</td>
-                                    <td>
-                                        <ul>
-                                            {(institute.branches || []).map((branch, idx) => (
-                                                <li key={idx}>{branch}</li>
-                                            ))}
-                                        </ul>
-                                    </td>
+                                    <td>{institute.department_name}</td>
                                 </tr>
                             ))}
                             <tr>
@@ -265,6 +219,7 @@ const ResultsPage = () => {
                     </table>
                 </div>
             </div>
+            {/* <VideoEmbedComponent /> */}
         </>
     );
 };

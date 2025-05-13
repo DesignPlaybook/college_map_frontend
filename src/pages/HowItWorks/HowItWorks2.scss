@@ -2,9 +2,14 @@
 
 // IDEA TWO
 .how-it-works-ladder {
-    padding: 3rem 1rem;
+    padding: 3rem 5rem;
     background: var(--background);
     color: var(--text-dark);
+
+    @media (max-width: 768px) {
+        padding: 3rem 1rem;
+    }
+
 
     .main-heading {
         text-align: center;
@@ -16,8 +21,11 @@
     .ladder-container {
         display: flex;
         flex-direction: column;
-        gap: 3rem;
         position: relative;
+
+        @media (max-width: 768px) {
+            gap: 3rem;
+        }
 
         &::before {
             content: "";
@@ -46,7 +54,7 @@
             width: 90%;
             max-width: 500px;
             background: var(--highlight);
-            padding: 2rem;
+            padding: 1rem;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             border-left: 8px solid var(--primary3);
