@@ -31,10 +31,11 @@
             padding: 1rem;
             margin: 0 10px; // Adds horizontal space between the cards
             transition: transform 0.3s ease;
-            width: 90% !important;
+            width: 85% !important;
 
             @media (max-width: 575px) {
                 margin: 0;
+                width: 90% !important;
             }
 
             .slick-list {
