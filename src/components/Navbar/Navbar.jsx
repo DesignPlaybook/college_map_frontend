@@ -54,15 +54,15 @@ const Navbar = () => {
                 <div className={`nav-links ${isMenuOpen ? "open" : ""}`} ref={menuRef}>
                     <li><Link to="/HowItWorks" onClick={() => setIsMenuOpen(false)}>How It Works?</Link></li>
                     <li><Link to="/HowItWorks2" onClick={() => setIsMenuOpen(false)}>How It Works 2nd?</Link></li>
-                    <li><Link to="#" onClick={() => setIsMenuOpen(false)}>IIT Updates</Link></li>
+                    <li><Link to="https://collegemap1.wordpress.com/" onClick={() => setIsMenuOpen(false)}>IIT Updates</Link></li>
                     <li><Link to="/AboutUs" onClick={() => setIsMenuOpen(false)}>About Us</Link></li>
                     <li><Link to="/Contact-Us" onClick={() => setIsMenuOpen(false)}>Contact Us</Link></li>
 
                     {isLoggedIn ? (
-                        <button className="cta logout" onClick={() => { handleLogout(); setIsMenuOpen(false); }}>Sign Out</button>
+                        <button className="cta logout login-size" onClick={() => { handleLogout(); setIsMenuOpen(false); }}>Sign Out</button>
                     ) : (
                         <button button
-                            className="cta"
+                            className="cta login-size"
                             onClick={() => {
                                 setIsMenuOpen(false);
                                 navigate("/MobileLogin", {

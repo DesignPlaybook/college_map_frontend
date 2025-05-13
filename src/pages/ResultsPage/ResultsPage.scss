@@ -29,9 +29,9 @@
 
 .results-table {
     width: 100%;
-    max-width: 900px;
+    max-width: 1300px;
     border-collapse: collapse;
-    background: rgba(255, 255, 255, 0.15);
+    background: #ffffffcf;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(16, 195, 188, 0.6);
@@ -44,7 +44,7 @@
 .results-table th[colspan="2"] {
     text-align: center;
     padding: 20px 10px;
-    background-color: #c0b4b480;
+    background-color: #ffffffcf;
     color: var(--dark-green-blue);
 }
 
@@ -81,7 +81,7 @@
 
 .results-table td {
     font-size: 1rem;
-    background: #c0b4b480;
+    background: #ffffff80;
 }
 
 .results-table ul {
