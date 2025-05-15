@@ -49,23 +49,32 @@ const steps = [
 const HowItWorks = () => {
 
     return (
-        // IDEA ONE
-        <div className="how-it-works-workbook">
+        // IDEA TWO
+        <div className="how-it-works-ladder">
             <h2 className="main-heading">How It Works</h2>
-
-            {steps.map((step, index) => (
-                <div key={step.id} id={step.id} className="workbook-step">
-                    <div className="step-header">
-                        <span className="step-number">Step {index + 1}</span>
-                        <h3 className="step-title">{step.title}</h3>
+            <p className="quote-block">
+                We use data gathered manually from students of 3rd and 4th year across all IITs, to find out about the different branches.
+                Along with this, we also predict the closing ranks of branches, using the data of past years to ensure that every possible branch is considered.
+                The algorithm we developed then uses this data together to help you find the most suited branch.
+            </p>
+            <div className="ladder-container">
+                {steps.map((step, index) => (
+                    <div key={step.id} id={step.id} className={`ladder-step ${index % 2 === 0 ? "left" : "right"}`}>
+                        <div className="step-card">
+                            <div className="step-header">
+                                <span className="step-number">Step {index + 1}</span>
+                                <h3 className="step-title">{step.title}</h3>
+                            </div>
+                            <div className="step-content">
+                                <span className="step-icon">{step.icon}</span>
+                                <p>{step.description}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div className="step-content">
-                        <div className="step-icon">{step.icon}</div>
-                        <p>{step.description}</p>
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
+
     );
 };
 

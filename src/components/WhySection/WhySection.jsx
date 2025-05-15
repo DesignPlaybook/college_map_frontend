@@ -1,22 +1,25 @@
 import React from 'react';
 import './WhySection.scss';
 import vision from "../../assets/vision.png";
+import idealCollege from "../../assets/whySection/idea-college.png";
+import advancedResults from "../../assets/whySection/advanced-results.png";
+import mentoring from "../../assets/whySection/1-1-mentor.png"
 
 const features = [
     {
         title: 'Find Your Ideal College',
         description: 'Get instant college suggestions for free, based on your performance.',
-        image: vision
+        image: idealCollege
     },
     {
         title: 'Unlock Advanced Results',
         description: 'Unlock deeper insights about your choices, at a low cost.',
-        image: vision
+        image: advancedResults
     },
     {
         title: '1-on-1 Mentoring',
         description: 'Talk directly to current students studying at IIT for personalized guidance.',
-        image: vision
+        image: mentoring
     }
 ];
 
