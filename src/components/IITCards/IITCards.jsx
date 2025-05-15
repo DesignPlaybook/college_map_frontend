@@ -29,32 +29,57 @@ import IITDharwad from "../../assets/IITs/IITDharwad.jpg";
 import IITDhanbad from "../../assets/IITs/IITDhanbad.jpg";
 
 
-const iits = [
-    { name: 'IIT Kharagpur', link: 'http://www.iitkgp.ac.in', image: IITKharagpur },
-    { name: 'IIT Bombay', link: 'http://www.iitb.ac.in', image: IITBombay },
-    { name: 'IIT Madras', link: 'http://www.iitm.ac.in', image: IITMadras },
-    { name: 'IIT Kanpur', link: 'http://www.iitk.ac.in', image: IITKanpur },
-    { name: 'IIT Delhi', link: 'http://www.iitd.ac.in', image: IITDelhi },
-    { name: 'IIT Guwahati', link: 'http://www.iitg.ac.in', image: IITGuwahati },
-    { name: 'IIT Roorkee', link: 'https://www.iitr.ac.in', image: IITRoorkee },
-    { name: 'IIT Bhubaneswar', link: 'http://www.iitbbs.ac.in', image: IITBhubaneswar },
-    { name: 'IIT Gandhinagar', link: 'http://www.iitgn.ac.in', image: IITGandhinagar },
-    { name: 'IIT Hyderabad', link: 'http://www.iith.ac.in', image: IITHyderabad },
-    { name: 'IIT Jodhpur', link: 'https://www.iitj.ac.in', image: IITJodhpur },
-    { name: 'IIT Patna', link: 'http://www.iitp.ac.in', image: IITPatna },
-    { name: 'IIT Ropar', link: 'http://www.iitrpr.ac.in', image: IITRopar },
-    { name: 'IIT Indore', link: 'http://www.iiti.ac.in', image: IITIndore },
-    { name: 'IIT Mandi', link: 'http://www.iitmandi.ac.in', image: IITMandi },
-    { name: 'IIT (BHU) Varanasi', link: 'http://www.iitbhu.ac.in', image: IITVaranasi },
-    { name: 'IIT Palakkad', link: 'http://www.iitpkd.ac.in', image: IITPalakkad },
-    { name: 'IIT Tirupati', link: 'http://www.iittp.ac.in', image: IITTirupati },
-    { name: 'IIT Bhilai', link: 'https://www.iitbhilai.ac.in', image: IITBhilai },
-    { name: 'IIT Goa', link: 'http://www.iitgoa.ac.in', image: IITGoa },
-    { name: 'IIT Jammu', link: 'http://www.iitjammu.ac.in', image: IITJammu },
-    { name: 'IIT Dharwad', link: 'http://www.iitdh.ac.in', image: IITDharwad },
-    { name: 'IIT (ISM) Dhanbad', link: 'https://www.iitism.ac.in', image: IITDhanbad }
-];
+// const iits = [
+//     { name: 'IIT Kharagpur', link: 'http://www.iitkgp.ac.in', image: IITKharagpur },
+//     { name: 'IIT Bombay', link: 'http://www.iitb.ac.in', image: IITBombay },
+//     { name: 'IIT Madras', link: 'http://www.iitm.ac.in', image: IITMadras },
+//     { name: 'IIT Kanpur', link: 'http://www.iitk.ac.in', image: IITKanpur },
+//     { name: 'IIT Delhi', link: 'http://www.iitd.ac.in', image: IITDelhi },
+//     { name: 'IIT Guwahati', link: 'http://www.iitg.ac.in', image: IITGuwahati },
+//     { name: 'IIT Roorkee', link: 'https://www.iitr.ac.in', image: IITRoorkee },
+//     { name: 'IIT Bhubaneswar', link: 'http://www.iitbbs.ac.in', image: IITBhubaneswar },
+//     { name: 'IIT Gandhinagar', link: 'http://www.iitgn.ac.in', image: IITGandhinagar },
+//     { name: 'IIT Hyderabad', link: 'http://www.iith.ac.in', image: IITHyderabad },
+//     { name: 'IIT Jodhpur', link: 'https://www.iitj.ac.in', image: IITJodhpur },
+//     { name: 'IIT Patna', link: 'http://www.iitp.ac.in', image: IITPatna },
+//     { name: 'IIT Ropar', link: 'http://www.iitrpr.ac.in', image: IITRopar },
+//     { name: 'IIT Indore', link: 'http://www.iiti.ac.in', image: IITIndore },
+//     { name: 'IIT Mandi', link: 'http://www.iitmandi.ac.in', image: IITMandi },
+//     { name: 'IIT (BHU) Varanasi', link: 'http://www.iitbhu.ac.in', image: IITVaranasi },
+//     { name: 'IIT Palakkad', link: 'http://www.iitpkd.ac.in', image: IITPalakkad },
+//     { name: 'IIT Tirupati', link: 'http://www.iittp.ac.in', image: IITTirupati },
+//     { name: 'IIT Bhilai', link: 'https://www.iitbhilai.ac.in', image: IITBhilai },
+//     { name: 'IIT Goa', link: 'http://www.iitgoa.ac.in', image: IITGoa },
+//     { name: 'IIT Jammu', link: 'http://www.iitjammu.ac.in', image: IITJammu },
+//     { name: 'IIT Dharwad', link: 'http://www.iitdh.ac.in', image: IITDharwad },
+//     { name: 'IIT (ISM) Dhanbad', link: 'https://www.iitism.ac.in', image: IITDhanbad }
+// ];
 
+const iits = [
+    { name: 'IIT Kharagpur', link: 'https://www.collegemap.in', image: IITKharagpur },
+    { name: 'IIT Bombay', link: 'https://www.collegemap.in', image: IITBombay },
+    { name: 'IIT Madras', link: 'https://www.collegemap.in', image: IITMadras },
+    { name: 'IIT Kanpur', link: 'https://www.collegemap.in', image: IITKanpur },
+    { name: 'IIT Delhi', link: 'https://www.collegemap.in', image: IITDelhi },
+    { name: 'IIT Guwahati', link: 'https://www.collegemap.in', image: IITGuwahati },
+    { name: 'IIT Roorkee', link: 'https://www.collegemap.in', image: IITRoorkee },
+    { name: 'IIT Bhubaneswar', link: 'https://www.collegemap.in', image: IITBhubaneswar },
+    { name: 'IIT Gandhinagar', link: 'https://www.collegemap.in', image: IITGandhinagar },
+    { name: 'IIT Hyderabad', link: 'https://www.collegemap.in', image: IITHyderabad },
+    { name: 'IIT Jodhpur', link: 'https://www.collegemap.in', image: IITJodhpur },
+    { name: 'IIT Patna', link: 'https://www.collegemap.in', image: IITPatna },
+    { name: 'IIT Ropar', link: 'https://www.collegemap.in', image: IITRopar },
+    { name: 'IIT Indore', link: 'https://www.collegemap.in', image: IITIndore },
+    { name: 'IIT Mandi', link: 'https://www.collegemap.in', image: IITMandi },
+    { name: 'IIT (BHU) Varanasi', link: 'https://www.collegemap.in', image: IITVaranasi },
+    { name: 'IIT Palakkad', link: 'https://www.collegemap.in', image: IITPalakkad },
+    { name: 'IIT Tirupati', link: 'https://www.collegemap.in', image: IITTirupati },
+    { name: 'IIT Bhilai', link: 'https://www.collegemap.in', image: IITBhilai },
+    { name: 'IIT Goa', link: 'https://www.collegemap.in', image: IITGoa },
+    { name: 'IIT Jammu', link: 'https://www.collegemap.in', image: IITJammu },
+    { name: 'IIT Dharwad', link: 'https://www.collegemap.in', image: IITDharwad },
+    { name: 'IIT (ISM) Dhanbad', link: 'https://www.collegemap.in', image: IITDhanbad }
+];
 
 const IITCards = () => {
     const settings = {
@@ -95,7 +120,7 @@ const IITCards = () => {
                             <img src={iit.image} alt={iit.name} className="card-image" />
                             <div className="card-content">
                                 <h3 className="card-title">{iit.name}</h3>
-                                <a href={iit.link} target="_blank" rel="noopener noreferrer" className="card-link">Visit Website</a>
+                                <a href={iit.link} target="_blank" rel="noopener noreferrer" className="card-link">View Information</a>
                             </div>
                         </div>
                     </div>

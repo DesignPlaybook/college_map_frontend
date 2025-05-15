@@ -182,7 +182,7 @@ const Questionaire = () => {
 
     return (
         <div className="questionnaire-container">
-            <h1 className="title">Find the best branch in best IITs</h1>
+            <h1 className="title">Find your PERFECT IIT branch</h1>
             <div className="questionnaire-box">
                 <div className="input-group">
                     <label>JEE Advanced Rank:</label>
