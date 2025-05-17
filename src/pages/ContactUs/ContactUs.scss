@@ -4,6 +4,10 @@
     padding: 2rem;
     background-color: $primary4;
 
+    @media (min-width: 768px) {
+        padding: 1rem;
+    }
+
     &__container {
         max-width: 1200px;
         margin: 0 auto;

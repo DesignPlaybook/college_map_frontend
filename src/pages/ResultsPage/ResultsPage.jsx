@@ -39,59 +39,6 @@ const ResultsPage = () => {
             });
     }, [location.state]);
 
-    // dummy useffect
-    // useEffect(() => {
-    //     setLoading(true);
-    //     setTimeout(() => {
-    //         const dummyData = {
-    //             institutes: [
-    //                 {
-    //                     "name": "Indian Institute of Technology Palakkad",
-    //                     "department_name": "Civil Engineering (4 Years, Bachelor of Technology)"
-    //                 },
-    //                 {
-    //                     "name": "Indian Institute of Technology Kharagpur",
-    //                     "department_name": "Manufacturing Science and Engineering (4 Years, Bachelor of Technology)"
-    //                 },
-    //                 {
-    //                     "name": "Indian Institute of Technology Kharagpur",
-    //                     "department_name": "Metallurgical and Materials Engineering (4 Years, Bachelor of Technology)"
-    //                 },
-    //                 {
-    //                     "name": "Indian Institute of Technology Gandhinagar",
-    //                     "department_name": "Mechanical Engineering (4 Years, Bachelor of Technology)"
-    //                 },
-    //                 {
-    //                     "name": "Indian Institute of Technology (ISM) Dhanbad",
-    //                     "department_name": "Mathematics and Computing (4 Years, Bachelor of Technology)"
-    //                 },
-    //                 {
-    //                     "name": "Indian Institute of Technology Kharagpur",
-    //                     "department_name": "Civil Engineering (4 Years, Bachelor of Technology)"
-    //                 },
-    //                 {
-    //                     "name": "Indian Institute of Technology Roorkee",
-    //                     "department_name": "Electronics and Communication Engineering (4 Years, Bachelor of Technology)"
-    //                 },
-    //                 {
-    //                     "name": "Indian Institute of Technology Madras",
-    //                     "department_name": "Metallurgical and Materials Engineering (4 Years, Bachelor of Technology)"
-    //                 },
-    //                 {
-    //                     "name": "Indian Institute of Technology Delhi",
-    //                     "department_name": "Mathematics and Computing (4 Years, Bachelor of Technology)"
-    //                 },
-    //                 {
-    //                     "name": "Indian Institute of Technology (BHU) Varanasi",
-    //                     "department_name": "Engineering Physics (4 Years, Bachelor of Technology)"
-    //                 }
-    //             ]
-    //         };
-
-    //         setResults(dummyData.institutes);
-    //         setLoading(false);
-    //     }, 1000); // 1 second delay
-    // }, []);
 
 
     // actual handleEnahcnedResult

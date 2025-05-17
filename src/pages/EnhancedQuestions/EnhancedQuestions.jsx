@@ -48,10 +48,10 @@ const EnhancedQuestions = () => {
     }, []);
 
     const preferenceDisplayNames = {
-        placement_score: "Placement Score",
+        placement_score: "Placements",
         higher_studies_score: "Higher Studies",
         academics_experience_score: "Academic Experience",
-        campus_score: "Campus Score",
+        campus_score: "Campus Experience",
         entrepreneurship_score: "Entrepreneurship Culture"
     };
 
@@ -174,10 +174,13 @@ const EnhancedQuestions = () => {
         }
 
         const requestData = comparisons.map(comparison => {
-            const comparisonKey = `<span class="math-inline">\{comparison\.preference1\}\-</span>{comparison.preference2}`;
+            const comparisonKey = `${comparison.preference1}-${comparison.preference2}`;
             const comparisonValue = importanceLevels.find(level => level.label === comparison.comparison)?.value;
 
-            return { comparisonKey, comparisonValue };
+            return {
+                comparisonKey,
+                comparisonValue,
+            };
         });
 
         function safeParse(key) {
@@ -203,10 +206,14 @@ const EnhancedQuestions = () => {
             preferred_institute_ids: instituteIds,
             course_duration: courseDuration,
         };
-
+        console.log("Sending to /check_consistancy:", {
+            comparisons: requestData,
+        });
         try {
             const consistencyResponse = await api.post('/api/v1/institutes/check_consistancy', { comparisons: requestData });
             const consistency = consistencyResponse?.data?.consistency_score;
+            console.log("Response from /check_consistancy:", consistencyResponse);
+
             // Check if the response data exists and is a valid object
             if (consistencyResponse && consistencyResponse.data && typeof consistencyResponse.data === 'object') {
                 const consistency = consistencyResponse.data.consistency_score;
@@ -292,6 +299,7 @@ const EnhancedQuestions = () => {
                         <p>Are you sure you want to continue? You won’t be able to modify responses later.</p>
                         <div className="popup-buttons">
                             <button className="confirm" onClick={async () => {
+
                                 try {
                                     const resultResponse = await api.post('/api/v1/institutes/enhanced_result', enhancedResultData, {
                                         headers: {
