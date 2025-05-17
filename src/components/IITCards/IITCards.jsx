@@ -56,30 +56,31 @@ import IITDhanbad from "../../assets/IITs/IITDhanbad.jpg";
 // ];
 
 const iits = [
-    { name: 'IIT Kharagpur', link: 'https://www.collegemap.in', image: IITKharagpur },
-    { name: 'IIT Bombay', link: 'https://www.collegemap.in', image: IITBombay },
-    { name: 'IIT Madras', link: 'https://www.collegemap.in', image: IITMadras },
-    { name: 'IIT Kanpur', link: 'https://www.collegemap.in', image: IITKanpur },
-    { name: 'IIT Delhi', link: 'https://www.collegemap.in', image: IITDelhi },
-    { name: 'IIT Guwahati', link: 'https://www.collegemap.in', image: IITGuwahati },
-    { name: 'IIT Roorkee', link: 'https://www.collegemap.in', image: IITRoorkee },
-    { name: 'IIT Bhubaneswar', link: 'https://www.collegemap.in', image: IITBhubaneswar },
-    { name: 'IIT Gandhinagar', link: 'https://www.collegemap.in', image: IITGandhinagar },
-    { name: 'IIT Hyderabad', link: 'https://www.collegemap.in', image: IITHyderabad },
-    { name: 'IIT Jodhpur', link: 'https://www.collegemap.in', image: IITJodhpur },
-    { name: 'IIT Patna', link: 'https://www.collegemap.in', image: IITPatna },
-    { name: 'IIT Ropar', link: 'https://www.collegemap.in', image: IITRopar },
-    { name: 'IIT Indore', link: 'https://www.collegemap.in', image: IITIndore },
-    { name: 'IIT Mandi', link: 'https://www.collegemap.in', image: IITMandi },
-    { name: 'IIT (BHU) Varanasi', link: 'https://www.collegemap.in', image: IITVaranasi },
-    { name: 'IIT Palakkad', link: 'https://www.collegemap.in', image: IITPalakkad },
-    { name: 'IIT Tirupati', link: 'https://www.collegemap.in', image: IITTirupati },
-    { name: 'IIT Bhilai', link: 'https://www.collegemap.in', image: IITBhilai },
-    { name: 'IIT Goa', link: 'https://www.collegemap.in', image: IITGoa },
-    { name: 'IIT Jammu', link: 'https://www.collegemap.in', image: IITJammu },
-    { name: 'IIT Dharwad', link: 'https://www.collegemap.in', image: IITDharwad },
-    { name: 'IIT (ISM) Dhanbad', link: 'https://www.collegemap.in', image: IITDhanbad }
+    { name: 'IIT Kharagpur', link: '/ComingSoon', image: IITKharagpur },
+    { name: 'IIT Bombay', link: '/ComingSoon', image: IITBombay },
+    { name: 'IIT Madras', link: '/ComingSoon', image: IITMadras },
+    { name: 'IIT Kanpur', link: '/ComingSoon', image: IITKanpur },
+    { name: 'IIT Delhi', link: '/ComingSoon', image: IITDelhi },
+    { name: 'IIT Guwahati', link: '/ComingSoon', image: IITGuwahati },
+    { name: 'IIT Roorkee', link: '/ComingSoon', image: IITRoorkee },
+    { name: 'IIT Bhubaneswar', link: '/ComingSoon', image: IITBhubaneswar },
+    { name: 'IIT Gandhinagar', link: '/ComingSoon', image: IITGandhinagar },
+    { name: 'IIT Hyderabad', link: '/ComingSoon', image: IITHyderabad },
+    { name: 'IIT Jodhpur', link: '/ComingSoon', image: IITJodhpur },
+    { name: 'IIT Patna', link: '/ComingSoon', image: IITPatna },
+    { name: 'IIT Ropar', link: '/ComingSoon', image: IITRopar },
+    { name: 'IIT Indore', link: '/ComingSoon', image: IITIndore },
+    { name: 'IIT Mandi', link: '/ComingSoon', image: IITMandi },
+    { name: 'IIT (BHU) Varanasi', link: '/ComingSoon', image: IITVaranasi },
+    { name: 'IIT Palakkad', link: '/ComingSoon', image: IITPalakkad },
+    { name: 'IIT Tirupati', link: '/ComingSoon', image: IITTirupati },
+    { name: 'IIT Bhilai', link: '/ComingSoon', image: IITBhilai },
+    { name: 'IIT Goa', link: '/ComingSoon', image: IITGoa },
+    { name: 'IIT Jammu', link: '/ComingSoon', image: IITJammu },
+    { name: 'IIT Dharwad', link: '/ComingSoon', image: IITDharwad },
+    { name: 'IIT (ISM) Dhanbad', link: '/ComingSoon', image: IITDhanbad }
 ];
+
 
 const IITCards = () => {
     const settings = {
