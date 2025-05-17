@@ -22,10 +22,10 @@ const Footer = () => {
                 <div className="footer__section links-section">
                     <h4 className="footer__heading">About</h4>
                     <ul className="footer__list">
-                        <li className="footer__list-item"><a href="#" className="footer__link">IIT News</a></li>
+                        <li className="footer__list-item"><a href="https://collegemap1.wordpress.com/" className="footer__link">IIT News</a></li>
                         <li className="footer__list-item"><a href="/HowItWorks" className="footer__link">How We Work?</a></li>
                         <li className="footer__list-item"><a href="/AboutUs" className="footer__link">About Us</a></li>
-                        <li className="footer__list-item"><a href="/#Team" className="footer__link">Our Team</a></li>
+                        <li className="footer__list-item"><a href="https://wa.link/lo05a1" className="footer__link">Talk to an IITian</a></li>
                         <li className="footer__list-item"><a href="/Contact-us" className="footer__link">Contact Us</a></li>
                     </ul>
                 </div>
@@ -44,7 +44,7 @@ const Footer = () => {
                     <div className="footer__social-icons">
                         <a href="https://www.instagram.com/collegemap.in?igsh=MWNzemZpcGE3cmM0dw==" className="footer__social-link"><FaInstagram /></a>
                         <a href="https://www.linkedin.com/company/collegemap/" className="footer__social-link"><FaLinkedin /></a>
-                        <a href="#" className="footer__social-link"><FaTelegramPlane /></a>
+                        {/* <a href="#" className="footer__social-link"><FaTelegramPlane /></a> */}
                         <a href="https://wa.link/lo05a1" className="footer__social-link"><FaWhatsapp /></a>
                     </div>
                 </div>

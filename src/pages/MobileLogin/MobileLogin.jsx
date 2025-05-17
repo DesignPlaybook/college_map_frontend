@@ -19,6 +19,17 @@ const MobileLogin = () => {
     const RESEND_DELAY = 120; // 2 minutes in seconds
     const [resendCounter, setResendCounter] = useState(RESEND_DELAY);
 
+
+    // dev mode bypass useefect
+    // useEffect(() => {
+    //     if (process.env.NODE_ENV === "development") {
+    //         const dummyToken = "auto-dev-token";
+    //         localStorage.setItem("authToken", dummyToken);
+    //         login(dummyToken);
+    //         navigate("/Questionaire");
+    //     }
+    // }, []);
+
     useEffect(() => {
         if (otpSent) {
             startResendTimer();
@@ -92,23 +103,7 @@ const MobileLogin = () => {
         }
     };
 
-    // dummy
-    // const sendOtp = async () => {
-    //     const validIndianMobile = /^[6-9]\d{9}$/;
 
-    //     if (!validIndianMobile.test(mobileNumber)) {
-    //         setError("Please enter a valid Indian mobile number.");
-    //         return;
-    //     }
-
-    //     setLoading(true);
-    //     // Simulate disabling the button while sending
-    //     setTimeout(() => {
-    //         setOtpSent(true);
-    //         setError("");
-    //         setLoading(false);
-    //     }, 1000); // fake delay
-    // };
 
     const handleResendOtp = () => {
         if (resendActive) {
@@ -199,7 +194,7 @@ const MobileLogin = () => {
         }
     };
 
-    // dummy verify with redirection logic
+
     // const verifyOtp = async () => {
     //     const enteredOtp = otp.map((digit) => digit.trim()).join("");
     //     const redirectTo = location.state?.redirectTo;

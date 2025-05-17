@@ -6,14 +6,14 @@ import anuj from '../../assets/Team/AnujPatel_IITB_FounderAndCEO.png';
 import bhoomi from "../../assets/Team/Bhoomi_IITB_StrategicPartnershipsLead.jpeg";
 import divyanshi from "../../assets/Team/Divyanshi_Agrawal_IITB_VisualDesigner.jpeg";
 import veera from "../../assets/Team/VeeraVenkat_IITPalakkad_CollegeCounsellingOperationsLead.jpeg";
-import vijyusha from "../../assets/Team/Vijyusha_IIT Indore_Data_Analyst.jpg";
+import vijyusha from "../../assets/Team/Vijyusha_IIT Indore_Data Analyst.jpg";
 import aditya from "../../assets/Team/adityanamdeo_iitbhu_dataanalyst.jpg";
 import kamalesh from "../../assets/Team/Kamalesh_IITBhilai_HeadOfMarketing.png"
 
 const teamMembers = [
     { iit: "IIT Bombay", name: 'Anuj Patel', role: 'Founder and CEO', img: anuj, url: "https://www.linkedin.com/in/anuj-patel-679550297/" },
     { iit: "IIT Indore", name: 'Tanvi Warvadekar', role: 'Strategic Advisor', img: tanvi, url: "https://www.linkedin.com/in/tanvi-warvadekar/" },
-    { iit: "IIT Bhilai", name: 'Kamlesh Swargam', role: 'Head of Marketing', img: kamalesh, url: "https://www.linkedin.com/in/kamaleshswargam/" },
+    { iit: "IIT Bhilai", name: 'Kamalesh Swargam', role: 'Head of Marketing', img: kamalesh, url: "https://www.linkedin.com/in/kamaleshswargam/" },
     { iit: "IIT Bombay", name: 'Bhoomi Singhvi', role: 'Strategic Partnerships Lead', img: bhoomi, url: "https://www.linkedin.com/in/bhoomisinghvi/" },
     { iit: "IIT Palakkad", name: 'Veera Venkat', role: 'College Counselling Operations Lead', img: veera, url: "https://www.linkedin.com/in/veera-venkat-408178280/" },
     { iit: "IIT Bombay", name: 'Divyanshi Agarwal', role: 'Visual Designer', img: divyanshi, url: "https://www.linkedin.com/company/collegemap/" },
