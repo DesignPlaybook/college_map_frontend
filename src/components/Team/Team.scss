@@ -84,6 +84,7 @@
 
         .member-itt {
             color: var(--light-green-blue);
+            margin-top: 4px;
         }
 
         a {
@@ -97,31 +98,6 @@
         }
     }
 
-    @media (max-width: 768px) {
-        .team-grid {
-            grid-template-columns: repeat(2, 1fr); // 2 per row on mobile
-            gap: 1rem;
-            padding: 0;
-        }
-
-        .member {
-
-            .photo {
-                width: 80px; // smaller image size on mobile
-                height: 80px; // smaller image size on mobile
-            }
-
-            h4 {
-                font-size: 0.9rem; // slightly smaller font
-            }
-
-            a {
-                i {
-                    font-size: 1.2rem; // smaller icon size
-                }
-            }
-        }
-    }
 }
 
 @media (max-width: 768px) {
@@ -132,7 +108,8 @@
     }
 
     .member {
-        min-height: 250px; // Adjust this value as needed
+        min-height: 200px !important;
+        height: 200px !important;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
