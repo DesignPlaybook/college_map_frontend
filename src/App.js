@@ -17,6 +17,7 @@ import CancellationRefundPolicy from "./pages/CancellationRefundPolicy/Cancellat
 import TermsAndConditions from "./pages/TermsAndConditions/TermsAndConditions";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import ProtectedRoute from "./Routes/ProtectedRoute";
+import ComingSoon from "./pages/ComingSoon/ComingSoon";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -69,6 +70,7 @@ function App() {
           <Route path="/Our-Team" element={<Team />} />
           <Route path="/Cancellation-and-Refund" element={<CancellationRefundPolicy />} />
           <Route path="/Terms-and-Conditions" element={<TermsAndConditions />} />
+          <Route path="/ComingSoon" element={<ComingSoon />} />
         </Routes>
       </Layout>
     </Router>
