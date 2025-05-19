@@ -155,6 +155,7 @@ const Questionaire = () => {
         localStorage.setItem("preferences", JSON.stringify(preferences));
 
         const requestData = { rank, category, preferences, gender };
+
         try {
             const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/institutes/primary_result`, {
                 method: "POST",
@@ -220,6 +221,16 @@ const Questionaire = () => {
                     </button>
                     {eligibilityMessage && <p className="eligibility-message">{eligibilityMessage}</p>}
                 </div>
+
+                {/* <div className="check-eligibility-container">
+                    {!isEligible && (
+                        <button onClick={() => checkEligibility(rank, category, gender)} disabled={eligibilityLoading}>
+                            {eligibilityLoading ? "Checking Eligibility..." : "Get Results"}
+                        </button>
+                    )}
+                    {eligibilityMessage && <p className="eligibility-message">{eligibilityMessage}</p>}
+                </div> */}
+
 
                 {isEligible && (
                     <>
