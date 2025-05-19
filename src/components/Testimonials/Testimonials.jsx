@@ -4,34 +4,33 @@ import './Testimonials.scss';
 
 const testimonials = [
     {
-        title: "Awesome Community",
-        quote: "As a chronic procrastinator, this community really helps me motivate myself to get my homework done. Has cool leaderboards, timers, and study tips. It’s a really large community so it’s pretty easy to meet people, too.",
+        title: "Everything I Wanted",
+        quote: "The site asked what mattered to me - placements, academics, campus life - and gave me options that fit my rank and my vibe. I didn’t think counselling could feel this personal.",
     },
     {
-        title: "Productivity Booster",
-        quote: "I have never been so focused and productive when studying by myself before. I can study with someone basically 24/7 if I really wanted to. It has been an amazing help! 💜 Thanks Study Together!",
+        title: "Found my place",
+        quote: "I wanted a college that encouraged creativity and startups, but I didn’t want to compromise on the college vibe. This site showed me I didn’t have to.",
     },
     {
-        title: "Goals",
-        quote: "I've been a part of it for probably a little over a month and I've noticed how it's improved my ability to stay focused. Since everyone is also studying in the call and working hard, I feel obliged to stay on task as well.",
+        title: "Not just cutoffs and ranks",
+        quote: "Every other tool just showed me where I could get in. This helped me decide where I should. It felt more like guidance than a search filter.",
     },
-    {
-        title: "Productivity Booster",
-        quote: "I have never been so focused and productive when studying by myself before. I can study with someone basically 24/7 if I really wanted to. It has been an amazing help! 💜 Thanks Study Together!",
-    },
-    {
-        title: "Goals",
-        quote: "I've been a part of it for probably a little over a month and I've noticed how it's improved my ability to stay focused. Since everyone is also studying in the call and working hard, I feel obliged to stay on task as well.",
-    },
-    {
-        title: "Productivity Booster",
-        quote: "I have never been so focused and productive when studying by myself before. I can study with someone basically 24/7 if I really wanted to. It has been an amazing help! 💜 Thanks Study Together!",
-    },
-    {
-        title: "Goals",
-        quote: "I've been a part of it for probably a little over a month and I've noticed how it's improved my ability to stay focused. Since everyone is also studying in the call and working hard, I feel obliged to stay on task as well.",
-    },
-    // Add more if needed
+    // {
+    //     title: "Productivity Booster",
+    //     quote: "I have never been so focused and productive when studying by myself before. I can study with someone basically 24/7 if I really wanted to. It has been an amazing help! 💜 Thanks Study Together!",
+    // },
+    // {
+    //     title: "Goals",
+    //     quote: "I've been a part of it for probably a little over a month and I've noticed how it's improved my ability to stay focused. Since everyone is also studying in the call and working hard, I feel obliged to stay on task as well.",
+    // },
+    // {
+    //     title: "Productivity Booster",
+    //     quote: "I have never been so focused and productive when studying by myself before. I can study with someone basically 24/7 if I really wanted to. It has been an amazing help! 💜 Thanks Study Together!",
+    // },
+    // {
+    //     title: "Goals",
+    //     quote: "I've been a part of it for probably a little over a month and I've noticed how it's improved my ability to stay focused. Since everyone is also studying in the call and working hard, I feel obliged to stay on task as well.",
+    // },
 ];
 
 const Testimonials = () => {

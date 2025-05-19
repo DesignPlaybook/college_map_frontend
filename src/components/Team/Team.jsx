@@ -14,7 +14,7 @@ import kamalesh from "../../assets/Team/Kamalesh_IITBhilai_HeadOfMarketing.png"
 //     { iit: "IIT Bombay", name: 'Anuj Patel', role: 'Founder and CEO', img: anuj, url: "https://www.linkedin.com/in/anuj-patel-679550297/" },
 //     { iit: "IIT Indore", name: 'Tanvi Warvadekar', role: 'Strategic Advisor', img: tanvi, url: "https://www.linkedin.com/in/tanvi-warvadekar/" },
 //     { iit: "IIT Bhilai", name: 'Kamalesh Swargam', role: 'Head of Marketing', img: kamalesh, url: "https://www.linkedin.com/in/kamaleshswargam/" },
-//     { iit: "IIT Bombay", name: 'Divyanshi Agarwal', role: 'Visual Designer', img: divyanshi, url: "https://www.linkedin.com/company/collegemap/" },
+//     { iit: "IIT Bombay", name: 'Divyanshi Agarwal', role: 'Visual Designer', img: divyanshi, url: "https://www.linkedin.com/in/divyanshi-agrawal-2aa903366?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" },
 //     { iit: "IIT Palakkad", name: 'Veera Venkat', role: 'College Counselling Operations Lead', img: veera, url: "https://www.linkedin.com/in/veera-venkat-408178280/" },
 //     { iit: "IIT Bombay", name: 'Bhoomi Singhvi', role: 'Strategic Partnerships Lead', img: bhoomi, url: "https://www.linkedin.com/in/bhoomisinghvi/" },
 //     { iit: "IIT BHU", name: 'Aditya Namdeo', role: 'Data Analyst', img: aditya, url: "https://www.linkedin.com/in/aditya-namdeo-922aaa27b/" },
