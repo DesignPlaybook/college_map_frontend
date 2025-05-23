@@ -44,13 +44,13 @@ const Footer = () => {
                 <div className="footer__section social-section">
                     <h4 className="footer__heading">Follow us</h4>
                     <div className="footer__social-icons">
-                        {/* <a href="https://www.instagram.com/collegemap.in?igsh=MWNzemZpcGE3cmM0dw==" className="footer__social-link"><FaInstagram /></a>
+                        <a href="https://www.instagram.com/collegemap.in?igsh=MWNzemZpcGE3cmM0dw==" className="footer__social-link"><FaInstagram /></a>
                         <a href="https://www.linkedin.com/company/collegemap/" className="footer__social-link"><FaLinkedin /></a>
-                        <a href="#" className="footer__social-link"><FaTelegramPlane /></a>
-                        <a href="https://wa.link/lo05a1" className="footer__social-link"><FaWhatsapp /></a> */}
-                        <a href="/ComingSoon" className="footer__social-link"><FaInstagram /></a>
+                        <a href="/ComingSoon" className="footer__social-link"><FaTelegramPlane /></a>
+                        <a href="https://wa.link/lo05a1" className="footer__social-link"><FaWhatsapp /></a>
+                        {/* <a href="/ComingSoon" className="footer__social-link"><FaInstagram /></a>
                         <a href="/ComingSoon" className="footer__social-link"><FaLinkedin /></a>
-                        <a href="/ComingSoon" className="footer__social-link"><FaWhatsapp /></a>
+                        <a href="/ComingSoon" className="footer__social-link"><FaWhatsapp /></a> */}
                     </div>
                 </div>
             </div>
