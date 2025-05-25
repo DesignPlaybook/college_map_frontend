@@ -14,108 +14,64 @@ const ResultsPage = () => {
     const { isLoggedIn } = useAuth();
 
 
+
     // actual useffect
     useEffect(() => {
         const savedSession = localStorage.getItem("userSession");
         if (savedSession) {
             setUserSession(JSON.parse(savedSession));
         }
-        setLoading(true);
+
+        const storedResults = localStorage.getItem("results");
+
         if (location.state?.responseData) {
             const rawInstitutes = location.state.responseData.institutes;
             setResults(rawInstitutes);
+            localStorage.setItem("results", JSON.stringify(rawInstitutes));
             setLoading(false);
-            return;
+        } else if (storedResults) {
+            setResults(JSON.parse(storedResults));
+            setLoading(false);
+        } else {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/institutes/primary_result`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setResults(data.institutes);
+                    localStorage.setItem("results", JSON.stringify(data.institutes));
+                    setLoading(false);
+                })
+                .catch(() => {
+                    alert("Failed to load results. Please check your connection.");
+                    setLoading(false);
+                });
         }
-        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/institutes/results`)
-            .then((res) => res.json())
-            .then((data) => {
-                setResults(data.institutes);
-                setLoading(false);
-            })
-            .catch(() => {
-                alert("Failed to load results. Please check your connection.");
-                setLoading(false);
-            });
     }, [location.state]);
-
-
 
     // actual handleEnahcnedResult
     const handleEnhancedResults = () => {
-        const savedSession = localStorage.getItem("userSession");
-
-        if (!savedSession) {
-            setShowLoginPopup(true);
+        if (isLoggedIn === null) {
+            // Still loading session state, do nothing yet
             return;
         }
 
-        const session = JSON.parse(savedSession);
-
         if (!isLoggedIn) {
-            navigate("/MobileLogin", { state: { redirectTo: "/EnhancedQuestions" } });
+            setShowLoginPopup(true);
             return;
         }
 
         const preferences = JSON.parse(localStorage.getItem("preferences") || "{}");
         const selectedYesAnswers = Object.keys(preferences).filter(key => preferences[key] === true);
+        const userSession = JSON.parse(localStorage.getItem("userSession"));
 
-        // 🔧 TEMPORARY BYPASS: Assume payment is done
+        // ✅ Navigate with actual session and result data
+
         navigate("/EnhancedQuestions", {
             state: {
-                preferences: selectedYesAnswers
+                preferences: selectedYesAnswers,
+                userSession,
+                institutes: results
             }
         });
-
-        // 🔒 COMMENT OUT THIS BLOCK UNTIL PAYMENT IS READY
-        // if (session.isPaid) {
-        //     navigate("/EnhancedQuestions", {
-        //         state: {
-        //             preferences: selectedYesAnswers
-        //         }
-        //     });
-        // } else {
-        //     alert("Complete your payment to unlock enhanced results.");
-        //     navigate("/payment");
-        // }
-    };
-
-
-    // Dummy
-    // const handleEnhancedResults = () => {
-    //     const preferences = {
-    //         placement_score: false,
-    //         higher_studies_score: false,
-    //         academics_experience_score: false,
-    //         campus_score: false,
-    //         entrepreneurship_score: true
-    //     };
-
-    //     const selectedYesAnswers = Object.keys(preferences).filter(key => preferences[key] === true);
-
-    //     console.log("Bypassing auth → Going to EnhancedQuestions");
-
-    //     navigate("/EnhancedQuestions", {
-    //         state: {
-    //             preferences: selectedYesAnswers,
-    //             dummyData: {
-    //                 rank: "4862",
-    //                 category: "OPEN",
-    //                 gender: "gender-Neutral",
-    //                 preferences,
-    //                 institutes: [
-    //                     { institute_id: "123", institute_name: "IIT Bombay", branch: "CSE" },
-    //                     { institute_id: "124", institute_name: "IIT Madras", branch: "ECE" }
-    //                 ]
-    //             }
-    //         }
-    //     });
-    // };
-
-    const handleLogout = () => {
-        localStorage.removeItem("userSession");
-        setUserSession(null);
-        navigate("/MobileLogin");
     };
 
     if (loading) return <p>Loading results...</p>;
@@ -169,7 +125,7 @@ const ResultsPage = () => {
                     </table>
                 </div>
             </div>
-            {/* <VideoEmbedComponent /> */}
+            <VideoEmbedComponent />
         </>
     );
 };

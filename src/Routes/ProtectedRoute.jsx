@@ -1,24 +1,35 @@
-// Example Route Guard Component
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+// ProtectedRoute.jsx
+import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-const ProtectedRoute = ({ children }) => {
-    const { isLoggedIn } = useAuth();
-    const isPaid = true; // Replace with actual payment status check
+const ProtectedRoute = ({ children, requirePayment = true }) => {
+    const { isLoggedIn, isPaid, checkPaymentStatus } = useAuth();
+    const [checkingPayment, setCheckingPayment] = useState(true);
+
+    useEffect(() => {
+        const fetchStatus = async () => {
+            if (requirePayment && isPaid === null) {
+                await checkPaymentStatus();
+            }
+            setCheckingPayment(false);
+        };
+        fetchStatus();
+    }, [requirePayment, isPaid, checkPaymentStatus]);
 
     if (!isLoggedIn) {
         return <Navigate to="/MobileLogin" />;
     }
 
-    if (!isPaid) {
-        return <Navigate to="/PaymentRequired" />; // Or display a message
+    if (checkingPayment) {
+        return <p>Checking access...</p>; // Or a spinner
+    }
+
+    if (requirePayment && !isPaid) {
+        return <Navigate to="/ResultsPage" />;
     }
 
     return children;
 };
 
 export default ProtectedRoute;
-
-// In your Router setup:
-// <Route path="/EnhancedQuestions" element={<ProtectedRoute><EnhancedQuestions /></ProtectedRoute>} />

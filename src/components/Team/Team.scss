@@ -140,4 +140,9 @@
         }
     }
 
+    @media (max-width: 1000px) and (min-width: 769px) {
+        .team-grid {
+            padding: 0 !important;
+        }
+    }
 }

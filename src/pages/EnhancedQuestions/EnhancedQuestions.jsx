@@ -1,8 +1,10 @@
-import React, { useEffect, useState, useRef } from "react"; // Added useRef
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from '../../api';
 import "./EnhancedQuestions.scss";
 import * as XLSX from 'xlsx';
+// import { useAuth } from "../../context/Auth"; // Remove this line as isPaid check is removed
+import RazorPayment from "../../components/RazorpayPayment/RazorpayPayment";
 
 const EnhancedQuestions = () => {
     const location = useLocation();
@@ -10,14 +12,14 @@ const EnhancedQuestions = () => {
     const [selectedYesAnswers, setSelectedYesAnswers] = useState([]);
     const [comparisons, setComparisons] = useState([]);
     const [institutes, setInstitutes] = useState([]);
-    const [dropdownOpen, setDropdownOpen] = useState(false); // For institutes dropdown
+    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isDownloadReady, setIsDownloadReady] = useState(false);
     const [courseDuration, setCourseDuration] = useState([]);
     const [consistencyScore, setConsistencyScore] = useState(null);
-    const [courseDropdownOpen, setCourseDropdownOpen] = useState(false); // For course duration dropdown
+    const [courseDropdownOpen, setCourseDropdownOpen] = useState(false);
     const [showConsistencyPopup, setShowConsistencyPopup] = useState(false);
-    const [isDownloaded, setIsDownloaded] = useState(false); // Track download status
-    const [isFormSubmitted, setIsFormSubmitted] = useState(false); // Track form submission
+    const [showPaymentGateway, setShowPaymentGateway] = useState(false);
+    const [showDownloadButton, setShowDownloadButton] = useState(false); // New state for download button
 
     // Refs for dropdowns to detect outside clicks
     const institutesDropdownRef = useRef(null);
@@ -31,21 +33,14 @@ const EnhancedQuestions = () => {
             setIsMobileView(window.innerWidth < 768);
         };
         window.addEventListener('resize', handleResize);
-        // Cleanup listener on component unmount
         return () => window.removeEventListener('resize', handleResize);
     }, []);
     // --- END: Mobile View Detection ---
 
     useEffect(() => {
-        // DEBUG ONLY: Force popup open
-        // setShowConsistencyPopup(true);
-
-        // Check if the form has been submitted for the current user
-        const submitted = localStorage.getItem('enhancedFormSubmitted');
-        if (submitted === 'true') {
-            setIsFormSubmitted(true);
-        }
-    }, []);
+        // Only check payment status on component load - REMOVED
+        // checkPaymentStatus();
+    }, []); // Removed checkPaymentStatus from dependency array
 
     const preferenceDisplayNames = {
         placement_score: "Placements",
@@ -99,21 +94,18 @@ const EnhancedQuestions = () => {
         if (Array.isArray(storedInstitutes) && storedInstitutes.length > 0) {
             const institutesWithSelection = storedInstitutes.map(inst => ({
                 ...inst,
-                selected: true // Default to selected
+                selected: true
             }));
             setInstitutes([{ institute_name: 'Select All', institute_id: 'all' }, ...institutesWithSelection]);
         } else {
             console.warn("No institutes in localStorage.");
-            // Fallback or API call as per your logic
-            setInstitutes([{ institute_name: 'Select All', institute_id: 'all' }]); // Initialize with Select All
+            setInstitutes([{ institute_name: 'Select All', institute_id: 'all' }]);
         }
 
-        // Initialize course duration with all options selected
         setCourseDuration(['4', '5']);
 
     }, [location, navigate]);
 
-    // Effect to handle clicks outside of dropdowns
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (institutesDropdownRef.current && !institutesDropdownRef.current.contains(event.target)) {
@@ -128,7 +120,7 @@ const EnhancedQuestions = () => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, []); // Empty dependency array ensures this runs only once on mount and cleans up on unmount
+    }, []);
 
     const handleComparisonChange = (index, value) => {
         const updatedComparisons = [...comparisons];
@@ -159,20 +151,23 @@ const EnhancedQuestions = () => {
         });
     };
 
-    const handleSubmit = async () => {
+    const handleSubmitButtonClick = () => {
         if (comparisons.some(comp => comp.comparison === "")) {
-            alert("Please fill out all comparisons before submitting.");
+            alert("Please fill out all comparisons before proceeding.");
             return;
         }
         if (courseDuration.length === 0) {
-            alert("Please select course duration before submitting.");
+            alert("Please select course duration before proceeding.");
             return;
         }
         if (institutes.filter(inst => inst.selected && inst.institute_id !== 'all').length === 0) {
             alert("Please select at least one institute.");
             return;
         }
+        performConsistencyCheck();
+    };
 
+    const performConsistencyCheck = async () => {
         const requestData = comparisons.map(comparison => {
             const comparisonKey = `${comparison.preference1}-${comparison.preference2}`;
             const comparisonValue = importanceLevels.find(level => level.label === comparison.comparison)?.value;
@@ -206,22 +201,16 @@ const EnhancedQuestions = () => {
             preferred_institute_ids: instituteIds,
             course_duration: courseDuration,
         };
-        console.log("Sending to /check_consistancy:", {
-            comparisons: requestData,
-        });
         try {
             const consistencyResponse = await api.post('/api/v1/institutes/check_consistancy', { comparisons: requestData });
-            const consistency = consistencyResponse?.data?.consistency_score;
-            console.log("Response from /check_consistancy:", consistencyResponse);
 
-            // Check if the response data exists and is a valid object
+
             if (consistencyResponse && consistencyResponse.data && typeof consistencyResponse.data === 'object') {
                 const consistency = consistencyResponse.data.consistency_score;
-                console.log(consistency);
                 if (consistency != null) {
                     setConsistencyScore(consistency);
                     setShowConsistencyPopup(true);
-                    setEnhancedResultData(finalData);
+                    setEnhancedResultData(finalData); // Store data for later use
                 } else {
                     console.error("Consistency score is missing in the JSON response.");
                     alert("Error: Consistency score is missing from the server response.");
@@ -235,7 +224,6 @@ const EnhancedQuestions = () => {
             console.error("Error during consistency check:", error);
             if (error.response && error.response.data) {
                 console.error("Response data:", error.response.data);
-                // Optionally, try to parse the error response if it might contain some JSON
                 if (typeof error.response.data === 'string' && error.response.headers['content-type']?.includes('application/json')) {
                     try {
                         const errorDetails = JSON.parse(error.response.data);
@@ -252,6 +240,46 @@ const EnhancedQuestions = () => {
         }
     };
 
+    const handleConsistencyConfirm = async () => {
+        setShowConsistencyPopup(false); // Hide the popup
+        generateResult(); // Proceed to generate result directly
+    };
+
+    const generateResult = async () => {
+        const authToken = localStorage.getItem("authToken"); // Assuming you store your token as 'authToken'
+
+        if (!authToken) {
+            alert("Authentication token not found. Please log in again.");
+            navigate("/login");
+            return;
+        }
+        try {
+            const resultResponse = await api.post('/api/v1/institutes/enhanced_result', enhancedResultData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                }
+            });
+
+            setEnhancedResultData(resultResponse.data);
+            setIsDownloadReady(true);
+            setShowPaymentGateway(false);
+            setShowDownloadButton(true); // Show download button on success
+        } catch (error) {
+            console.error("Error fetching enhanced result:", error);
+            if (error.response && error.response.status === 403) {
+                setShowPaymentGateway(true); // Show payment gateway on 403
+                setIsDownloadReady(false); // Ensure download button is not ready
+                setShowDownloadButton(false); // Ensure download button is not shown
+            } else {
+                alert("Failed to generate result. Please try again.");
+                setShowPaymentGateway(false); // Hide payment gateway if other error
+                setIsDownloadReady(false); // Ensure download button is not ready
+                setShowDownloadButton(false); // Ensure download button is not shown
+            }
+        }
+    };
 
     const handleDownloadPDF = async () => {
         try {
@@ -259,7 +287,6 @@ const EnhancedQuestions = () => {
                 const worksheetData = enhancedResultData.institutes.map(inst => ({
                     Institute: inst.name,
                     Department: inst.department_name
-                    // Add other relevant fields from enhancedResultData.institutes
                 }));
 
                 const worksheet = XLSX.utils.json_to_sheet(worksheetData);
@@ -277,8 +304,6 @@ const EnhancedQuestions = () => {
                 link.click();
                 link.remove();
 
-                setIsDownloaded(true);  // Mark as downloaded after successful download
-                localStorage.setItem('enhancedFormSubmitted', 'true'); // Store submission status
             } else {
                 console.error("No Advanced result data available or invalid format.");
                 alert("No data to download or data is not in the expected format.");
@@ -287,6 +312,12 @@ const EnhancedQuestions = () => {
             console.error("Error downloading Excel file:", error);
             alert("Failed to download Excel. Something's fishy. 🐟");
         }
+    };
+
+    // Callback for successful payment from RazorpayPayment component
+    const onPaymentSuccess = async () => {
+        setShowPaymentGateway(false); // Hide payment gateway
+        generateResult(); // Proceed to generate result
     };
 
     return (
@@ -298,29 +329,11 @@ const EnhancedQuestions = () => {
                         <p>Your consistency score is <strong>{consistencyScore}/100</strong>.</p>
                         <p>Are you sure you want to continue? You won’t be able to modify responses later.</p>
                         <div className="popup-buttons">
-                            <button className="confirm" onClick={async () => {
-
-                                try {
-                                    const resultResponse = await api.post('/api/v1/institutes/enhanced_result', enhancedResultData, {
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'Accept': 'application/json',
-                                        }
-                                    });
-
-                                    setEnhancedResultData(resultResponse.data); // Store result
-                                    setIsDownloadReady(true);
-                                    setIsFormSubmitted(true);
-                                    setShowConsistencyPopup(false);
-                                    localStorage.setItem('enhancedFormSubmitted', 'true'); // Store submission status
-                                } catch (error) {
-                                    console.error("Error fetching enhanced result:", error);
-                                    alert("Failed to generate result. Please try again.");
-                                }
-                            }}>Yes, Continue</button>
+                            <button className="confirm" onClick={handleConsistencyConfirm}>Yes, Continue</button>
                             <button className="cancel" onClick={() => {
                                 setShowConsistencyPopup(false);
-                                setIsDownloadReady(false);
+                                setIsDownloadReady(false); // Make sure download button isn't revealed if user cancels
+                                setShowDownloadButton(false); // Make sure download button isn't revealed if user cancels
                             }}>No, Go Back</button>
                         </div>
                     </div>
@@ -341,11 +354,10 @@ const EnhancedQuestions = () => {
                                             <td className="comparison-text">
                                                 {preferenceDisplayNames[comparison.preference1] || comparison.preference1}
                                             </td>
-                                            <td><div className="drop-compare">
-                                                <span>are</span>
-                                                <td>
+                                            <td>
+                                                <div className="drop-compare">
+                                                    <span>are</span>
                                                     <select
-                                                        disabled={isFormSubmitted}
                                                         className="comparison-dropdown"
                                                         value={comparison.comparison}
                                                         onChange={(e) => handleComparisonChange(index, e.target.value)}
@@ -357,9 +369,9 @@ const EnhancedQuestions = () => {
                                                             </option>
                                                         ))}
                                                     </select>
-                                                </td>
-                                                <span>than</span>
-                                            </div></td>
+                                                    <span>than</span>
+                                                </div>
+                                            </td>
                                             <td className="comparison-text">
                                                 {preferenceDisplayNames[comparison.preference2] || comparison.preference2}
                                             </td>
@@ -370,16 +382,15 @@ const EnhancedQuestions = () => {
                         </>
 
                     ) : (
-                        <p>Not enough preferences selected to generate comparisons. But you can select your preferend institutes and course duration.</p>
+                        <p>Not enough preferences selected to generate comparisons. But you can select your prefered institutes and course duration.</p>
                     )}
 
                     <div className="institutes-selection">
                         <h2 className="title">Select Institutes</h2>
-                        {/* Assign ref to institutes dropdown wrapper */}
                         <div className="dropdown-wrapper" ref={institutesDropdownRef}>
                             <div className="dropdown-display" onClick={() => {
                                 setDropdownOpen(prev => !prev);
-                                setCourseDropdownOpen(false); // Optionally close other dropdown
+                                setCourseDropdownOpen(false);
                             }}>
                                 <div className="dropdown_text">{(() => {
                                     const selected = institutes.filter(i => i.selected && i.institute_id !== 'all').map(i => i.institute_name);
@@ -395,10 +406,9 @@ const EnhancedQuestions = () => {
                                     {institutes.map(inst => (
                                         <label key={inst.institute_id ?? `unknown-${inst.institute_name}`} className="dropdown-option">
                                             <input
-                                                disabled={isFormSubmitted}
                                                 type="checkbox"
                                                 checked={inst.selected}
-                                                disabled={inst.institute_id == null}
+                                                // disabled={inst.institute_id == null} // KEEP THIS if you want to disable for null IDs
                                                 onChange={() => handleInstituteSelect(inst.institute_id)}
                                             />
                                             {inst.institute_name}
@@ -411,30 +421,26 @@ const EnhancedQuestions = () => {
 
                     <div className="duration-selection">
                         <h2 className="title">Select Course Duration</h2>
-                        {/* Assign ref to course duration dropdown wrapper */}
                         <div className="dropdown-wrapper" ref={courseDropdownRef}>
                             <div className="dropdown-display" onClick={() => {
                                 setCourseDropdownOpen(prev => !prev);
-                                setDropdownOpen(false); // Close the institutes dropdown
+                                setDropdownOpen(false);
                             }}
                             >
                                 <div className="dropdown_text">
                                     {courseDuration.length === 0
                                         ? "Select Course Duration"
-                                        : courseDuration.map(val => `${val}-Year Course`).join(", ") // Improved display
+                                        : courseDuration.map(val => `${val}-Year Course`).join(", ")
                                     }
                                 </div>
-                                {/* FIX 2: Use courseDropdownOpen for the arrow state */}
                                 <span className="arrow">{courseDropdownOpen ? "▲" : "▼"}</span>
                             </div>
 
-                            {/* FIX 1: Use courseDropdownOpen to control visibility */}
                             {courseDropdownOpen && (
                                 <div className="dropdown-list">
                                     {[{ label: "4-Year Course", value: "4" }, { label: "5-Year Course", value: "5" }].map((item) => (
                                         <label key={item.value} className="dropdown-option">
                                             <input
-                                                disabled={isFormSubmitted}
                                                 type="checkbox"
                                                 checked={courseDuration.includes(item.value)}
                                                 onChange={() => handleCourseDurationSelect(item.value)}
@@ -447,23 +453,41 @@ const EnhancedQuestions = () => {
                         </div>
                     </div>
 
-                    {!isFormSubmitted && selectedYesAnswers.length > 0 && (
-                        <button className="submit-button" onClick={handleSubmit} disabled={isFormSubmitted}>
-                            Submit for Advanced Results
+                    {/* Submit button: Always visible */}
+                    {!showPaymentGateway && !showDownloadButton && (
+                        <button className="submit-button" onClick={handleSubmitButtonClick}>
+                            Submit
                         </button>
                     )}
 
-                    {isFormSubmitted && isDownloadReady && !isDownloaded && (
+                    {/* Payment Gateway: Show only if 403 is received */}
+                    {showPaymentGateway && (
+                        <div className="payment-gateway-section">
+                            <p>Please complete the payment to proceed with generating your advanced results.</p>
+                            <RazorPayment
+                                amount={59}
+                                onSuccess={onPaymentSuccess}
+                                className="payment_button"
+                            />
+                            <button className="cancel-payment" onClick={() => setShowPaymentGateway(false)}>
+                                Cancel Payment
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Download button: Show only if download is ready (after successful API call or payment) */}
+                    {isDownloadReady && showDownloadButton && (
                         <button className="download-button" onClick={handleDownloadPDF}>
                             Download Result
                         </button>
                     )}
 
-                    {isDownloaded && (
+                    {/* Message for already paid users: This logic is now handled by directly showing the download button */}
+                    {/* {isPaid && enhancedResultData && (
                         <p className="download-message">
-                            The form has been submitted and the result has been downloaded. You cannot fill this form again.
+                            You have already paid and can download your result.
                         </p>
-                    )}
+                    )} */}
                 </div>
             </div>
         </>

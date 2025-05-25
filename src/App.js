@@ -6,7 +6,6 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import Questionaire from "./pages/Questionaire/Questionaire";
 import ResultsPage from "./pages/ResultsPage/ResultsPage";
 import MobileLogin from "./pages/MobileLogin/MobileLogin";
-import EnhancedResults from "./pages/EnhancedResults/EnhancedResults";
 import EnhancedQuestions from "./pages/EnhancedQuestions/EnhancedQuestions";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import ContactUs from "./pages/ContactUs/ContactUs";
@@ -21,10 +20,10 @@ import ComingSoon from "./pages/ComingSoon/ComingSoon";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 2000); // Hide splash after 2 seconds
+    const timer = setTimeout(() => setShowSplash(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -62,7 +61,7 @@ function App() {
           <Route path="/ResultsPage" element={<ResultsPage />} />
           <Route path="/MobileLogin" element={<MobileLogin />} />
           {/* Correct placement of ProtectedRoute */}
-          <Route path="/EnhancedQuestions" element={<ProtectedRoute><EnhancedQuestions /></ProtectedRoute>} />
+          <Route path="/EnhancedQuestions" element={<ProtectedRoute requirePayment={false}><EnhancedQuestions /></ProtectedRoute>} />
           <Route path="/AboutUs" element={<AboutUs />} />
           <Route path="/Contact-Us" element={<ContactUs />} />
           <Route path="/HowItWorks" element={<HowItWorks />} />

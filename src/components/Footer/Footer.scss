@@ -19,7 +19,7 @@
             gap: 1.5rem;
         }
 
-        @media (max-width: 576px) {
+        @media (max-width: 768px) {
             grid-template-columns: 1fr; // Stack sections on smaller screens
             gap: 2rem;
         }

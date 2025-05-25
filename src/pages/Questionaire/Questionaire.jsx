@@ -78,8 +78,7 @@ const Questionaire = () => {
                 const eligibilityData = await eligibilityResponse.json();
                 if (eligibilityData.institutes && eligibilityData.institutes.length > 0) {
                     setIsEligible(true);
-                    localStorage.setItem("institutes", JSON.stringify(eligibilityData.institutes)); // Store institutes
-                    console.log(eligibilityData.institutes);
+                    localStorage.setItem("institutes", JSON.stringify(eligibilityData.institutes));
                     setEligibilityMessage("");
                 } else {
                     setIsEligible(false);
@@ -97,37 +96,6 @@ const Questionaire = () => {
         }
     };
 
-    // dummy eligibility fucntion
-    // const checkEligibility = async (rankVal, categoryVal, genderVal) => {
-    //     setEligibilityLoading(true);
-    //     setEligibilityMessage("Checking eligibility...");
-    //     setIsEligible(null);
-
-    //     try {
-    //         // Dummy check: eligible if rank is less than 10000
-    //         if (rankVal && categoryVal && genderVal && parseInt(rankVal) < 10000) {
-    //             const dummyInstitutes = [
-    //                 { name: "IIT Bombay", branch: "CSE" },
-    //                 { name: "IIT Delhi", branch: "ECE" },
-    //             ];
-
-    //             localStorage.setItem("institutes", JSON.stringify(dummyInstitutes));
-    //             setIsEligible(true);
-    //             setEligibilityMessage("");
-    //         } else {
-    //             setIsEligible(false);
-    //             setEligibilityMessage("You are not eligible for any IITs.");
-    //         }
-    //     } catch (err) {
-    //         setIsEligible(false);
-    //         setEligibilityMessage("Something went wrong. Please try again.");
-    //     } finally {
-    //         setEligibilityLoading(false);
-    //     }
-    // };
-
-
-    // Handle submission and confirmation
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -141,6 +109,13 @@ const Questionaire = () => {
             return;
         }
 
+        // select 2
+        const selectedPreferences = Object.values(preferences).filter(val => val === true).length;
+
+        if (selectedPreferences < 2) {
+            setError("Please select at least **two preferences** marked as 'Yes'.");
+            return;
+        }
         setError("");
         setShowPopup(true);
     };
@@ -215,21 +190,21 @@ const Questionaire = () => {
                 </div>
 
 
-                <div className="check-eligibility-container">
+                {/* <div className="check-eligibility-container">
                     <button onClick={() => checkEligibility(rank, category, gender)} disabled={eligibilityLoading}>
                         {eligibilityLoading ? "Checking Eligibility..." : "Get Results"}
                     </button>
                     {eligibilityMessage && <p className="eligibility-message">{eligibilityMessage}</p>}
-                </div>
+                </div> */}
 
-                {/* <div className="check-eligibility-container">
+                <div className="check-eligibility-container">
                     {!isEligible && (
                         <button onClick={() => checkEligibility(rank, category, gender)} disabled={eligibilityLoading}>
                             {eligibilityLoading ? "Checking Eligibility..." : "Get Results"}
                         </button>
                     )}
                     {eligibilityMessage && <p className="eligibility-message">{eligibilityMessage}</p>}
-                </div> */}
+                </div>
 
 
                 {isEligible && (
