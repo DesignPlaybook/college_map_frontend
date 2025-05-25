@@ -57,9 +57,11 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-evenly;
+                gap: 10px;
 
                 @media (max-width: 768px) {
                     gap: 5px;
+                    justify-content: center;
                 }
             }
 
@@ -262,4 +264,12 @@
 
 p.download-message {
     text-align: center;
+}
+
+.payment-gateway-section {
+    text-align: center;
+
+    .payment_button {
+        color: #fff;
+    }
 }

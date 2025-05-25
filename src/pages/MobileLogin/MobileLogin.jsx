@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./MobileLogin.scss";
-import CollegeIllustration from "../../assets/college-illustration.svg"; // Add a relevant SVG
+import CollegeIllustration from "../../assets/college-illustration.svg";
 
 const MobileLogin = () => {
     const [mobileNumber, setMobileNumber] = useState("");
@@ -13,12 +13,11 @@ const MobileLogin = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const otpRefs = useRef([]);
-    const { isLoggedIn, login } = useAuth();
+    const { isLoggedIn, login, logout } = useAuth();
     const [resendTimer, setResendTimer] = useState(null);
     const [resendActive, setResendActive] = useState(false);
     const RESEND_DELAY = 120; // 2 minutes in seconds
     const [resendCounter, setResendCounter] = useState(RESEND_DELAY);
-
 
     // dev mode bypass useefect
     // useEffect(() => {
@@ -41,6 +40,27 @@ const MobileLogin = () => {
         // This useEffect is no longer needed for automatic navigation.
         // The navigation after login is now handled within the verifyOtp function.
     }, [otpSent]);
+
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+        if (token) {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            const expiry = payload.exp * 1000;
+            const now = Date.now();
+
+            if (expiry < now) {
+                logout();
+                navigate("/login", { replace: true });
+            } else {
+                const timeout = setTimeout(() => {
+                    logout();
+                    navigate("/login", { replace: true });
+                }, expiry - now);
+                return () => clearTimeout(timeout);
+            }
+        }
+    }, []);
+
 
     const startResendTimer = () => {
         setResendActive(false);
@@ -152,29 +172,10 @@ const MobileLogin = () => {
 
             if (response.ok) {
                 localStorage.setItem("authToken", data.token);
-                login(data.token);
+                login({ token: data.token });
+
 
                 if (redirectTo === "/EnhancedQuestions") {
-                    // Actual payment check - replace with your API call
-                    // fetch(`${process.env.REACT_APP_BACKEND_URL}/api/check-payment`, {
-                    //     method: "GET",
-                    //     headers: {
-                    //         "Authorization": `Bearer ${data.token}`, // Assuming you use Bearer token
-                    //         "Content-Type": "application/json",
-                    //     },
-                    // })
-                    //     .then(paymentResponse => paymentResponse.json())
-                    //     .then(paymentData => {
-                    //         if (paymentData.isPaid) {
-                    //             navigate(redirectTo);
-                    //         } else {
-                    //             navigate("/payment");
-                    //         }
-                    //     })
-                    //     .catch(() => {
-                    //         setError("Failed to check payment status.");
-                    //         setLoading(false);
-                    //     });
                     navigate(redirectTo);
                 } else if (redirectTo) {
                     navigate(redirectTo);
@@ -193,52 +194,6 @@ const MobileLogin = () => {
             setLoading(false);
         }
     };
-
-
-    // const verifyOtp = async () => {
-    //     const enteredOtp = otp.map((digit) => digit.trim()).join("");
-    //     const redirectTo = location.state?.redirectTo;
-    //     if (enteredOtp.length !== 4 || /\D/.test(enteredOtp)) {
-    //         setError("Please enter a valid 4-digit OTP.");
-    //         return;
-    //     }
-
-    //     setLoading(true);
-    //     // Simulate disabling the button while verifying
-    //     setTimeout(() => {
-    //         // Dummy success for development
-    //         if (enteredOtp === "0000") {
-    //             const dummyToken = "dummy-dev-token";
-    //             localStorage.setItem("authToken", dummyToken);
-    //             login(dummyToken);
-    //             if (redirectTo === "/EnhancedQuestions") {
-    //                 // Dummy payment check
-    //                 const isPaymentSuccessful = checkDummyPaymentStatus();
-    //                 if (isPaymentSuccessful) {
-    //                     navigate(redirectTo);
-    //                 } else {
-    //                     navigate("/payment");
-    //                 }
-    //             } else if (redirectTo) {
-    //                 navigate(redirectTo);
-    //             } else {
-    //                 navigate("/Questionaire"); // Or some other default logged-in page
-    //             }
-    //             return;
-    //         } else {
-    //             setError("Incorrect OTP. Use 0000 as dummy code to proceed (dev mode).");
-    //         }
-    //         setLoading(false);
-    //     }, 1000);
-    // };
-
-    // Dummy function for payment status check - Replace with your actual logic
-    // const checkDummyPaymentStatus = () => {
-    //     // Simulate a successful payment for now
-    //     console.log("Checking dummy payment status... (always true for now)");
-    //     return true;
-    // };
-
     return (
         <div className="mobile-login-container fade-in">
             <div className="illustration">
