@@ -1,5 +1,4 @@
-/* Questionaire.scss */
-@import "../../components/colortheme.scss"; // Import your color variables
+@import "../../components/colortheme.scss";
 
 .questionnaire-container {
     min-height: 100vh;
@@ -20,7 +19,6 @@
         width: 45%;
         max-width: 800px;
         backdrop-filter: blur(8px);
-        // box-shadow: 0 0 20px #00f0ff;
     }
 
     .title {
@@ -165,7 +163,6 @@
     }
 }
 
-// Media Queries
 @media screen and (max-width: 990px) {
     .questionnaire-container {
         align-items: center;

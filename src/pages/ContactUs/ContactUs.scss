@@ -1,4 +1,4 @@
-@import '../../components/colortheme.scss'; // Assuming you have a variables.scss file
+@import '../../components/colortheme.scss';
 
 .contact-us {
     padding: 2rem;
@@ -131,7 +131,6 @@
         }
     }
 
-    // Mobile Responsiveness
     @media (max-width: 767px) {
         &__container {
             padding: 1rem;

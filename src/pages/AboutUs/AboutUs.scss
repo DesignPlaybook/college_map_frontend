@@ -1,4 +1,4 @@
-@import '../../components/colortheme.scss'; // assuming you store your colors here
+@import '../../components/colortheme.scss';
 
 .about-us {
     background-color: var(--background);
@@ -40,7 +40,6 @@
             }
 
             .text {
-                // max-width: 600px;
 
                 h2 {
                     font-size: 2rem;
@@ -54,9 +53,6 @@
                 }
             }
 
-            &.reverse {
-                // flex-direction: row-reverse;
-            }
         }
     }
 
@@ -112,8 +108,6 @@
         color: var(--background);
         text-align: center;
         padding: 2rem 2rem;
-        // border-radius: 12px;
-        // background-image: "../../assets/";
 
         h2 {
             font-size: 2rem;

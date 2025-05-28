@@ -29,7 +29,7 @@
     .iit-carousel {
         .iit-card {
             padding: 1rem;
-            margin: 0 10px; // Adds horizontal space between the cards
+            margin: 0 10px;
             transition: transform 0.3s ease;
             width: 85% !important;
 
@@ -94,7 +94,7 @@
     }
 }
 
-// Slick arrows styling
+
 .slick-prev,
 .slick-next {
     z-index: 100;
@@ -110,7 +110,7 @@
     transform: translateY(-50%);
 
     &:hover {
-        background: var(--light-green-blue); // Lighter hover effect
+        background: var(--light-green-blue);
     }
 
     display: block !important;

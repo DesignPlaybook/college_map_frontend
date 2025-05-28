@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import api from '../../api';
 import "./EnhancedQuestions.scss";
 import * as XLSX from 'xlsx';
-// import { useAuth } from "../../context/Auth"; // Remove this line as isPaid check is removed
 import RazorPayment from "../../components/RazorpayPayment/RazorpayPayment";
 
 const EnhancedQuestions = () => {
@@ -19,13 +18,13 @@ const EnhancedQuestions = () => {
     const [courseDropdownOpen, setCourseDropdownOpen] = useState(false);
     const [showConsistencyPopup, setShowConsistencyPopup] = useState(false);
     const [showPaymentGateway, setShowPaymentGateway] = useState(false);
-    const [showDownloadButton, setShowDownloadButton] = useState(false); // New state for download button
+    const [showDownloadButton, setShowDownloadButton] = useState(false);
 
-    // Refs for dropdowns to detect outside clicks
+
     const institutesDropdownRef = useRef(null);
     const courseDropdownRef = useRef(null);
 
-    // --- START: Mobile View Detection ---
+
     const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
 
     useEffect(() => {
@@ -35,12 +34,7 @@ const EnhancedQuestions = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-    // --- END: Mobile View Detection ---
 
-    useEffect(() => {
-        // Only check payment status on component load - REMOVED
-        // checkPaymentStatus();
-    }, []); // Removed checkPaymentStatus from dependency array
 
     const preferenceDisplayNames = {
         placement_score: "Placements",
@@ -210,7 +204,7 @@ const EnhancedQuestions = () => {
                 if (consistency != null) {
                     setConsistencyScore(consistency);
                     setShowConsistencyPopup(true);
-                    setEnhancedResultData(finalData); // Store data for later use
+                    setEnhancedResultData(finalData);
                 } else {
                     console.error("Consistency score is missing in the JSON response.");
                     alert("Error: Consistency score is missing from the server response.");
@@ -241,12 +235,12 @@ const EnhancedQuestions = () => {
     };
 
     const handleConsistencyConfirm = async () => {
-        setShowConsistencyPopup(false); // Hide the popup
-        generateResult(); // Proceed to generate result directly
+        setShowConsistencyPopup(false);
+        generateResult();
     };
 
     const generateResult = async () => {
-        const authToken = localStorage.getItem("authToken"); // Assuming you store your token as 'authToken'
+        const authToken = localStorage.getItem("authToken");
 
         if (!authToken) {
             alert("Authentication token not found. Please log in again.");
@@ -265,18 +259,18 @@ const EnhancedQuestions = () => {
             setEnhancedResultData(resultResponse.data);
             setIsDownloadReady(true);
             setShowPaymentGateway(false);
-            setShowDownloadButton(true); // Show download button on success
+            setShowDownloadButton(true);
         } catch (error) {
             console.error("Error fetching enhanced result:", error);
             if (error.response && error.response.status === 403) {
-                setShowPaymentGateway(true); // Show payment gateway on 403
-                setIsDownloadReady(false); // Ensure download button is not ready
-                setShowDownloadButton(false); // Ensure download button is not shown
+                setShowPaymentGateway(true);
+                setIsDownloadReady(false);
+                setShowDownloadButton(false);
             } else {
                 alert("Failed to generate result. Please try again.");
-                setShowPaymentGateway(false); // Hide payment gateway if other error
-                setIsDownloadReady(false); // Ensure download button is not ready
-                setShowDownloadButton(false); // Ensure download button is not shown
+                setShowPaymentGateway(false);
+                setIsDownloadReady(false);
+                setShowDownloadButton(false);
             }
         }
     };
@@ -314,10 +308,10 @@ const EnhancedQuestions = () => {
         }
     };
 
-    // Callback for successful payment from RazorpayPayment component
+
     const onPaymentSuccess = async () => {
-        setShowPaymentGateway(false); // Hide payment gateway
-        generateResult(); // Proceed to generate result
+        setShowPaymentGateway(false);
+        generateResult();
     };
 
     return (
@@ -332,8 +326,8 @@ const EnhancedQuestions = () => {
                             <button className="confirm" onClick={handleConsistencyConfirm}>Yes, Continue</button>
                             <button className="cancel" onClick={() => {
                                 setShowConsistencyPopup(false);
-                                setIsDownloadReady(false); // Make sure download button isn't revealed if user cancels
-                                setShowDownloadButton(false); // Make sure download button isn't revealed if user cancels
+                                setIsDownloadReady(false);
+                                setShowDownloadButton(false);
                             }}>No, Go Back</button>
                         </div>
                     </div>
@@ -408,7 +402,6 @@ const EnhancedQuestions = () => {
                                             <input
                                                 type="checkbox"
                                                 checked={inst.selected}
-                                                // disabled={inst.institute_id == null} // KEEP THIS if you want to disable for null IDs
                                                 onChange={() => handleInstituteSelect(inst.institute_id)}
                                             />
                                             {inst.institute_name}

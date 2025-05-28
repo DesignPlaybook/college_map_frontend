@@ -1,6 +1,6 @@
 import React from "react";
 import "./HeroSection.scss";
-import HeroImage from "../../assets/Hero.png"; // Replace with your actual image path
+import HeroImage from "../../assets/Hero.png";
 
 const HeroSection = () => {
     return (

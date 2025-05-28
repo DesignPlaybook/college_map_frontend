@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react"; // Added useCallback
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 
 const AuthContext = createContext();
 

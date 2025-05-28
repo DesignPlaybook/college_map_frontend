@@ -28,33 +28,31 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Check if the user is logged in based on authToken
     const token = localStorage.getItem("authToken");
-    setIsLoggedIn(!!token); // Update login state
-  }, []); // Runs once on component mount
+    setIsLoggedIn(!!token);
+  }, []);
 
-  // Listen for changes to localStorage and update the login state
   useEffect(() => {
     const handleStorageChange = () => {
       const token = localStorage.getItem("authToken");
-      setIsLoggedIn(!!token); // Update login state
+      setIsLoggedIn(!!token);
     };
 
     window.addEventListener("storage", handleStorageChange);
 
     return () => {
-      window.removeEventListener("storage", handleStorageChange); // Clean up listener
+      window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
   if (showSplash) {
-    return <SplashScreen />; // Show Splash Screen first
+    return <SplashScreen />;
   }
 
   return (
     <Router>
       <ScrollToTop />
-      <Layout isLoggedIn={isLoggedIn}> {/* Pass login state to Layout */}
+      <Layout isLoggedIn={isLoggedIn}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/Questionaire" element={<Questionaire />} />

@@ -9,7 +9,6 @@ const EnhancedRedirect = () => {
 
     useEffect(() => {
         if (isLoggedIn && isPaid === null) {
-            // Fetch payment status once after login
             checkPaymentStatus().then(() => setCheckedStatus(true));
         } else if (!isLoggedIn) {
             navigate("/MobileLogin", { state: { redirectTo: "/EnhancedRedirect" } });
@@ -25,7 +24,6 @@ const EnhancedRedirect = () => {
         const selectedYesAnswers = Object.keys(preferences).filter(key => preferences[key] === true);
 
         if (true) {
-            // if (isPaid) {
             navigate("/EnhancedQuestions", {
                 state: {
                     preferences: selectedYesAnswers
