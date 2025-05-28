@@ -7,7 +7,7 @@ const ScrollToTop = () => {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        window.scrollTo(0, 0);  // Scroll to the top whenever route changes
+        window.scrollTo(0, 0);
     }, [pathname]);
 
     return null;
@@ -16,10 +16,10 @@ const ScrollToTop = () => {
 const Layout = ({ children }) => {
     return (
         <div className="flex flex-col min-h-screen">
-            <ScrollToTop /> {/* Ensure scroll resets on route change */}
+            <ScrollToTop />
             <Navbar />
-            <main className="flex-grow overflow-auto">{children}</main> {/* Allow content to scroll */}
-            <Footer /> {/* Footer stays at the bottom */}
+            <main className="flex-grow overflow-auto">{children}</main>
+            <Footer />
         </div>
     );
 };

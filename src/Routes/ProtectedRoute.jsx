@@ -1,4 +1,3 @@
-// ProtectedRoute.jsx
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -22,7 +21,7 @@ const ProtectedRoute = ({ children, requirePayment = true }) => {
     }
 
     if (checkingPayment) {
-        return <p>Checking access...</p>; // Or a spinner
+        return <p>Checking access...</p>;
     }
 
     if (requirePayment && !isPaid) {

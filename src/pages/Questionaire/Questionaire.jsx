@@ -5,8 +5,6 @@ import "./Questionaire.scss";
 
 const Questionaire = () => {
     const navigate = useNavigate();
-
-    // Preferences Labels
     const preferenceLabels = {
         placement_score: "Placement",
         higher_studies_score: "Higher Studies",
@@ -22,14 +20,11 @@ const Questionaire = () => {
         entrepreneurship_score: <FaRocket />,
     };
 
-
-    // Categories
     const categories = [
         "EWS", "EWS (PwD)", "OBC-NCL", "OBC-NCL (PwD)",
         "OPEN", "OPEN (PwD)", "SC", "SC (PwD)", "ST", "ST (PwD)"
     ];
 
-    // Initial preferences state
     const initialPreferences = {
         placement_score: null,
         higher_studies_score: null,
@@ -38,20 +33,18 @@ const Questionaire = () => {
         entrepreneurship_score: null,
     };
 
-    // States
     const [rank, setRank] = useState("");
     const [category, setCategory] = useState("");
-    const [gender, setGender] = useState(""); // Add gender state
+    const [gender, setGender] = useState("");
     const [preferences, setPreferences] = useState(initialPreferences);
     const [eligibilityLoading, setEligibilityLoading] = useState(false);
     const [eligibilityMessage, setEligibilityMessage] = useState("");
     const [isEligible, setIsEligible] = useState(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const [showPopup, setShowPopup] = useState(false); // Popup control
+    const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
-        // Clear local storage on initial load
         localStorage.removeItem("rank");
         localStorage.removeItem("category");
         localStorage.removeItem("gender");
@@ -62,7 +55,6 @@ const Questionaire = () => {
         setPreferences((prev) => ({ ...prev, [key]: value }));
     };
 
-    // Actual Function to check eligibility
     const checkEligibility = async (rankVal, categoryVal, genderVal) => {
         setEligibilityLoading(true);
         setEligibilityMessage("Checking eligibility...");
@@ -71,7 +63,7 @@ const Questionaire = () => {
             const eligibilityResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/v1/institutes/check_eligibility`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ rank: rankVal, category: categoryVal, gender: genderVal }), // Sending gender here
+                body: JSON.stringify({ rank: rankVal, category: categoryVal, gender: genderVal }),
             });
 
             if (eligibilityResponse.ok) {
@@ -108,8 +100,6 @@ const Questionaire = () => {
             setError("Please fill all fields and answer all questions.");
             return;
         }
-
-        // select 2
         const selectedPreferences = Object.values(preferences).filter(val => val === true).length;
 
         if (selectedPreferences < 2) {

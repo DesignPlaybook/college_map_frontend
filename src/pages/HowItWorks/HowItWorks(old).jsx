@@ -49,7 +49,6 @@ const steps = [
 const HowItWorks = () => {
 
     return (
-        // IDEA ONE
         <div className="how-it-works-workbook">
             <h2 className="main-heading">How It Works</h2>
 

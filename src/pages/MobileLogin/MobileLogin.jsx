@@ -16,7 +16,7 @@ const MobileLogin = () => {
     const { isLoggedIn, login, logout } = useAuth();
     const [resendTimer, setResendTimer] = useState(null);
     const [resendActive, setResendActive] = useState(false);
-    const RESEND_DELAY = 120; // 2 minutes in seconds
+    const RESEND_DELAY = 120;
     const [resendCounter, setResendCounter] = useState(RESEND_DELAY);
 
     // dev mode bypass useefect
@@ -37,8 +37,6 @@ const MobileLogin = () => {
             setResendActive(false);
             setResendCounter(RESEND_DELAY);
         }
-        // This useEffect is no longer needed for automatic navigation.
-        // The navigation after login is now handled within the verifyOtp function.
     }, [otpSent]);
 
     useEffect(() => {
@@ -91,7 +89,6 @@ const MobileLogin = () => {
         if (input.length === 10) setError("");
     };
 
-    // actual otp send code
     const sendOtp = async () => {
         const validIndianMobile = /^[6-9]\d{9}$/;
 
@@ -127,14 +124,10 @@ const MobileLogin = () => {
 
     const handleResendOtp = () => {
         if (resendActive) {
-            // Re-enable loading state
             setLoading(true);
-            // Inactivate the resend button immediately
             setResendActive(false);
             setResendCounter(RESEND_DELAY);
-            // Call the sendOtp function again to resend the OTP
             sendOtp();
-            // The timer will restart in the useEffect when otpSent becomes true again
         }
     };
 
@@ -148,8 +141,6 @@ const MobileLogin = () => {
             otpRefs.current[index + 1]?.focus();
         }
     };
-
-    // actual otp verify
     const verifyOtp = async () => {
         const enteredOtp = otp.map((digit) => digit.trim()).join("");
         const redirectTo = location.state?.redirectTo;

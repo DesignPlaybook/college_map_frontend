@@ -9,16 +9,15 @@
             $primary3,
             $light-green-blue,
             $primary );
-    background-size: 400% 400%; // Large size for smooth animation
+    background-size: 400% 400%;
     padding: 1.5rem 0;
     box-shadow: 0 2px 4px rgba($jet, 0.2);
     z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: gradientShift 12s ease infinite; // Smooth gradient animation
+    animation: gradientShift 12s ease infinite;
 
-    // Subtle shimmer overlay
     &::before {
         content: '';
         position: absolute;
@@ -38,7 +37,7 @@
 
 .banner-text {
     text-align: center;
-    position: relative; // Ensure text is above the shimmer
+    position: relative;
     z-index: 1;
 
     h1 {
@@ -51,9 +50,6 @@
     }
 }
 
-
-
-// Shimmer animation
 @keyframes shimmer {
     0% {
         background-position: -200% 0;
@@ -64,7 +60,6 @@
     }
 }
 
-// Responsive Design
 @media (max-width: 768px) {
     .banner {
         padding: 1rem 0;

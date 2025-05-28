@@ -13,9 +13,6 @@ const ResultsPage = () => {
     const [showLoginPopup, setShowLoginPopup] = useState(false);
     const { isLoggedIn } = useAuth();
 
-
-
-    // actual useffect
     useEffect(() => {
         const savedSession = localStorage.getItem("userSession");
         if (savedSession) {
@@ -47,10 +44,8 @@ const ResultsPage = () => {
         }
     }, [location.state]);
 
-    // actual handleEnahcnedResult
     const handleEnhancedResults = () => {
         if (isLoggedIn === null) {
-            // Still loading session state, do nothing yet
             return;
         }
 
@@ -62,9 +57,6 @@ const ResultsPage = () => {
         const preferences = JSON.parse(localStorage.getItem("preferences") || "{}");
         const selectedYesAnswers = Object.keys(preferences).filter(key => preferences[key] === true);
         const userSession = JSON.parse(localStorage.getItem("userSession"));
-
-        // ✅ Navigate with actual session and result data
-
         navigate("/EnhancedQuestions", {
             state: {
                 preferences: selectedYesAnswers,

@@ -15,9 +15,9 @@
 
     .team-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr); // 4 per row
+        grid-template-columns: repeat(4, 1fr);
         gap: 1.5rem;
-        justify-items: center; // centers the team members
+        justify-items: center;
         padding: 0 200px;
     }
 
@@ -35,16 +35,16 @@
         }
 
         .photo {
-            width: 100px; // image size
-            height: 100px; // image size
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            overflow: hidden; // ensures image stays inside the circle
+            overflow: hidden;
             margin-bottom: 1rem;
 
             img {
                 width: 100%;
                 height: 100%;
-                object-fit: cover; // makes sure the image covers the circle
+                object-fit: cover;
             }
         }
 
@@ -101,7 +101,7 @@
 
     @media (max-width: 768px) {
         .team-grid {
-            grid-template-columns: repeat(2, 1fr) !important; // 2 per row on mobile
+            grid-template-columns: repeat(2, 1fr) !important;
             gap: 1rem;
             padding: 0 !important;
         }

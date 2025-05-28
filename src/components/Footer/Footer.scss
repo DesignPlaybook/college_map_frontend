@@ -1,15 +1,15 @@
-@import '../../components/colortheme.scss'; // Assuming your variables file path
+@import '../../components/colortheme.scss';
 
 .footer {
     background-color: $footer-bg;
     color: $text-light;
-    padding: 2rem 1rem; // Adjust vertical padding as needed
+    padding: 2rem 1rem;
 
     &__container {
         max-width: 1200px;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); // Responsive grid
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 2rem;
         padding-bottom: 2rem;
         border-bottom: 1px solid $davys-gray;
@@ -20,7 +20,7 @@
         }
 
         @media (max-width: 768px) {
-            grid-template-columns: 1fr; // Stack sections on smaller screens
+            grid-template-columns: 1fr;
             gap: 2rem;
         }
     }
@@ -80,7 +80,7 @@
         font-size: 1.5rem;
 
         @media (max-width: 576px) {
-            justify-content: center; // Center icons on smaller screens
+            justify-content: center;
         }
     }
 

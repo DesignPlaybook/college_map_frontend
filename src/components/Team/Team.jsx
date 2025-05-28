@@ -35,7 +35,7 @@ const teamMembers = [
 
 const Team = () => {
     const handleImageError = (e) => {
-        e.target.src = defaultphoto; // Fallback to the default image if there's an error loading the image
+        e.target.src = defaultphoto;
     };
 
     return (
@@ -49,7 +49,7 @@ const Team = () => {
                             <img
                                 src={member.img}
                                 alt={member.name}
-                                onError={handleImageError} // Trigger the fallback on error
+                                onError={handleImageError}
                             />
                         </div>
                         <h4>{member.name}</h4>

@@ -36,13 +36,13 @@ const testimonials = [
 const Testimonials = () => {
     const settings = {
         dots: true,
-        arrows: false, // Hides arrows
+        arrows: false,
         infinite: testimonials.length > 3,
         speed: 500,
         slidesToShow: testimonials.length < 3 ? testimonials.length : 3,
         slidesToScroll: 1,
         autoplay: false,
-        autoplaySpeed: 2000, // 3000ms = 3 seconds per slide
+        autoplaySpeed: 2000,
 
         responsive: [
             {

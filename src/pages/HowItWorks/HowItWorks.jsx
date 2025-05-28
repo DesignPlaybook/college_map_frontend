@@ -49,7 +49,6 @@ const steps = [
 const HowItWorks = () => {
 
     return (
-        // IDEA TWO
         <div className="how-it-works-ladder">
             <h2 className="main-heading">How It Works</h2>
             <p className="quote-block">

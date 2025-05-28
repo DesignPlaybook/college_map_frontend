@@ -1,4 +1,3 @@
-// actual
 import React, { useEffect } from "react";
 
 const RazorpayPayment = ({ amount, preferences, onSuccess }) => {
@@ -9,14 +8,12 @@ const RazorpayPayment = ({ amount, preferences, onSuccess }) => {
         script.async = true;
         document.body.appendChild(script);
 
-        // Optional: Clean up the script if the component unmounts
         return () => {
             document.body.removeChild(script);
         };
     }, []);
 
     const handlePayment = async () => {
-        // Step 1: Create Razorpay Order
         const token = localStorage.getItem("authToken");
 
         try {
@@ -32,8 +29,7 @@ const RazorpayPayment = ({ amount, preferences, onSuccess }) => {
             const data = await response.json();
 
             if (!response.ok) {
-                console.error("RazorpayPayment: Error creating order:", data.message || 'Unknown error'); // Changed alert to console.error
-                // You might want to show a custom modal/message here instead of alert
+                console.error("RazorpayPayment: Error creating order:", data.message || 'Unknown error');
                 return;
             }
 
@@ -64,30 +60,27 @@ const RazorpayPayment = ({ amount, preferences, onSuccess }) => {
 
                         if (verifyData.success) {
                             if (onSuccess) {
-                                onSuccess(); // <--- THIS IS THE CRUCIAL LINE ADDED/FIXED
+                                onSuccess();
                             }
                         } else {
-                            console.error("RazorpayPayment: Payment verification failed:", verifyData.message); // Changed alert to console.error
-                            // Show a custom modal/message for verification failure
+                            console.error("RazorpayPayment: Payment verification failed:", verifyData.message);
                         }
                     } catch (error) {
-                        console.error("RazorpayPayment: Error during payment verification:", error); // Changed alert to console.error
-                        // Show a custom modal/message for error
+                        console.error("RazorpayPayment: Error during payment verification:", error);
                     }
                 },
                 modal: {
                     ondismiss: function () {
                     }
                 },
-                theme: { color: "#3399cc" }, // You can customize this with your colors
+                theme: { color: "#3399cc" },
             };
 
             const rzp = new window.Razorpay(options);
             rzp.open();
 
         } catch (error) {
-            console.error("RazorpayPayment: Error initiating payment:", error); // Changed alert to console.error
-            // Show a custom modal/message for error
+            console.error("RazorpayPayment: Error initiating payment:", error);
         }
     };
 
@@ -95,8 +88,8 @@ const RazorpayPayment = ({ amount, preferences, onSuccess }) => {
         <button
             onClick={handlePayment}
             style={{
-                backgroundColor: 'var(--primary)', // Using your CSS variable
-                color: '#fff', // Assuming --white from your SCSS is available as a CSS variable
+                backgroundColor: 'var(--primary)',
+                color: '#fff',
                 padding: '10px 20px',
                 border: 'none',
                 borderRadius: '5px',
@@ -106,7 +99,7 @@ const RazorpayPayment = ({ amount, preferences, onSuccess }) => {
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
                 transition: 'background-color 0.3s ease',
             }}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--primary3)'} // Lighter primary on hover
+            onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--primary3)'}
             onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'var(--primary)'}
         >
             Pay ₹{amount}

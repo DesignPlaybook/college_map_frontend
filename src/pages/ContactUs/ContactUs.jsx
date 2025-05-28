@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './ContactUs.scss'; // Ensure this path is correct
-import ContactIllustration from '../../assets/contact-illustration.svg'; // Ensure this path is correct
+import './ContactUs.scss';
+import ContactIllustration from '../../assets/contact-illustration.svg';
 
 const ContactUs = () => {
     const [showPopup, setShowPopup] = useState(false);
@@ -21,10 +21,6 @@ const ContactUs = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Original Google Form pre-filled link:
-        // https://docs.google.com/forms/d/e/1FAIpQLSfILAk2c9t9AofhWDlWT4sKM2Wx4deaTD-lpipkAnLFd6kzGA/viewform?usp=pp_url&entry.1917690449=Name&entry.363307104=Email&entry.904682142=Subject&entry.585560953=Message
-        // Target URL for submission:
         const googleFormActionUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSfILAk2c9t9AofhWDlWT4sKM2Wx4deaTD-lpipkAnLFd6kzGA/formResponse';
 
         const googleFormData = new FormData();
@@ -32,23 +28,22 @@ const ContactUs = () => {
         googleFormData.append('entry.363307104', formData.email);
         googleFormData.append('entry.904682142', formData.subject);
         googleFormData.append('entry.585560953', formData.message);
-        googleFormData.append('usp', 'pp_url'); // Keep usp=pp_url or similar if present in original form action
+        googleFormData.append('usp', 'pp_url');
 
         try {
             await fetch(googleFormActionUrl, {
                 method: 'POST',
                 body: googleFormData,
-                mode: 'no-cors', // Important for cross-origin requests to Google Forms if you don't need to read the response
+                mode: 'no-cors',
             });
-            // If the fetch is successful (even with no-cors, the request is made)
+
             setShowPopup(true);
-            setFormData({ name: '', email: '', subject: '', message: '' }); // Clear form fields in state
-            e.target.reset(); // Clear form fields in the DOM
+            setFormData({ name: '', email: '', subject: '', message: '' });
+            e.target.reset();
 
             setTimeout(() => setShowPopup(false), 3000);
         } catch (error) {
             console.error('Error submitting to Google Form:', error);
-            // Optionally, show an error message to the user
             alert('There was an error submitting your message. Please try again.');
         }
     };
@@ -77,7 +72,6 @@ const ContactUs = () => {
                     <div className="contact-us__details">
                         <div className="contact-us__detail-item">
                             <i className="fas fa-map-marker-alt"></i>
-                            {/* Add address if any or remove */}
                         </div>
                         <div className="contact-us__detail-item">
                             <i className="fas fa-envelope"></i>
